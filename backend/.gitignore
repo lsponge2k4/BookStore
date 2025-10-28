@@ -1,0 +1,19 @@
+# Node modules
+node_modules/
+
+# Environment
+.env
+
+
+# Logs and temp
+logs/
+*.log
+tmp/
+coverage/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Uploads
+public/uploads/
