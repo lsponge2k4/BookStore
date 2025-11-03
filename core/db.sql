@@ -119,3 +119,15 @@ CREATE TABLE Reviews (
         ON DELETE CASCADE
         ON UPDATE CASCADE
 );
+
+-- Bảng Images (ảnh dùng chung cho mọi loại entity)
+CREATE TABLE Images (
+    image_id INT PRIMARY KEY AUTO_INCREMENT,
+    entity_type ENUM('user', 'book', 'review', 'category', 'banner', 'admin') NOT NULL,
+    entity_id INT NOT NULL, 
+    image_url VARCHAR(255) NOT NULL,
+    image_type ENUM('avatar', 'cover', 'gallery', 'main', 'other') DEFAULT 'other',
+    storage_type ENUM('local', 'cloud') DEFAULT 'local',
+    uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    INDEX idx_entity (entity_type, entity_id)
+);
