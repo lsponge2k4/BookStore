@@ -1,7 +1,13 @@
-export const success = (res, data, message = "Thành công") => {
-    return res.status(200).json({ status: "success", message, data });
+// success - 200
+export const success = (res, data, message, status) => {
+    return res.status(status).json({ status: "success", message, data });
+};
+// error - 500
+export const error = (res, message, status) => {
+    return res.status(status).json({ status: "error", message });
 };
 
-export const error = (res, message = "Lỗi hệ thống", status = 500) => {
-    return res.status(status).json({ status: "error", message });
+// error - 400
+export const badRequest = (res, message, status) => {
+    return res.status(status).json({ status: "Bad Request", message });
 };

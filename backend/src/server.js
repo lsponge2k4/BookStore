@@ -4,6 +4,7 @@ import dotenv from "dotenv";
 import connect from "./config/db.js";
 import configViewEngine from "./config/viewEngine.js";
 import apiRoutes from "./routes/api.js";
+import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
@@ -11,7 +12,7 @@ const app = express();
 // Middlewares
 app.use(cors());
 app.use(express.json());
-
+app.use(cookieParser()); // read and use cookie
 // Config View
 configViewEngine(app);
 
