@@ -1,4 +1,5 @@
-// success - 200
+// success - 200 
+// created - 201
 export const success = (res, data, message, status) => {
     return res.status(status).json({ status: "success", message, data });
 };
