@@ -35,17 +35,36 @@ CREATE TABLE Books (
         ON DELETE SET NULL
         ON UPDATE CASCADE
 );
+-- CREATE TABLE UserAddresses (
+--     address_id INT PRIMARY KEY AUTO_INCREMENT,
+--     user_id INT NOT NULL,
+--     receiver_name VARCHAR(100) NOT NULL,
+--     phone VARCHAR(20) NOT NULL,
+--     address_line VARCHAR(255) NOT NULL,
+--     city VARCHAR(100),
+--     province VARCHAR(100),
+--     postal_code VARCHAR(20),
+--     is_default BOOLEAN DEFAULT FALSE,
+--     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+--     FOREIGN KEY (user_id) REFERENCES Users(user_id)
+--         ON DELETE CASCADE
+--         ON UPDATE CASCADE
+-- );
 
 -- Bảng Orders
 CREATE TABLE Orders (
     order_id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
+    -- address_id INT,
     total_price DECIMAL(12,2),
     status ENUM('pending','paid','shipped','completed','cancelled') DEFAULT 'pending',
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (user_id) REFERENCES Users(user_id)
         ON DELETE CASCADE
         ON UPDATE CASCADE
+    -- FOREIGN KEY (address_id) REFERENCES UserAddresses(address_id)
+    -- ON DELETE SET NULL
+    -- ON UPDATE CASCADE
 );
 
 -- Bảng OrderItems
@@ -131,3 +150,4 @@ CREATE TABLE Images (
     uploaded_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     INDEX idx_entity (entity_type, entity_id)
 );
+

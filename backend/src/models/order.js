@@ -13,6 +13,9 @@ module.exports = (sequelize) => {
     Order.init({
         order_id: { type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true },
         user_id: DataTypes.INTEGER,
+        receiver_name: { type: DataTypes.STRING(100), allowNull: false },
+        phone: { type: DataTypes.STRING(20), allowNull: false },
+        shipping_address: { type: DataTypes.STRING(255), allowNull: false },
         total_price: DataTypes.DECIMAL(12, 2),
         status: {
             type: DataTypes.ENUM('pending', 'paid', 'shipped', 'completed', 'cancelled'),
