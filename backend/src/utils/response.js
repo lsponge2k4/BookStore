@@ -7,7 +7,7 @@ export const error = (res, message, status) => {
     return res.status(status).json({ status: "error", message });
 };
 
-// error - 400
+// bad request - 400
 export const badRequest = (res, message, status) => {
     return res.status(status).json({ status: "Bad Request", message });
 };

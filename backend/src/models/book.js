@@ -8,6 +8,7 @@ module.exports = (sequelize) => {
             Book.hasMany(models.Review, { foreignKey: 'book_id', onDelete: 'CASCADE' });
             Book.hasMany(models.OrderItem, { foreignKey: 'book_id', onDelete: 'CASCADE' });
             Book.hasMany(models.CartItem, { foreignKey: 'book_id', onDelete: 'CASCADE' });
+            Book.hasMany(models.Image, { foreignKey: 'entity_id', as: 'Images', constraints: false, scope: { entity_type: 'book' } });
         }
     }
 
@@ -41,4 +42,3 @@ module.exports = (sequelize) => {
 
     return Book;
 };
-    

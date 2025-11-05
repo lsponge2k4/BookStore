@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 
 dotenv.config();
 const app = express();
+// app.use('/image', express.static('public/image'));
 
 // Middlewares
 app.use(cors());

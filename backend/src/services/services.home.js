@@ -7,6 +7,14 @@ export const getAllBooks = async (page, limit) => {
         offset,
         limit,
         order: [["createdAt", "DESC"]],
+        include: [
+            {
+                model: db.Image,
+                as: 'Images',
+                where: { entity_type: 'book' },
+                required: false,
+            }
+        ],
     });
 
     const totalPages = Math.ceil(total / limit);
