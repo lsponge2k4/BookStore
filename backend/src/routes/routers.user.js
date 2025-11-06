@@ -7,4 +7,6 @@ const router = express.Router();
 
 router.post("/user/register", UserMiddleware.validate(UserValidation.checkRegister), UserController.register);
 
+router.post("/user/login", UserMiddleware.validate(UserValidation.checkLogin), UserController.login);
+
 export default router;

@@ -11,7 +11,11 @@ const app = express();
 // app.use('/image', express.static('public/image'));
 
 // Middlewares
-app.use(cors());
+
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser()); // read and use cookie
 // Config View
