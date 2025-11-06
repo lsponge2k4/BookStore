@@ -15,7 +15,6 @@ export const checkRegister = Joi.object({
 });
 
 // Part of Log in
-
 export const checkLogin = Joi.object({
     email: Joi.string().email().required().messages({
         "string.email": "Email không hợp lệ",
@@ -24,5 +23,24 @@ export const checkLogin = Joi.object({
     password: Joi.string().min(6).max(50).required().messages({
         "string.min": "Mật khẩu tối thiểu 6 ký tự",
         "any.required": "Mật khẩu là bắt buộc",
+    }),
+});
+
+// Forget password
+export const checkForgotPassword = Joi.object({
+    email: Joi.string().email().required().messages({
+        "string.email": "Email không hợp lệ",
+        "any.required": "Email là bắt buộc",
+    }),
+});
+
+// Reset password
+export const checkResetPassword = Joi.object({
+    token: Joi.string().required().messages({
+        "string.empty": "Token không được để trống",
+    }),
+    password: Joi.string().min(6).max(50).required().messages({
+        "string.empty": "Mật khẩu không được để trống",
+        "string.min": "Mật khẩu tối thiểu 6 ký tự",
     }),
 });

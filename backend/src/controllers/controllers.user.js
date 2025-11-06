@@ -38,3 +38,42 @@ export const login = async (req, res) => {
         return Response.error(res, "Lỗi Server", 500);
     }
 };
+
+
+// Send email reset password
+export const forgotPassword = async (req, res) => {
+    try {
+        const data = await UserService.requestPasswordReset(req.body);
+        if (!data.success) return Response.badRequest(res, data.message, 400);
+        return Response.success(res, data.message, "Gửi email thành công!", 200);
+    } catch (error) {
+        console.error("Lỗi controller:", error);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
+
+// Reset password
+export const resetPassword = async (req, res) => {
+    try {
+        const { password } = req.body;
+        const userId = req.user.id;
+        const data = await UserService.resetPassword(userId, password);
+        if (!data.success) return Response.badRequest(res, data.message);
+        return Response.success(res, data.data, "Đổi mật khẩu thành công!", 200);
+    } catch (err) {
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
+
+// Get the info of user
+
+export const getProfile = async (req, res) => {
+    try {
+        console.log("controller call id_user:" + req.user.id);
+        const data = await UserService.getUserProfile(req.user.id);
+        if (!data.success) return Response.badRequest(res, data.message, 404);
+        return Response.success(res, data.data, "Lấy thông tin thành công", 200);
+    } catch (err) {
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
