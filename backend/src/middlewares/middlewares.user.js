@@ -37,7 +37,7 @@ export const isAuthenticated = (req, res, next) => {
     try {
         const decoded = verifyToken(token);
         req.user = decoded;
-        console.log(req.user);
+        // console.log(req.user);
         const newToken = generateToken(req.user);
         res.cookie("token", newToken, {
             httpOnly: true,

@@ -3,6 +3,7 @@ import db from '../models/index';
 import bcrypt from "bcryptjs";
 import { sendEmail } from "../utils/email.js";
 import dotenv from "dotenv";
+import { where } from 'sequelize';
 dotenv.config();
 
 // register 
@@ -45,7 +46,6 @@ export const loginUser = async ({ email, password }) => {
     // Tạo token
     const token = generateToken(user);
 
-    // Trả về thông tin cần thiết
     return {
         success: true,
         message: "Đăng nhập thành công",
@@ -87,19 +87,30 @@ export const resetPassword = async (userId, newPassword) => {
     return { success: true, message: "Đổi mật khẩu thành công" };
 };
 
-// Get the info of user
+// Get the info of user 
 export const getUserProfile = async (userId) => {
-    console.log("server call id_user:" + userId);
+    // console.log("server call id_user:" + userId);
     const user = await db.User.findByPk(userId);
     console.log("user" + user);
     if (!user) return { success: false, message: "User không tồn tại" };
 
+    // get image of user
+
+    const userImage = await db.Image.findOne({
+        where: {
+            entity_type: 'user',
+            entity_id: user.user_id,
+            image_type: 'avatar'
+        }
+    });
+    const avatarUrl = userImage ? userImage.image_url : "/image/users/avatars/avatar_default.jpg";
     return {
         success: true, data: {
             id: user.user_id,
             name: user.name,
             email: user.email,
             role: user.role,
+            avatar: avatarUrl,
         }
     };
 };

@@ -28,7 +28,7 @@ export const login = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
-            maxAge: 24 * 60 * 60 * 1000,
+            maxAge: 60 * 60 * 1000,
         });
 
 
@@ -69,7 +69,7 @@ export const resetPassword = async (req, res) => {
 
 export const getProfile = async (req, res) => {
     try {
-        console.log("controller call id_user:" + req.user.id);
+        // console.log("controller call id_user:" + req.user.id);
         const data = await UserService.getUserProfile(req.user.id);
         if (!data.success) return Response.badRequest(res, data.message, 404);
         return Response.success(res, data.data, "Lấy thông tin thành công", 200);

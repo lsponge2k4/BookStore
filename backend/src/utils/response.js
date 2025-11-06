@@ -12,5 +12,3 @@ export const error = (res, message, status) => {
 export const badRequest = (res, message, status) => {
     return res.status(status).json({ success: false, status: "Bad Request", message });
 };
-
-// bad request - 400
