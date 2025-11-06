@@ -44,3 +44,15 @@ export const checkResetPassword = Joi.object({
         "string.min": "Mật khẩu tối thiểu 6 ký tự",
     }),
 });
+
+// Change password 
+export const checkChangePassword = Joi.object({
+    oldPassword: Joi.string().min(6).required().messages({
+        "string.empty": "Mật khẩu cũ không được để trống",
+        "string.min": "Mật khẩu cũ tối thiểu 6 ký tự",
+    }),
+    newPassword: Joi.string().min(6).required().messages({
+        "string.empty": "Mật khẩu mới không được để trống",
+        "string.min": "Mật khẩu mới tối thiểu 6 ký tự",
+    }),
+});

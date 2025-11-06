@@ -170,3 +170,18 @@ export const updateUserProfile = async (userId, name, avatar) => {
         },
     };
 };
+
+// change password when logged in.
+export const changeUserPassword = async (userId, oldPassword, newPassword) => {
+    const user = await db.User.findByPk(userId);
+    if (!user) return { success: false, message: "User không tồn tại" };
+
+    const isMatch = await bcrypt.compare(oldPassword, user.password);
+    if (!isMatch) return { success: false, message: "Mật khẩu cũ không chính xác" };
+
+    const hashedPassword = await bcrypt.hash(newPassword, 10);
+    user.password = hashedPassword;
+    await user.save();
+
+    return { success: true, message: "Đổi mật khẩu thành công" };
+};

@@ -98,3 +98,19 @@ export const updateProfile = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+//changePassword
+export const changePassword = async (req, res) => {
+    try {
+        const { oldPassword, newPassword } = req.body;
+        const userId = req.user.user_id;
+
+        const data = await UserService.changeUserPassword(userId, oldPassword, newPassword);
+        if (!data.success) return Response.badRequest(res, data.message, 400);
+
+        return Response.success(res, null, "Đổi mật khẩu thành công!", 200);
+    } catch (err) {
+        console.error("Lỗi changePassword:", err);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};

@@ -18,4 +18,6 @@ router.get("/user/getInfo", UserMiddleware.isAuthenticated, UserController.getPr
 
 router.put("/user/updateInfo", UserMiddleware.isAuthenticated, upload.single("avatar"), UserController.updateProfile);
 
+router.put("/user/changePassword", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserValidation.checkChangePassword), UserController.changePassword);
+
 export default router;
