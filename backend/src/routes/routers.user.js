@@ -16,6 +16,6 @@ router.post("/user/resetPassword", UserMiddleware.validate(UserValidation.checkR
 
 router.get("/user/getInfo", UserMiddleware.isAuthenticated, UserController.getProfile);
 
-router.put("/user/update", UserMiddleware.isAuthenticated, upload.single("avatar"), UserController.updateProfile);
+router.put("/user/updateInfo", UserMiddleware.isAuthenticated, upload.single("avatar"), UserController.updateProfile);
 
 export default router;

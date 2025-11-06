@@ -27,7 +27,7 @@ export const registerUser = async ({ name, email, password }) => {
     return {
         success: true,
         message: "Đăng ký thành công",
-        data: { id: user.user_id, name: user.name, email: user.email },
+        data: { user_id: user.user_id, name: user.name, email: user.email },
     };
 };
 
@@ -54,7 +54,7 @@ export const loginUser = async ({ email, password }) => {
         data: {
             token,
             user: {
-                id: user.user_id,
+                user_id: user.user_id,
                 name: user.name,
                 email: user.email,
                 role: user.role,
@@ -69,7 +69,7 @@ export const requestPasswordReset = async ({ email }) => {
     const user = await db.User.findOne({ where: { email } });
     if (!user) return { success: false, message: "Email không tồn tại" };
 
-    const token = generateResetToken({ id: user.user_id });
+    const token = generateResetToken({ user_id: user.user_id });
     const resetLink = `${process.env.FRONTEND_URL}/resetPassword?token=${token}`;
 
     await sendEmail(user.email, "Reset mật khẩu", `Nhấn vào link để đổi mật khẩu: ${resetLink}`);
@@ -108,7 +108,7 @@ export const getUserProfile = async (userId) => {
     const avatarUrl = userImage ? userImage.image_url : "/image/users/avatars/avatar_default.jpg";
     return {
         success: true, data: {
-            id: user.user_id,
+            user_id: user.user_id,
             name: user.name,
             email: user.email,
             role: user.role,
@@ -123,27 +123,33 @@ export const updateUserProfile = async (userId, name, avatar) => {
     const user = await db.User.findByPk(userId);
     if (!user) return { success: false, message: "User không tồn tại" };
 
-    // Cập nhật name
     if (name) user.name = name;
 
-    // Cập nhật / thay avatar
     if (avatar) {
         const existingImage = await db.Image.findOne({
             where: { entity_type: "user", entity_id: userId, image_type: "avatar" },
         });
 
         if (existingImage) {
-            // Xóa file ảnh cũ khỏi thư mục server
-            const oldImagePath = path.join("public", existingImage.image_url);
-            if (fs.existsSync(oldImagePath)) {
-                fs.unlinkSync(oldImagePath); // hoặc dùng fs.promises.unlink(oldImagePath)
+            const oldFilePath = path.join(
+                __dirname,
+                "..",
+                "public",
+                existingImage.image_url   // Không cần replace
+            );
+
+            if (fs.existsSync(oldFilePath)) {
+                fs.unlinkSync(oldFilePath);
+                console.log("Đã xóa ảnh cũ:", oldFilePath);
+            } else {
+                console.log("Không tìm thấy ảnh để xóa:", oldFilePath);
             }
 
-            // Cập nhật ảnh mới trong DB
+            // Cập nhật ảnh mới vào database
             existingImage.image_url = avatar;
             await existingImage.save();
         } else {
-            // Nếu chưa có avatar thì tạo mới
+            // Nếu chưa có ảnh avatar thì thêm mới
             await db.Image.create({
                 entity_type: "user",
                 entity_id: userId,
@@ -158,7 +164,7 @@ export const updateUserProfile = async (userId, name, avatar) => {
     return {
         success: true,
         data: {
-            id: user.user_id,
+            user_id: user.user_id,
             name: user.name,
             avatar,
         },

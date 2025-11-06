@@ -56,7 +56,7 @@ export const forgotPassword = async (req, res) => {
 export const resetPassword = async (req, res) => {
     try {
         const { password } = req.body;
-        const userId = req.user.id;
+        const userId = req.user.user_id;
         const data = await UserService.resetPassword(userId, password);
         if (!data.success) return Response.badRequest(res, data.message);
         return Response.success(res, data.data, "Đổi mật khẩu thành công!", 200);
@@ -70,7 +70,7 @@ export const resetPassword = async (req, res) => {
 export const getProfile = async (req, res) => {
     try {
         // console.log("controller call id_user:" + req.user.id);
-        const data = await UserService.getUserProfile(req.user.id);
+        const data = await UserService.getUserProfile(req.user.user_id);
         if (!data.success) return Response.badRequest(res, data.message, 404);
         return Response.success(res, data.data, "Lấy thông tin thành công", 200);
     } catch (err) {
@@ -85,7 +85,7 @@ export const updateProfile = async (req, res) => {
         console.log("File uploaded:", req.file);
 
         const { name } = req.body;
-        const userId = req.user.id;
+        const userId = req.user.user_id;
 
         const avatar = req.file ? `/image/users/avatars/${req.file.filename}` : null;
 
