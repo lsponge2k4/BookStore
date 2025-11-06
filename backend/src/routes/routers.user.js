@@ -2,6 +2,7 @@ import express from "express";
 import * as UserController from "../controllers/controllers.user";
 import * as UserMiddleware from "../middlewares/middlewares.user";
 import * as UserValidation from "../validations/validations.user";
+import upload from "../config/upload";
 
 const router = express.Router();
 
@@ -14,5 +15,7 @@ router.post("/user/forgotPassword", UserMiddleware.validate(UserValidation.check
 router.post("/user/resetPassword", UserMiddleware.validate(UserValidation.checkResetPassword), UserMiddleware.verifyResetToken, UserController.resetPassword);
 
 router.get("/user/getInfo", UserMiddleware.isAuthenticated, UserController.getProfile);
+
+router.put("/user/update", UserMiddleware.isAuthenticated, upload.single("avatar"), UserController.updateProfile);
 
 export default router;

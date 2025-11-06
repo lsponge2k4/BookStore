@@ -77,3 +77,24 @@ export const getProfile = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+// Update profile (name + avatar)
+export const updateProfile = async (req, res) => {
+    try {
+        console.log("Body:", req.body);
+        console.log("File uploaded:", req.file);
+
+        const { name } = req.body;
+        const userId = req.user.id;
+
+        const avatar = req.file ? `/image/users/avatars/${req.file.filename}` : null;
+
+        const data = await UserService.updateUserProfile(userId, name, avatar);
+        if (!data.success) return Response.badRequest(res, data.message, 400);
+
+        return Response.success(res, data.data, "Cập nhật thành công!", 200);
+    } catch (err) {
+        console.error(err);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};

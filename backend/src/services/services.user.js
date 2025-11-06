@@ -3,7 +3,9 @@ import db from '../models/index';
 import bcrypt from "bcryptjs";
 import { sendEmail } from "../utils/email.js";
 import dotenv from "dotenv";
-import { where } from 'sequelize';
+import fs from "fs";
+import path from "path";
+
 dotenv.config();
 
 // register 
@@ -112,5 +114,53 @@ export const getUserProfile = async (userId) => {
             role: user.role,
             avatar: avatarUrl,
         }
+    };
+};
+
+
+// Update the info of user.
+export const updateUserProfile = async (userId, name, avatar) => {
+    const user = await db.User.findByPk(userId);
+    if (!user) return { success: false, message: "User không tồn tại" };
+
+    // Cập nhật name
+    if (name) user.name = name;
+
+    // Cập nhật / thay avatar
+    if (avatar) {
+        const existingImage = await db.Image.findOne({
+            where: { entity_type: "user", entity_id: userId, image_type: "avatar" },
+        });
+
+        if (existingImage) {
+            // Xóa file ảnh cũ khỏi thư mục server
+            const oldImagePath = path.join("public", existingImage.image_url);
+            if (fs.existsSync(oldImagePath)) {
+                fs.unlinkSync(oldImagePath); // hoặc dùng fs.promises.unlink(oldImagePath)
+            }
+
+            // Cập nhật ảnh mới trong DB
+            existingImage.image_url = avatar;
+            await existingImage.save();
+        } else {
+            // Nếu chưa có avatar thì tạo mới
+            await db.Image.create({
+                entity_type: "user",
+                entity_id: userId,
+                image_type: "avatar",
+                image_url: avatar,
+            });
+        }
+    }
+
+    await user.save();
+
+    return {
+        success: true,
+        data: {
+            id: user.user_id,
+            name: user.name,
+            avatar,
+        },
     };
 };

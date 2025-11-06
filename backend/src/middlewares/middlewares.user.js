@@ -36,15 +36,16 @@ export const isAuthenticated = (req, res, next) => {
 
     try {
         const decoded = verifyToken(token);
+        // console.log(">>> TOKEN PAYLOAD:", decoded); 
         req.user = decoded;
-        // console.log(req.user);
-        const newToken = generateToken(req.user);
-        res.cookie("token", newToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60 * 60 * 1000,
-        });
+        console.log(req.user);
+        // const newToken = generateToken(req.user);
+        // res.cookie("token", newToken, {
+        //     httpOnly: true,
+        //     secure: process.env.NODE_ENV === "production",
+        //     sameSite: "strict",
+        //     maxAge: 60 * 60 * 1000,
+        // });
         next();
     } catch {
         return Response.badRequest(res, 'Token không hợp lệ!', 401);
