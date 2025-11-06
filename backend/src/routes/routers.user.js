@@ -20,4 +20,6 @@ router.put("/user/updateInfo", UserMiddleware.isAuthenticated, upload.single("av
 
 router.put("/user/changePassword", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserValidation.checkChangePassword), UserController.changePassword);
 
+router.post("/user/logout", UserMiddleware.isAuthenticated, UserController.logout);
+
 export default router;

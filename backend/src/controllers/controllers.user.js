@@ -114,3 +114,19 @@ export const changePassword = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+// log out
+export const logout = async (req, res) => {
+    try {
+        res.clearCookie("token", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: "strict",
+        });
+
+        return Response.success(res, null, "Đăng xuất thành công!", 200);
+    } catch (err) {
+        console.error("Lỗi logout:", err);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
