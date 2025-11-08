@@ -1,5 +1,6 @@
 import Joi from "joi";
 
+// validation for getFilteredBooks
 export const checkGetFilteredBooks = Joi.object({
     categoryId: Joi.number().integer().min(1).optional()
         .messages({
@@ -58,3 +59,30 @@ export const checkGetFilteredBooks = Joi.object({
     .messages({
         "any.invalid": "{{#message}}",
     });
+
+
+// validation for checkSearchBooks
+
+export const checkSearchBooks = Joi.object({
+    q: Joi.string().trim().min(1).max(255).pattern(/^[a-zA-ZÀ-ỹ0-9\s.,&'"\-()/:%]*$/).required()
+        .messages({
+            "string.base": "Từ khóa tìm kiếm phải là chuỗi",
+            "string.empty": "Từ khóa tìm kiếm không được để trống",
+            "string.min": "Từ khóa tìm kiếm quá ngắn",
+            "string.max": "Từ khóa tìm kiếm quá dài",
+            "any.required": "Thiếu từ khóa tìm kiếm",
+        }),
+
+    page: Joi.number().integer().min(1).optional()
+        .messages({
+            "number.base": "Page phải là số nguyên dương",
+            "number.min": "Page không hợp lệ",
+        }),
+
+    limit: Joi.number().integer().min(1).max(100).optional()
+        .messages({
+            "number.base": "Limit phải là số nguyên dương",
+            "number.min": "Limit phải lớn hơn 0",
+            "number.max": "Limit tối đa là 100",
+        }),
+});

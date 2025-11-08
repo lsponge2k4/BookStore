@@ -66,7 +66,6 @@ export const resetPassword = async (req, res) => {
 };
 
 // Get the info of user
-
 export const getProfile = async (req, res) => {
     try {
         // console.log("controller call id_user:" + req.user.id);

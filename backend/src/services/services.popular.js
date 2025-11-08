@@ -97,3 +97,61 @@ export const getFilteredBooks = async (filters) => {
         }
     };
 };
+
+
+// input the search
+export const searchBooks = async (query, page, limit) => {
+    const offset = (page - 1) * limit;
+
+    const matchedCategories = await db.Category.findAll({
+        where: { name: { [Op.like]: `%${query}%` } },
+        attributes: ["category_id"],
+    });
+
+    const categoryIds = matchedCategories.map(c => c.category_id);
+
+    const whereClause = {
+        [Op.or]: [
+            { title: { [Op.like]: `%${query}%` } },
+            { author: { [Op.like]: `%${query}%` } },
+            { publisher: { [Op.like]: `%${query}%` } },
+            categoryIds.length > 0 ? { category_id: { [Op.in]: categoryIds } } : null,
+        ].filter(Boolean),
+    };
+
+    const { rows: books, count: total } = await db.Book.findAndCountAll({
+        where: whereClause,
+        include: [
+            {
+                model: db.Category,
+                as: "Category",
+                attributes: ["name"],
+            },
+            {
+                model: db.Image,
+                as: "Images",
+                required: false,
+                attributes: ["image_url", "image_type"],
+                where: { image_type: "cover" },
+            },
+        ],
+        offset,
+        limit,
+        order: [["createdAt", "DESC"]],
+    });
+
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+        success: true,
+        data: {
+            books,
+            pagination: {
+                page: Number(page),
+                limit: Number(limit),
+                total,
+                totalPages,
+            },
+        },
+    };
+};

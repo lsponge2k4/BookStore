@@ -8,4 +8,7 @@ const router = express.Router();
 router.get("/popular/getFilterOptions", PopularController.getFilterOptions);
 
 router.get("/popular/getFilteredBook", PopularMiddlewares.validate(PopularValidation.checkGetFilteredBooks), PopularController.getFilteredBook);
+
+router.get("/popular/handleSearchBooks", PopularMiddlewares.validate(PopularValidation.checkSearchBooks), PopularController.handleSearchBooks);
+
 export default router;
