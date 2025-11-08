@@ -8,4 +8,6 @@ const router = express.Router();
 
 router.post("/user/cart/addToCart", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserCartValidation.addToCartSchema), UserCartController.addToCart);
 
+router.get("/user/cart/getAllProductsInCart", UserMiddleware.isAuthenticated, UserCartController.getAllProductsInCart);
+
 export default router;

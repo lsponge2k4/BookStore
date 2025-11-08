@@ -20,3 +20,17 @@ export const addToCart = async (req, res) => {
         Response.error(res, 'Lỗi server', 500);
     }
 };
+
+// get all products in user's cart.
+
+export const getAllProductsInCart = async (req, res) => {
+    try {
+        const userId = parseInt(req.user.user_id);
+        const data = await UserCartService.getUserCart(userId);
+        if (!data.success) Response.badRequest(res, "Không lấy được sản phẩm trong giỏ hàng", 400);
+        Response.success(res, data.data, 'Lấy giỏ hàng thành công', 200);
+    } catch (err) {
+        console.error("Lỗi controllers:", err);
+        Response.error(res, 'Lỗi server', 500);
+    }
+};

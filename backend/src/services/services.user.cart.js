@@ -47,3 +47,29 @@ export const addBookToCart = async (userId, bookId, quantity = 1) => {
         data: { cart, cartItem },
     };
 };
+
+// get all products in user's cart.
+
+export const getUserCart = async (userId) => {
+    const cart = await db.Cart.findOne({
+        where: { user_id: userId, status: 'active' },
+        include: [
+            {
+                model: db.CartItem,
+                attributes: ['cart_item_id', 'quantity'],
+                include: [
+                    {
+                        model: db.Book,
+                        attributes: ['book_id', 'title', 'price', 'publisher'],
+                    },
+                ],
+            },
+        ],
+    });
+
+    if (!cart) {
+        return { success: true, data: [], message: "Chưa có sản phẩm trong giỏ hàng." };
+    }
+
+    return { success: true, data: cart.CartItems };
+};
