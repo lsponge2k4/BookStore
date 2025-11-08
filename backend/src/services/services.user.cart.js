@@ -73,3 +73,24 @@ export const getUserCart = async (userId) => {
 
     return { success: true, data: cart.CartItems };
 };
+
+// remove a book from cart
+
+export const removeBookFromCart = async (userId, bookId) => {
+    // Get cart active
+    const cart = await db.Cart.findOne({ where: { user_id: userId, status: 'active' } });
+
+    if (!cart) { return { success: false, message: "Giỏ hàng không tồn tại" }; }
+
+    // Get cartItem need delete
+    const cartItem = await db.CartItem.findOne({
+        where: { cart_id: cart.cart_id, book_id: bookId }
+    });
+
+    if (!cartItem) { return { success: false, message: "Sản phẩm không tồn tại trong giỏ hàng" }; }
+
+    // Delete cartItem
+    await cartItem.destroy();
+
+    return { success: true, data: null, message: "Xóa sản phẩm khỏi giỏ hàng thành công" };
+};

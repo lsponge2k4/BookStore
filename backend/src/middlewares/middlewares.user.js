@@ -18,7 +18,7 @@ export const validate = (schema) => {
 // Check JWT reset password
 export const verifyResetToken = (req, res, next) => {
     const token = req.body.token || req.query.token;
-    if (!token) return Response.badRequest(res, "Token không được để trống", 400);
+    if (!token) { return Response.badRequest(res, "Token không được để trống", 400); }
 
     try {
         const decoded = verifyToken(token);
@@ -32,7 +32,7 @@ export const verifyResetToken = (req, res, next) => {
 // Check access token 
 export const isAuthenticated = (req, res, next) => {
     const token = req.cookies.token;
-    if (!token) Response.badRequest(res, 'Chưc xác thực!', 401);
+    if (!token) { return Response.badRequest(res, 'Chưc xác thực!', 401); }
 
     try {
         const decoded = verifyToken(token);
@@ -48,7 +48,7 @@ export const isAuthenticated = (req, res, next) => {
         });
         next();
     } catch {
-        Response.badRequest(res, 'Token không hợp lệ!', 401);
+        return Response.badRequest(res, 'Token không hợp lệ!', 401);
     }
 };
 

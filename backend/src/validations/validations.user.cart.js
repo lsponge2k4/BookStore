@@ -17,3 +17,14 @@ export const addToCartSchema = Joi.object({
         "any.required": "Số lượng không được để trống"
     })
 });
+
+// validation for remove a book from User's cart.
+
+export const removeFromCartSchema = Joi.object({
+    book_id: Joi.number().integer().positive().required().messages({
+        "number.base": "ID sách phải là số",
+        "number.integer": "ID sách phải là số nguyên",
+        "number.positive": "ID sách phải lớn hơn 0",
+        "any.required": "Không được để trống ID sách"
+    })
+});

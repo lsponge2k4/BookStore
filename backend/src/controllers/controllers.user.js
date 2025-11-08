@@ -6,12 +6,12 @@ export const register = async (req, res) => {
     try {
         const data = await UserService.registerUser(req.body);
         if (!data.success) {
-            Response.badRequest(res, "Tạo tài khoản thất bại!", 400);
+            return Response.badRequest(res, "Tạo tài khoản thất bại!", 400);
         }
-        Response.success(res, data.data, "Tạo tài khoản thành công!", 201);
+        return Response.success(res, data.data, "Tạo tài khoản thành công!", 201);
     } catch (error) {
         console.error("Lỗi controller:", error);
-        Response.error(res, "Lỗi Server", 500);
+        return Response.error(res, "Lỗi Server", 500);
     }
 };
 
@@ -44,7 +44,7 @@ export const login = async (req, res) => {
 export const forgotPassword = async (req, res) => {
     try {
         const data = await UserService.requestPasswordReset(req.body);
-        if (!data.success) return Response.badRequest(res, data.message, 400);
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
         return Response.success(res, data.message, "Gửi email thành công!", 200);
     } catch (error) {
         console.error("Lỗi controller:", error);
@@ -58,7 +58,7 @@ export const resetPassword = async (req, res) => {
         const { password } = req.body;
         const userId = req.user.user_id;
         const data = await UserService.resetPassword(userId, password);
-        if (!data.success) return Response.badRequest(res, data.message);
+        if (!data.success) { return Response.badRequest(res, data.message); }
         return Response.success(res, data.data, "Đổi mật khẩu thành công!", 200);
     } catch (err) {
         return Response.error(res, "Lỗi server", 500);
@@ -70,7 +70,7 @@ export const getProfile = async (req, res) => {
     try {
         // console.log("controller call id_user:" + req.user.id);
         const data = await UserService.getUserProfile(req.user.user_id);
-        if (!data.success) return Response.badRequest(res, data.message, 404);
+        if (!data.success) { return Response.badRequest(res, data.message, 404); }
         return Response.success(res, data.data, "Lấy thông tin thành công", 200);
     } catch (err) {
         return Response.error(res, "Lỗi server", 500);
@@ -89,7 +89,7 @@ export const updateProfile = async (req, res) => {
         const avatar = req.file ? `/image/users/avatars/${req.file.filename}` : null;
 
         const data = await UserService.updateUserProfile(userId, name, avatar);
-        if (!data.success) return Response.badRequest(res, data.message, 400);
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
 
         return Response.success(res, data.data, "Cập nhật thành công!", 200);
     } catch (err) {
@@ -105,7 +105,7 @@ export const changePassword = async (req, res) => {
         const userId = req.user.user_id;
 
         const data = await UserService.changeUserPassword(userId, oldPassword, newPassword);
-        if (!data.success) return Response.badRequest(res, data.message, 400);
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
 
         return Response.success(res, null, "Đổi mật khẩu thành công!", 200);
     } catch (err) {

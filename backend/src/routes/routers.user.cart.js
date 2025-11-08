@@ -10,4 +10,6 @@ router.post("/user/cart/addToCart", UserMiddleware.isAuthenticated, UserMiddlewa
 
 router.get("/user/cart/getAllProductsInCart", UserMiddleware.isAuthenticated, UserCartController.getAllProductsInCart);
 
+router.post("/user/cart/removeABook", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserCartValidation.removeFromCartSchema), UserCartController.removeFromCart);
+
 export default router;

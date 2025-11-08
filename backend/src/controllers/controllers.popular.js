@@ -5,7 +5,7 @@ export const getFilterOptions = async (req, res) => {
     try {
         const data = await PopularService.getFilterOptions();
 
-        if (!data.success) return Response.badRequest(res, "Bad Request", 400);
+        if (!data.success) { return Response.badRequest(res, "Bad Request", 400); }
 
         return Response.success(res, data.data, "Lấy dữ liệu bộ lọc thành công", 200);
     } catch (err) {
@@ -18,7 +18,7 @@ export const getFilterOptions = async (req, res) => {
 export const getFilteredBook = async (req, res) => {
     try {
         const data = await PopularService.getFilteredBooks(req.query);
-        if (!data.success) return Response.badRequest(res, "Bad Request", 400);
+        if (!data.success) { return Response.badRequest(res, "Bad Request", 400); }
         return Response.success(res, data.data, "Lấy danh sách sách thành công", 200);
     } catch (error) {
         console.error(error);
@@ -35,16 +35,16 @@ export const handleSearchBooks = async (req, res) => {
         const limit = parseInt(req.query.limit || 5);
 
         console.log("q", typeof (q), "page: ", Number.isInteger(page), "limit: ", Number.isInteger(limit))
-        if (!q || q.trim() === "") { Response.badRequest(res, "Thiếu từ khóa tìm kiếm", 400); }
+        if (!q || q.trim() === "") { return Response.badRequest(res, "Thiếu từ khóa tìm kiếm", 400); }
 
         const data = await PopularService.searchBooks(q.trim(), page, limit);
 
-        if (!data.success) { Response.badRequest(res, "Lấy dữ liệu không thành công", 400); }
+        if (!data.success) { return Response.badRequest(res, "Lấy dữ liệu không thành công", 400); }
 
-        Response.success(res, data.data, "Tìm kiếm thành công", 200);
+        return Response.success(res, data.data, "Tìm kiếm thành công", 200);
 
     } catch (error) {
         console.error("Lỗi controllers:", error);
-        Response.error(res, "Lỗi server khi tìm kiếm sách", 500);
+        return Response.error(res, "Lỗi server khi tìm kiếm sách", 500);
     }
 };

@@ -12,12 +12,12 @@ export const addToCart = async (req, res) => {
 
         // console.log(`userId: ${userId} bookId: ${bookId} quantity: ${quantity}`)
         const data = await UserCartService.addBookToCart(userId, bookId, quantity);
-        if (!data.success) { Response.badRequest(res, data.message, 400); }
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
 
-        Response.success(res, data.data, 'Thêm sản phẩm vào giỏ thành công', 200);
+        return Response.success(res, data.data, 'Thêm sản phẩm vào giỏ thành công', 200);
     } catch (err) {
         console.error("Lỗi controllers:", err);
-        Response.error(res, 'Lỗi server', 500);
+        return Response.error(res, 'Lỗi server', 500);
     }
 };
 
@@ -27,10 +27,28 @@ export const getAllProductsInCart = async (req, res) => {
     try {
         const userId = parseInt(req.user.user_id);
         const data = await UserCartService.getUserCart(userId);
-        if (!data.success) Response.badRequest(res, "Không lấy được sản phẩm trong giỏ hàng", 400);
-        Response.success(res, data.data, 'Lấy giỏ hàng thành công', 200);
+        if (!data.success) { return Response.badRequest(res, "Không lấy được sản phẩm trong giỏ hàng", 400); }
+        return Response.success(res, data.data, 'Lấy giỏ hàng thành công', 200);
     } catch (err) {
         console.error("Lỗi controllers:", err);
-        Response.error(res, 'Lỗi server', 500);
+        return Response.error(res, 'Lỗi server', 500);
+    }
+};
+
+// remove a book from cart
+
+export const removeFromCart = async (req, res) => {
+    try {
+        const userId = parseInt(req.user.user_id);
+        const bookId = parseInt(req.body.book_id);
+
+        const data = await UserCartService.removeBookFromCart(userId, bookId);
+
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
+
+        return Response.success(res, data.data, data.message, 200);
+    } catch (err) {
+        console.error("Lỗi controllers:", err);
+        return Response.error(res, 'Lỗi server', 500);
     }
 };
