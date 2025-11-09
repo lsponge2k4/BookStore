@@ -16,5 +16,6 @@ router.post("/user/cart/increaseQuantity", UserMiddleware.isAuthenticated, UserM
 
 router.post("/user/cart/decreaseQuantity", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserCartValidation.increaseOrDecreaseSchema), UserCartController.decreaseQuantity);
 
+router.delete("/user/cart/clearAllCartItemsInCart", UserMiddleware.isAuthenticated, UserCartController.clearAllCartItemsInCart);
 
 export default router;

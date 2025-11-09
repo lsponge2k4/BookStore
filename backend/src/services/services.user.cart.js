@@ -127,6 +127,7 @@ export const increaseBookQuantity = async (userId, bookId) => {
 };
 
 // decrease book quantity.
+
 export const decreaseBookQuantity = async (userId, bookId) => {
     try {
         const cart = await db.Cart.findOne({ where: { user_id: userId, status: "active" } });
@@ -147,5 +148,35 @@ export const decreaseBookQuantity = async (userId, bookId) => {
     } catch (err) {
         console.error("decreaseBookQuantity error:", err);
         return { success: false, message: "Lỗi server khi giảm số lượng" };
+    }
+};
+
+
+// clear UserCart.
+
+export const clearUserCart = async (userId) => {
+    try {
+        const cart = await db.Cart.findOne({ where: { user_id: userId, status: "active" } });
+        if (!cart) {
+            return { success: false, message: "Giỏ hàng không tồn tại" };
+        }
+
+        const deletedCount = await db.CartItem.destroy({
+            where: { cart_id: cart.cart_id }
+        });
+        // console.log("deletedCount", deletedCount);
+        if (deletedCount === 0) {
+            return { success: false, message: "Giỏ hàng đã trống" };
+        }
+        else {
+            return {
+                success: true,
+                data: null,
+                message: `Đã xóa ${deletedCount} sản phẩm khỏi giỏ hàng`
+            };
+        }
+    } catch (err) {
+        console.error("clearUserCart error:", err);
+        return { success: false, message: "Lỗi server khi xóa giỏ hàng" };
     }
 };

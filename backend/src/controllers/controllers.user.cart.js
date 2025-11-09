@@ -86,3 +86,21 @@ export const decreaseQuantity = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+
+// clear all CartItems of User's cart.
+
+export const clearAllCartItemsInCart = async (req, res) => {
+    try {
+        const userId = parseInt(req.user.user_id);
+
+        const data = await UserCartService.clearUserCart(userId);
+
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
+
+        return Response.success(res, data.data, data.message, 200);
+    } catch (err) {
+        console.error("Lỗi controllers:", err);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
