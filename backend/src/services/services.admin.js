@@ -256,3 +256,60 @@ export const getAllBooksAdmin = async (page, limit) => {
         },
     };
 };
+
+// create a new book.
+export const createBook = async (data, files) => {
+    try {
+        const newBook = await db.Book.create({
+            title: data.title.trim(),
+            author: data.author || null,
+            publisher: data.publisher || null,
+            price: data.price,
+            stock: data.stock || 0,
+            category_id: data.category_id || null,
+            description: data.description || null,
+        });
+
+        let coverUrl = null;
+        const galleryUrls = [];
+
+        if (files.cover && files.cover.length > 0) {
+            coverUrl = Helper.saveFile(files.cover[0], "image/books/covers");
+
+            await db.Image.create({
+                entity_type: "book",
+                entity_id: newBook.book_id,
+                image_type: "cover",
+                image_url: coverUrl,
+            });
+        }
+
+        if (files.gallery && files.gallery.length > 0) {
+            for (const file of files.gallery) {
+                const url = Helper.saveFile(file, "image/books/gallery");
+                galleryUrls.push(url);
+
+                await db.Image.create({
+                    entity_type: "book",
+                    entity_id: newBook.book_id,
+                    image_type: "gallery",
+                    image_url: url,
+                });
+            }
+        }
+
+        return {
+            success: true,
+            data: {
+                book_id: newBook.book_id,
+                title: newBook.title,
+                cover: coverUrl,
+                gallery: galleryUrls,
+            },
+            message: "Thêm sách thành công!",
+        };
+    } catch (error) {
+        console.error("createBook error:", error);
+        return { success: false, message: "Lỗi server khi thêm sách!" };
+    }
+};

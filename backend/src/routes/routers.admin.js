@@ -4,8 +4,7 @@ import * as AdminMiddleware from "../middlewares/middlewares.admin";
 import * as AdminValidation from "../validations/validations.admin";
 import * as UserMiddleware from "../middlewares/middlewares.user";
 import uploadCategoryImage from "../config/upload.category";
-
-
+import uploadBookImages from "../config/upload.book.js";
 
 const router = express.Router();
 
@@ -21,5 +20,16 @@ router.get("/admin/getAllCategories", UserMiddleware.isAuthenticated, AdminMiddl
 
 router.get("/admin/getAllBooksAdmin", UserMiddleware.isAuthenticated, AdminMiddleware.isAdmin, AdminMiddleware.validate(AdminValidation.validGetAllUsers), AdminController.getAllBookAdmin);
 
+router.post(
+    "/admin/createBook",
+    UserMiddleware.isAuthenticated,
+    AdminMiddleware.isAdmin,
+    uploadBookImages.fields([
+        { name: "cover", maxCount: 1 },
+        { name: "gallery", maxCount: 5 },
+    ]),
+    AdminMiddleware.validateBody(AdminValidation.checkCreateBook),
+    AdminController.createBook
+);
 
 export default router;

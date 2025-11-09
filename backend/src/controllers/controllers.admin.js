@@ -122,3 +122,25 @@ export const getAllBookAdmin = async (req, res) => {
         return Response.error(res, "Lỗi hệ thống!", 500);
     }
 };
+
+// create a new book.
+
+export const createBook = async (req, res) => {
+    try {
+        const data = req.body;
+
+        if (!req.files || !req.files.cover || req.files.cover.length === 0) {
+            return Response.badRequest(res, "Vui lòng chọn ảnh bìa sách!", 400);
+        }
+
+        const result = await AdminService.createBook(data, req.files);
+
+        if (!result.success) {
+            return Response.badRequest(res, result.message, 400);
+        }
+        return Response.success(res, result.data, result.message, 201);
+    } catch (error) {
+        console.error("createBook controller error:", error);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};

@@ -55,3 +55,37 @@ export const checkGetAllCategories = Joi.object({
         "number.max": "Limit tối đa là 100",
     }),
 });
+
+// validation when create a new book.
+
+const textPattern = /^[a-zA-ZÀ-ỹ0-9\s.,&'"\-()/:%]*$/;
+
+export const checkCreateBook = Joi.object({
+    title: Joi.string().trim().min(3).max(200).pattern(textPattern).required().messages({
+        "string.empty": "Tên sách không được để trống",
+        "string.min": "Tên sách phải có ít nhất 3 ký tự",
+        "string.max": "Tên sách tối đa 200 ký tự",
+        "string.pattern.base": "Tên sách chứa ký tự không hợp lệ",
+    }),
+    author: Joi.string().trim().max(100).pattern(textPattern).optional().messages({
+        "string.pattern.base": "Tên tác giả chứa ký tự không hợp lệ",
+    }),
+    publisher: Joi.string().trim().max(255).pattern(textPattern).optional().messages({
+        "string.pattern.base": "Tên nhà xuất bản chứa ký tự không hợp lệ",
+    }),
+    price: Joi.number().min(0).required().messages({
+        "number.base": "Giá sách phải là số",
+        "number.min": "Giá sách không được nhỏ hơn 0",
+    }),
+    stock: Joi.number().integer().min(0).optional().messages({
+        "number.base": "Số lượng phải là số nguyên",
+        "number.min": "Số lượng không được nhỏ hơn 0",
+    }),
+    category_id: Joi.number().integer().optional().messages({
+        "number.base": "category_id phải là số nguyên",
+    }),
+    description: Joi.string().trim().max(1000).pattern(textPattern).optional().messages({
+        "string.pattern.base": "Mô tả chứa ký tự không hợp lệ",
+        "string.max": "Mô tả tối đa 1000 ký tự",
+    }),
+});
