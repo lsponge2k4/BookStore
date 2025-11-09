@@ -19,3 +19,14 @@ export const isAdmin = (req, res, next) => {
     }
     next();
 };
+// Part check for body.
+export const validateBody = (schema) => {
+    return (req, res, next) => {
+        const { error } = schema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const message = error.details.map((e) => e.message).join(", ");
+            return Response.badRequest(res, message, 400);
+        }
+        next();
+    };
+};

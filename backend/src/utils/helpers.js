@@ -1,3 +1,5 @@
+import path from "path";
+import fs from "fs";
 
 // anonymous for email.
 export const MaskEmail = (email) => {
@@ -21,3 +23,14 @@ export const MaskEmail = (email) => {
     }
 
 }
+
+// helper saveFile
+export const saveFile = (file, folder) => {
+    const uploadPath = path.join(__dirname, "..", "public", folder);
+    if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
+
+    const fileName = Date.now() + path.extname(file.originalname);
+    const filePath = path.join(uploadPath, fileName);
+    fs.writeFileSync(filePath, file.buffer); // ghi file
+    return `/${folder}/${fileName}`;
+};

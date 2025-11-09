@@ -1,6 +1,6 @@
 import db from '../models/index';
 import * as Helper from '../utils/helpers';
-
+import { Sequelize } from "sequelize";
 // get all users for admin.
 export const getAllUsers = async (page, limit) => {
     try {
@@ -41,5 +41,43 @@ export const getAllUsers = async (page, limit) => {
     } catch (error) {
         console.error("getAllUsers error:", error);
         return { success: false, message: "Lỗi server khi lấy danh sách người dùng" };
+    }
+};
+
+// create new category.
+
+export const createCategory = async (name, file) => {
+    try {
+        const existing = await db.Category.findOne({
+            where: Sequelize.where(
+                Sequelize.fn("LOWER", Sequelize.col("name")),
+                name.trim().toLowerCase()
+            ),
+        });
+        if (existing) return { success: false, message: "Danh mục đã tồn tại!" };
+
+        const newCategory = await db.Category.create({ name: name.trim() });
+
+        let imagePath = null;
+        if (file) {
+
+            imagePath = Helper.saveFile(file, "image/categories");
+
+            await db.Image.create({
+                entity_type: "category",
+                entity_id: newCategory.category_id,
+                image_type: "main",
+                image_url: imagePath,
+            });
+        }
+
+        return {
+            success: true,
+            data: { category_id: newCategory.category_id, name: newCategory.name, image_url: imagePath },
+            message: "Thêm danh mục thành công!",
+        };
+    } catch (error) {
+        console.error("createCategory error:", error);
+        return { success: false, message: "Lỗi server khi thêm danh mục!" };
     }
 };
