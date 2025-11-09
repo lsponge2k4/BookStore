@@ -94,3 +94,58 @@ export const removeBookFromCart = async (userId, bookId) => {
 
     return { success: true, data: null, message: "Xóa sản phẩm khỏi giỏ hàng thành công" };
 };
+
+
+// increase book quantity.
+
+export const increaseBookQuantity = async (userId, bookId) => {
+    try {
+
+        const cart = await db.Cart.findOne({ where: { user_id: userId, status: "active" } });
+        if (!cart) { return { success: false, message: "Giỏ hàng không tồn tại" }; }
+
+        const cartItem = await db.CartItem.findOne({ where: { cart_id: cart.cart_id, book_id: bookId } });
+        if (!cartItem) { return { success: false, message: "Sản phẩm không tồn tại trong giỏ hàng" }; }
+
+        // Get book.
+        const book = await db.Book.findByPk(bookId);
+        if (!book) { { return { success: false, message: "Sách không tồn tại" } }; }
+
+        if (cartItem.quantity >= book.stock) {
+            return { success: false, message: `Số lượng tối đa là ${book.stock}. Không thể nhập thêm.` };
+        }
+
+        // update quantity of cartItem.
+        cartItem.quantity += 1;
+        await cartItem.save();
+
+        return { success: true, data: cartItem, message: "Tăng số lượng sản phẩm thành công" };
+    } catch (err) {
+        console.error("increaseBookQuantity error:", err);
+        return { success: false, message: "Lỗi server khi tăng số lượng" };
+    }
+};
+
+// decrease book quantity.
+export const decreaseBookQuantity = async (userId, bookId) => {
+    try {
+        const cart = await db.Cart.findOne({ where: { user_id: userId, status: "active" } });
+        if (!cart) return { success: false, message: "Giỏ hàng không tồn tại" };
+
+        const cartItem = await db.CartItem.findOne({ where: { cart_id: cart.cart_id, book_id: bookId } });
+        if (!cartItem) return { success: false, message: "Sản phẩm không tồn tại trong giỏ hàng" };
+
+        if (cartItem.quantity > 1) {
+            cartItem.quantity -= 1;
+            await cartItem.save();
+            return { success: true, data: cartItem, message: "Giảm số lượng sản phẩm thành công" };
+        } else {
+            // await cartItem.destroy();
+            // return { success: true, message: "Đã xóa sản phẩm khỏi giỏ hàng vì số lượng = 0" };
+            return { success: true, data: cartItem, message: "Số lượng sản phẩm đã về 1." };
+        }
+    } catch (err) {
+        console.error("decreaseBookQuantity error:", err);
+        return { success: false, message: "Lỗi server khi giảm số lượng" };
+    }
+};

@@ -52,3 +52,37 @@ export const removeFromCart = async (req, res) => {
         return Response.error(res, 'Lỗi server', 500);
     }
 };
+
+// increase book quantity.
+
+export const increaseQuantity = async (req, res) => {
+    try {
+        const userId = parseInt(req.user.user_id);
+        const bookId = parseInt(req.body.book_id);
+
+        const data = await UserCartService.increaseBookQuantity(userId, bookId);
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
+
+        return Response.success(res, data.data, data.message, 200);
+    } catch (err) {
+        console.error("Lỗi controllers:", err);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
+
+// decrease book quantity.
+
+export const decreaseQuantity = async (req, res) => {
+    try {
+        const userId = parseInt(req.user.user_id);
+        const bookId = parseInt(req.body.book_id);
+
+        const data = await UserCartService.decreaseBookQuantity(userId, bookId);
+        if (!data.success) { return Response.badRequest(res, data.message, 400); }
+
+        return Response.success(res, data.data, data.message, 200);
+    } catch (err) {
+        console.error("Lỗi controllers:", err);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};

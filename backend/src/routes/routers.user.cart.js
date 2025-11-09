@@ -12,4 +12,9 @@ router.get("/user/cart/getAllProductsInCart", UserMiddleware.isAuthenticated, Us
 
 router.post("/user/cart/removeABook", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserCartValidation.removeFromCartSchema), UserCartController.removeFromCart);
 
+router.post("/user/cart/increaseQuantity", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserCartValidation.increaseOrDecreaseSchema), UserCartController.increaseQuantity);
+
+router.post("/user/cart/decreaseQuantity", UserMiddleware.isAuthenticated, UserMiddleware.validate(UserCartValidation.increaseOrDecreaseSchema), UserCartController.decreaseQuantity);
+
+
 export default router;
