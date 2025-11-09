@@ -150,3 +150,31 @@ export const updateCategory = async (category_id, name, file) => {
         return { success: false, message: "Lỗi khi cập nhật danh mục" };
     }
 };
+
+// delete category.
+
+export const deleteCategory = async (category_id) => {
+    try {
+        const category = await db.Category.findByPk(category_id);
+        if (!category) {
+            return { success: false, message: "Danh mục không tồn tại!" };
+        }
+
+        const image = await db.Image.findOne({
+            where: { entity_type: "category", entity_id: category_id },
+        });
+
+        if (image) {
+            const filePath = path.join(__dirname, "..", "public", image.image_url);
+            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+            await image.destroy();
+        }
+
+        await category.destroy();
+
+        return { success: true, message: "Xóa danh mục thành công!" };
+    } catch (error) {
+        console.error("deleteCategory error:", error);
+        return { success: false, message: "Lỗi server khi xóa danh mục!" };
+    }
+};

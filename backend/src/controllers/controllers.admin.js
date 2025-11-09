@@ -64,3 +64,24 @@ export const updateCategory = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+// delete Category.
+
+export const deleteCategory = async (req, res) => {
+    try {
+        const { category_id } = req.params;
+
+        if (!category_id || isNaN(category_id)) {
+            return Response.badRequest(res, "ID danh mục không hợp lệ!", 400);
+        }
+
+        const result = await AdminService.deleteCategory(category_id);
+
+        if (!result.success) return Response.badRequest(res, result.message, 400);
+
+        return Response.success(res, null, result.message, 200);
+    } catch (error) {
+        console.error("deleteCategory controller error:", error);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
