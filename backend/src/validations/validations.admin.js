@@ -28,3 +28,17 @@ export const checkCreateCategory = Joi.object({
         "string.pattern.base": "Tên danh mục chỉ được chứa chữ, số và khoảng trắng",
     }),
 });
+
+// validation when update new category.
+export const checkUpdateCategory = Joi.object({
+    category_id: Joi.number().integer().required().messages({
+        "any.required": "category_id không được để trống",
+        "number.base": "category_id phải là số",
+    }),
+    name: Joi.string().trim().min(3).max(100).pattern(/^[A-Za-zÀ-ỹ0-9\s]+$/u).required().messages({
+        "string.empty": "Tên danh mục không được để trống",
+        "string.min": "Tên danh mục phải có ít nhất 3 ký tự",
+        "string.max": "Tên danh mục tối đa 100 ký tự",
+        "string.pattern.base": "Tên danh mục chỉ được chứa chữ, số và khoảng trắng",
+    }),
+});

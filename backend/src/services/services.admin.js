@@ -1,6 +1,9 @@
 import db from '../models/index';
 import * as Helper from '../utils/helpers';
 import { Sequelize } from "sequelize";
+import path from "path";
+import fs from "fs";
+
 // get all users for admin.
 export const getAllUsers = async (page, limit) => {
     try {
@@ -79,5 +82,71 @@ export const createCategory = async (name, file) => {
     } catch (error) {
         console.error("createCategory error:", error);
         return { success: false, message: "Lỗi server khi thêm danh mục!" };
+    }
+};
+
+// update category.
+// After need rollback (transaction) if can meet error this : 
+/*
+imagePath = Helper.saveFile(file, "image/categories");
+
+            if (existingImage) {
+                const oldFilePath = path.join(__dirname, "..", "public", existingImage.image_url);
+                if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
+
+                existingImage.image_url = imagePath;
+                await existingImage.save();
+            } else {
+                await db.Image.create({
+                    entity_type: "category",
+                    entity_id: category_id,
+                    image_type: "main",
+                    image_url: imagePath,
+                });
+            }
+=> If in if(existingImage) not run or error, it will add imagePath= Helper.saveFile(file, "image/categories");
+on server (This image will save in server)
+*/
+export const updateCategory = async (category_id, name, file) => {
+    try {
+        const category = await db.Category.findByPk(category_id);
+        if (!category) { return { success: false, message: "Category không tồn tại" }; }
+
+        if (name) { category.name = name.trim(); }
+        await category.save();
+
+        let imagePath = null;
+
+        if (file) {
+            const existingImage = await db.Image.findOne({
+                where: { entity_type: "category", entity_id: category_id, image_type: "main" },
+            });
+
+            imagePath = Helper.saveFile(file, "image/categories");
+
+            if (existingImage) {
+                const oldFilePath = path.join(__dirname, "..", "public", existingImage.image_url);
+                if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
+
+                existingImage.image_url = imagePath;
+                await existingImage.save();
+            } else {
+                await db.Image.create({
+                    entity_type: "category",
+                    entity_id: category_id,
+                    image_type: "main",
+                    image_url: imagePath,
+                });
+            }
+        }
+
+        return {
+            success: true,
+            data: { category_id: category.category_id, name: category.name, image_url: imagePath },
+            message: "Cập nhật danh mục thành công!",
+        };
+    } catch (err) {
+        console.error("updateCategory service error:", err);
+        return { success: false, message: "Lỗi khi cập nhật danh mục" };
     }
 };
