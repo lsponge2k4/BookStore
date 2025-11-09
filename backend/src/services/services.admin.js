@@ -178,3 +178,81 @@ export const deleteCategory = async (category_id) => {
         return { success: false, message: "Lỗi server khi xóa danh mục!" };
     }
 };
+
+
+// get all categories.
+export const getAllCategories = async (page = 1, limit = 20) => {
+    try {
+        const offset = (page - 1) * limit;
+
+        const { count, rows } = await db.Category.findAndCountAll({
+            attributes: [
+                "category_id",
+                "name",
+                "createdAt",
+                "updatedAt",
+            ],
+            include: [
+                {
+                    model: db.Image,
+                    as: "Images",
+                    attributes: ["image_url"],
+                    where: { image_type: "main" },
+                    required: false,
+                },
+            ],
+            limit,
+            offset,
+            order: [["createdAt", "DESC"]],
+        });
+
+        return {
+            success: true,
+            data: {
+                total: count,
+                page,
+                limit,
+                totalPages: Math.ceil(count / limit),
+                categories: rows,
+            },
+            message: "Lấy danh sách danh mục thành công!",
+        };
+    } catch (error) {
+        console.error("getAllCategories error:", error);
+        return { success: false, message: "Lỗi server khi lấy danh mục!" };
+    }
+};
+
+// get all books for admin.
+
+export const getAllBooksAdmin = async (page, limit) => {
+    const offset = (page - 1) * limit;
+
+    const { rows: books, count: total } = await db.Book.findAndCountAll({
+        offset,
+        limit,
+        order: [["createdAt", "DESC"]],
+        include: [
+            {
+                model: db.Image,
+                as: 'Images',
+                where: { entity_type: 'book', image_type: 'cover', },
+                required: false,
+            }, {
+                model: db.Category,
+                as: 'Category',
+            },
+        ],
+    });
+    const totalPages = Math.ceil(total / limit);
+
+    return {
+        books,
+        pagination: {
+            page,
+            limit,
+            total,
+            totalPages,
+        },
+    };
+};

@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-// validation page and limit for getAllUsers
+// validation page and limit for getAllUsers and AllBooks.
 export const validGetAllUsers = Joi.object({
     page: Joi.number().integer().min(1).optional()
         .messages({
@@ -40,5 +40,18 @@ export const checkUpdateCategory = Joi.object({
         "string.min": "Tên danh mục phải có ít nhất 3 ký tự",
         "string.max": "Tên danh mục tối đa 100 ký tự",
         "string.pattern.base": "Tên danh mục chỉ được chứa chữ, số và khoảng trắng",
+    }),
+});
+
+// validation when get all categories.
+export const checkGetAllCategories = Joi.object({
+    page: Joi.number().integer().min(1).optional().messages({
+        "number.base": "Page phải là số nguyên",
+        "number.min": "Page phải >= 1",
+    }),
+    limit: Joi.number().integer().min(1).max(100).optional().messages({
+        "number.base": "Limit phải là số nguyên",
+        "number.min": "Limit phải >= 1",
+        "number.max": "Limit tối đa là 100",
     }),
 });

@@ -66,7 +66,6 @@ export const updateCategory = async (req, res) => {
 };
 
 // delete Category.
-
 export const deleteCategory = async (req, res) => {
     try {
         const { category_id } = req.params;
@@ -83,5 +82,43 @@ export const deleteCategory = async (req, res) => {
     } catch (error) {
         console.error("deleteCategory controller error:", error);
         return Response.error(res, "Lỗi server", 500);
+    }
+};
+
+// get all categories.
+export const getAllCategories = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page) || 1;
+        const limit = parseInt(req.query.limit) || 20;
+
+        const result = await AdminService.getAllCategories(page, limit);
+
+        if (!result.success)
+            return Response.badRequest(res, result.message, 400);
+
+        return Response.success(res, result.data, result.message, 200);
+    } catch (error) {
+        console.error("getAllCategories controller error:", error);
+        return Response.error(res, "Lỗi server", 500);
+    }
+};
+
+
+// get all books for admin.
+
+export const getAllBookAdmin = async (req, res) => {
+    try {
+        const page = parseInt(req.query.page);
+        const limit = parseInt(req.query.limit);
+        if (!page || !limit) {
+            return Response.badRequest(res, "Thiếu page hoặc thiếu limit!", 400);
+        }
+
+        const data = await AdminService.getAllBooksAdmin(page, limit);
+
+        return Response.success(res, data, "Lấy danh sách thành công!", 200);
+    } catch (error) {
+        console.error(error);
+        return Response.error(res, "Lỗi hệ thống!", 500);
     }
 };

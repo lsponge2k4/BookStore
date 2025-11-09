@@ -16,4 +16,10 @@ router.post("/admin/createCategory", UserMiddleware.isAuthenticated, AdminMiddle
 router.put("/admin/updateCategory", UserMiddleware.isAuthenticated, AdminMiddleware.isAdmin, uploadCategoryImage.single("image"), AdminMiddleware.validateBody(AdminValidation.checkUpdateCategory), AdminController.updateCategory);
 
 router.delete("/admin/deleteCategory/:category_id", UserMiddleware.isAuthenticated, AdminMiddleware.isAdmin, AdminController.deleteCategory);
+
+router.get("/admin/getAllCategories", UserMiddleware.isAuthenticated, AdminMiddleware.isAdmin, AdminMiddleware.validate(AdminValidation.checkGetAllCategories), AdminController.getAllCategories);
+
+router.get("/admin/getAllBooksAdmin", UserMiddleware.isAuthenticated, AdminMiddleware.isAdmin, AdminMiddleware.validate(AdminValidation.validGetAllUsers), AdminController.getAllBookAdmin);
+
+
 export default router;
