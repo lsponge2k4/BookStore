@@ -162,3 +162,18 @@ export const updateBook = async (req, res) => {
         return Response.error(res, "Lỗi hệ thống!", 500);
     }
 };
+
+// delete a book.
+
+export const removeBook = async (req, res) => {
+    try {
+        const { book_id } = req.params;
+        const data = await AdminService.deleteBook(book_id);
+        if (!data.success) { return Response.badRequest(res, data.message, 400) }
+        return Response.success(res, null, data.message, 200);
+    }
+    catch (error) {
+        console.log("error controllers:", error);
+        Response.success(res, "Error", 500);
+    }
+};

@@ -43,4 +43,11 @@ router.put(
     AdminMiddleware.validateBody(AdminValidation.checkCreateBook),
     AdminController.updateBook
 );
+
+router.delete(
+    "/admin/removeBook/:book_id",
+    UserMiddleware.isAuthenticated,
+    AdminMiddleware.isAdmin,
+    AdminController.removeBook
+);
 export default router;

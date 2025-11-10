@@ -394,3 +394,32 @@ export const updateBook = async (book_id, body, files) => {
         return { success: false, message: "Lỗi server khi cập nhật sách!" };
     }
 };
+
+// delete a book.
+// need to update more.
+export const deleteBook = async (book_id) => {
+    try {
+        const book = await db.Book.findByPk(book_id);
+        if (!book) return { success: false, message: "Không tìm thấy sách!" };
+
+        const images = await db.Image.findAll({
+            where: { entity_type: "book", entity_id: book_id },
+        });
+
+        for (const img of images) {
+            const filePath = path.join(__dirname, "..", "public", img.image_url);
+            if (fs.existsSync(filePath)) fs.unlinkSync(filePath);
+        }
+
+        await db.Image.destroy({
+            where: { entity_type: "book", entity_id: book_id },
+        });
+
+        await book.destroy();
+
+        return { success: true, message: "Xóa sách thành công!" };
+    } catch (error) {
+        console.error("deleteBook error:", error);
+        return { success: false, message: "Lỗi server khi xóa sách!" };
+    }
+};
