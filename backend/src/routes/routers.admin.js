@@ -32,4 +32,15 @@ router.post(
     AdminController.createBook
 );
 
+router.put(
+    "/admin/updateBook/:book_id",
+    UserMiddleware.isAuthenticated,
+    AdminMiddleware.isAdmin,
+    uploadBookImages.fields([
+        { name: "cover", maxCount: 1 },
+        { name: "gallery", maxCount: 5 },
+    ]),
+    AdminMiddleware.validateBody(AdminValidation.checkCreateBook),
+    AdminController.updateBook
+);
 export default router;

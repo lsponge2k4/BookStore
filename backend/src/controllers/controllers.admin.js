@@ -144,3 +144,21 @@ export const createBook = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+// update a book.
+export const updateBook = async (req, res) => {
+    try {
+        const { book_id } = req.params;
+
+        if (!book_id) return Response.badRequest(res, "Thiếu ID sách cần cập nhật!", 400);
+
+        const data = await AdminService.updateBook(book_id, req.body, req.files);
+
+        if (!data.success) return Response.badRequest(res, data.message, 400);
+
+        return Response.success(res, data.data, data.message, 200);
+    } catch (error) {
+        console.error("updateBook controller error:", error);
+        return Response.error(res, "Lỗi hệ thống!", 500);
+    }
+};

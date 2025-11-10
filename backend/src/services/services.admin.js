@@ -313,3 +313,84 @@ export const createBook = async (data, files) => {
         return { success: false, message: "Lỗi server khi thêm sách!" };
     }
 };
+
+
+// update a book.
+// Have any errors need fix.
+
+export const updateBook = async (book_id, body, files) => {
+    try {
+        const book = await db.Book.findByPk(book_id);
+        if (!book) return { success: false, message: "Không tìm thấy sách!" };
+
+        await book.update(body);
+
+        if (files && files.cover && files.cover.length > 0) {
+            const file = files.cover[0];
+            const coverPath = Helper.saveFile(file, "image/books/covers");
+
+            const oldCover = await db.Image.findOne({
+                where: {
+                    entity_type: "book",
+                    entity_id: book.book_id,
+                    image_type: "cover",
+                },
+            });
+
+            if (oldCover) {
+                const oldFilePath = path.join(__dirname, "..", "public", oldCover.image_url);
+                if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
+                await oldCover.destroy();
+            }
+
+            await db.Image.create({
+                entity_type: "book",
+                entity_id: book.book_id,
+                image_type: "cover",
+                image_url: coverPath,
+            });
+        }
+
+        if (files && files.gallery && files.gallery.length > 0) {
+            const oldGallery = await db.Image.findAll({
+                where: {
+                    entity_type: "book",
+                    entity_id: book.book_id,
+                    image_type: "gallery",
+                },
+            });
+
+            for (const img of oldGallery) {
+                const oldFilePath = path.join(__dirname, "..", "public", img.image_url);
+                if (fs.existsSync(oldFilePath)) fs.unlinkSync(oldFilePath);
+            }
+
+            await db.Image.destroy({
+                where: {
+                    entity_type: "book",
+                    entity_id: book.book_id,
+                    image_type: "gallery",
+                },
+            });
+
+            for (const file of files.gallery) {
+                const galleryPath = Helper.saveFile(file, "image/books/gallery");
+                await db.Image.create({
+                    entity_type: "book",
+                    entity_id: book.book_id,
+                    image_type: "gallery",
+                    image_url: galleryPath,
+                });
+            }
+        }
+
+        return {
+            success: true,
+            data: book,
+            message: "Cập nhật sách thành công!",
+        };
+    } catch (error) {
+        console.error("updateBook error:", error);
+        return { success: false, message: "Lỗi server khi cập nhật sách!" };
+    }
+};
