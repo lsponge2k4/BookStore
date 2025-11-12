@@ -1,20 +1,31 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import axios from "./util/axios.customize";
+import { HeaderBar } from "./components/commons/header";
+import { Outlet } from "react-router-dom";
+import Footer from "./components/commons/footer";
 
 function App() {
-  const [data, setData] = useState(null);
-
   useEffect(() => {
-    fetch("http://localhost:8080/api/hello")
-      .then((res) => res.json())
-      .then((result) => setData(result.message))
-      .catch((err) => console.error("Lỗi kết nối API:", err));
+    const fetchHelloWorld = async () => {
+      try {
+        const res = await axios.get(`/api/hello`);
+        console.log("Check res!!", res.data);
+      } catch (error) {
+        console.error("Error fetching hello world:", error);
+      }
+    };
+
+    fetchHelloWorld();
   }, []);
 
   return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>React + Express Demo 🚀</h1>
-      <p>{data ? data : "Đang tải dữ liệu từ backend..."}</p>
-    </div>
+    <>
+      <HeaderBar />
+      <main className="min-h-screen bg-gray-50">
+        <Outlet /> {/* nơi hiển thị nội dung từng page */}
+      </main>
+      <Footer />
+    </>
   );
 }
 
