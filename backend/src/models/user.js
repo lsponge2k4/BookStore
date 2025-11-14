@@ -7,6 +7,7 @@ module.exports = (sequelize) => {
             User.hasMany(models.Order, { foreignKey: 'user_id', onDelete: 'CASCADE' });
             User.hasMany(models.Review, { foreignKey: 'user_id', onDelete: 'CASCADE' });
             User.hasOne(models.Cart, { foreignKey: 'user_id', onDelete: 'CASCADE' });
+            User.hasMany(models.Image, { foreignKey: 'entity_id', as: 'Images', constraints: false, scope: { entity_type: 'user' } });
         }
     }
 

@@ -1,32 +1,31 @@
-import { useEffect } from "react";
-import axios from "./util/axios.customize";
-import { HeaderBar } from "./components/commons/header";
-import { Outlet } from "react-router-dom";
-import Footer from "./components/commons/footer";
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './pages/Home';
+import BookDetail from './pages/BookDetail';
+import PopularBooks from './pages/PopularBooks';
+import Location from './pages/Location';
+import Information from './pages/Information';
+import SearchResults from './pages/SearchResults';
+import Admin from './pages/Admin';
+import ProfileInfo from './pages/ProfileInfo';
+import ChangePassword from './pages/ChangePassword';
 
-function App() {
-  useEffect(() => {
-    const fetchHelloWorld = async () => {
-      try {
-        const res = await axios.get(`/api/hello`);
-        console.log("Check res!!", res.data);
-      } catch (error) {
-        console.error("Error fetching hello world:", error);
-      }
-    };
-
-    fetchHelloWorld();
-  }, []);
-
+export default function App() {
   return (
-    <>
-      <HeaderBar />
-      <main className="min-h-screen bg-gray-50">
-        <Outlet /> {/* nơi hiển thị nội dung từng page */}
-      </main>
-      <Footer />
-    </>
+    <Router>
+      <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/book/:id" element={<BookDetail />} />
+        <Route path="/popular" element={<PopularBooks />} />
+        <Route path="/location" element={<Location />} />
+        <Route path="/info" element={<Information />} />
+        <Route path="/search" element={<SearchResults />} />
+        <Route path="/admin" element={<Admin />} /> {/* ← Thêm */}
+        <Route path="/profile/info" element={<ProfileInfo />} />
+        <Route path="/profile/change-password" element={<ChangePassword />} />
+      </Routes>
+    </Router>
   );
 }
-
-export default App;

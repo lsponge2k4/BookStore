@@ -6,16 +6,21 @@ import configViewEngine from "./config/viewEngine.js";
 import apiRoutes from "./routes/api.js";
 import cookieParser from "cookie-parser";
 
+
 dotenv.config();
 const app = express();
-// app.use('/image', express.static('public/image'));
 
 // Middlewares
-app.use(cors());
+
+app.use(cors({
+  origin: process.env.FRONTEND_URL,
+  credentials: true,
+}));
 app.use(express.json());
 app.use(cookieParser()); // read and use cookie
 // Config View
 configViewEngine(app);
+
 
 // Routes
 app.use("/", apiRoutes);
