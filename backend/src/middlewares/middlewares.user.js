@@ -1,5 +1,5 @@
 import * as Response from "../utils/response.js";
-import { generateToken } from "../utils/token.js";
+import { generateToken, generateAccessToken } from "../utils/token.js";
 import { verifyToken } from "../utils/token.js";
 
 // Part of Register and Login
@@ -52,7 +52,36 @@ export const isAuthenticated = (req, res, next) => {
     }
 };
 
-// export const isAdmin = (req, res, next) => {
-//     if (req.user.role !== "admin") return res.status(403).json({ status: "error", message: "Không có quyền" });
-//     next();
+// fix token issue
+// export const isAuthenticated1 = (req, res, next) => {
+//     const authHeader = req.headers["authorization"];
+//     const token = authHeader?.split(" ")[1];
+
+//     if (!token) {
+//         return Response.badRequest(res, "Thiếu access token", 401);
+//     }
+
+//     try {
+//         const decoded = verifyToken(token);
+//         req.user = decoded;
+//         next();
+//     } catch {
+//
+//     }
+// };
+
+// export const refreshToken = (req, res) => {
+//     const refresh = req.cookies.refresh_token;
+//     if (!refresh) return Response.badRequest(res, "Không có refresh token", 401);
+
+//     try {
+//         const decoded = verifyToken(refresh);
+//         const newAccess = generateAccessToken(decoded);
+
+//         return Response.success(res, {
+//             accessToken: newAccess,
+//         });
+//     } catch {
+//         return Response.badRequest(res, "Refresh token hết hạn", 401);
+//     }
 // };

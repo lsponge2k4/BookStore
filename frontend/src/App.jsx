@@ -1,21 +1,31 @@
-import { useEffect, useState } from "react";
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header';
+import Home from './pages/Home';
+import BookDetail from './pages/BookDetail';
+import PopularBooks from './pages/PopularBooks';
+import Location from './pages/Location';
+import Information from './pages/Information';
+import SearchResults from './pages/SearchResults';
+import Admin from './pages/Admin';
+import ProfileInfo from './pages/ProfileInfo';
+import ChangePassword from './pages/ChangePassword';
 
-function App() {
-  const [data, setData] = useState(null);
-
-  useEffect(() => {
-    fetch("http://localhost:8080/api/hello")
-      .then((res) => res.json())
-      .then((result) => setData(result.message))
-      .catch((err) => console.error("Lỗi kết nối API:", err));
-  }, []);
-
-  return (
-    <div style={{ padding: "2rem", fontFamily: "sans-serif" }}>
-      <h1>React + Express Demo 🚀</h1>
-      <p>{data ? data : "Đang tải dữ liệu từ backend..."}</p>
-    </div>
-  );
+export default function App() {
+    return (
+        <Router>
+            <Header />
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/book/:id" element={<BookDetail />} />
+                <Route path="/popular" element={<PopularBooks />} />
+                <Route path="/location" element={<Location />} />
+                <Route path="/info" element={<Information />} />
+                <Route path="/search" element={<SearchResults />} />
+                <Route path="/admin" element={<Admin />} /> {/* ← Thêm */}
+                <Route path="/profile/info" element={<ProfileInfo />} />
+                <Route path="/profile/change-password" element={<ChangePassword />} />
+            </Routes>
+        </Router>
+    );
 }
-
-export default App;

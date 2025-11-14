@@ -1,4 +1,4 @@
-import { generateToken, generateResetToken } from '../utils/token';
+import { generateToken, generateResetToken, generateAccessToken, generateRefreshToken } from '../utils/token';
 import db from '../models/index';
 import bcrypt from "bcryptjs";
 import { sendEmail } from "../utils/email.js";
@@ -10,14 +10,13 @@ dotenv.config();
 
 // register 
 export const registerUser = async ({ name, email, password }) => {
-    // kiểm tra email đã tồn tại chưa
+    // Check email
     const existing = await db.User.findOne({ where: { email } });
     if (existing) {
         return { success: false, message: "Email đã tồn tại" };
     }
-    // mã hóa mật khẩu
     const hashedPassword = await bcrypt.hash(password, 10);
-    // tạo user mới
+
     const user = await db.User.create({
         name,
         email,
@@ -34,19 +33,30 @@ export const registerUser = async ({ name, email, password }) => {
 
 // log in
 export const loginUser = async ({ email, password }) => {
-    // Tìm user theo email
+    // Check user
     const user = await db.User.findOne({ where: { email } });
     if (!user) {
         return { success: false, message: "Email không tồn tại" };
     }
-    // So sánh mật khẩu
+    // Compare password
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
         return { success: false, message: "Mật khẩu không chính xác" };
     }
 
-    // Tạo token
+    // Create token
     const token = generateToken(user);
+
+
+    // const token = generateAccessToken(user);
+    // const refreshToken = generateRefreshToken(user);
+    // refresh token in cookie
+    // res.cookie("refresh_token", refreshToken, {
+    //     httpOnly: true,
+    //     secure: true,
+    //     sameSite: "strict",
+    //     maxAge: 7 * 24 * 60 * 60 * 1000,
+    // });
 
     return {
         success: true,
@@ -124,6 +134,7 @@ export const updateUserProfile = async (userId, name, avatar) => {
     if (!user) return { success: false, message: "User không tồn tại" };
 
     if (name) user.name = name;
+    else return { success: false, message: "Tên không được để trống" };
 
     if (avatar) {
         const existingImage = await db.Image.findOne({
@@ -135,7 +146,7 @@ export const updateUserProfile = async (userId, name, avatar) => {
                 __dirname,
                 "..",
                 "public",
-                existingImage.image_url   // Không cần replace
+                existingImage.image_url
             );
 
             if (fs.existsSync(oldFilePath)) {
@@ -145,11 +156,11 @@ export const updateUserProfile = async (userId, name, avatar) => {
                 console.log("Không tìm thấy ảnh để xóa:", oldFilePath);
             }
 
-            // Cập nhật ảnh mới vào database
+            // Update new image on database
             existingImage.image_url = avatar;
             await existingImage.save();
         } else {
-            // Nếu chưa có ảnh avatar thì thêm mới
+            // If no image exists, create a new record
             await db.Image.create({
                 entity_type: "user",
                 entity_id: userId,

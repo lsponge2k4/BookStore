@@ -80,6 +80,14 @@ export const getFilteredBooks = async (filters) => {
                     entity_type: 'book', image_type: 'cover',
                 },
             },
+            {
+                model: db.Review,
+                as: 'Reviews',
+                required: false,
+                attributes: ["review_id", "book_id", "rating", "comment", "createdAt", "updatedAt"],
+                include: [{ model: db.User, as: 'User', attributes: ["name"] }],
+
+            }
         ],
         order: [["createdAt", sort.toUpperCase() === "ASC" ? "ASC" : "DESC"]],
         limit: Number(limit),
@@ -134,6 +142,13 @@ export const searchBooks = async (query, page, limit) => {
                 attributes: ["image_url", "image_type"],
                 where: { image_type: "cover" },
             },
+            {
+                model: db.Review,
+                as: "Reviews",
+                required: false,
+                attributes: ["review_id", "book_id", "rating", "comment", "createdAt", "updatedAt"],
+                include: [{ model: db.User, as: 'User', attributes: ["name"] }],
+            }
         ],
         offset,
         limit,

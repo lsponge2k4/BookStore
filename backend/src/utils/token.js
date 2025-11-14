@@ -18,3 +18,14 @@ export const generateResetToken = (user) => {
 export const verifyToken = (token) => {
     return jwt.verify(token, JWT_SECRET);
 };
+
+// fix token.
+// export const generateAccessToken = (user) => {
+//     return jwt.sign({
+//         user_id: user.user_id,
+//     }, JWT_SECRET, { expiresIn: "10m" });
+// }
+
+// export const generateRefreshToken = (user) => {
+//     return jwt.sign({ user_id: user.user_id }, JWT_SECRET, { expiresIn: "7d" });
+// }

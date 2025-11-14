@@ -18,6 +18,14 @@ export const getAllBooks = async (page, limit) => {
                 model: db.Category,
                 as: 'Category',
             },
+            {
+                model: db.Review,
+                as: 'Reviews',
+                required: false,
+                attributes: ["review_id", "book_id", "rating", "comment", "createdAt", "updatedAt"],
+                include: [{ model: db.User, as: 'User', attributes: ["name"] }],
+
+            }
         ],
     });
     // if none image, get the default image.
@@ -88,7 +96,7 @@ export const getBookDetails = async (bookId) => {
     console.log("book:" + book);
     if (!book) return { success: false, message: "Book không tồn tại" };
 
-    // Lấy sách khác cùng danh mục
+    // Get other books in category together.
     let relatedBooks = [];
     if (book.category_id) {
         relatedBooks = await db.Book.findAll({

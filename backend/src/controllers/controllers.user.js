@@ -31,7 +31,6 @@ export const login = async (req, res) => {
             maxAge: 60 * 60 * 1000,
         });
 
-
         return Response.success(res, data.data, data.message, 200);
     } catch (error) {
         console.error("Lỗi controller:", error);
