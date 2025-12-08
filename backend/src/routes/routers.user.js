@@ -22,4 +22,7 @@ router.put("/user/changePassword", UserMiddleware.isAuthenticated, UserMiddlewar
 
 router.post("/user/logout", UserMiddleware.isAuthenticated, UserController.logout);
 
+// auth refresh token
+router.post("/user/refreshToken", UserMiddleware.refreshToken);
+
 export default router;

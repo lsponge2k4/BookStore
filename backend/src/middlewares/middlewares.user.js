@@ -1,6 +1,6 @@
 import * as Response from "../utils/response.js";
-import { generateToken, generateAccessToken } from "../utils/token.js";
-import { verifyToken } from "../utils/token.js";
+import { generateAccessToken } from "../utils/token.js";
+import { verifyToken, verifyRefreshToken } from "../utils/token.js";
 
 // Part of Register and Login
 export const validate = (schema) => {
@@ -30,58 +30,60 @@ export const verifyResetToken = (req, res, next) => {
 };
 
 // Check access token 
+// export const isAuthenticated = (req, res, next) => {
+//     const token = req.cookies.token;
+//     if (!token) { return Response.badRequest(res, 'Chưc xác thực!', 401); }
+
+//     try {
+//         const decoded = verifyToken(token);
+//         console.log(">>> TOKEN PAYLOAD:", decoded);
+//         req.user = decoded;
+//         console.log(req.user);
+//         const newToken = generateToken(req.user);
+//         res.cookie("token", newToken, {
+//             httpOnly: true,
+//             secure: process.env.NODE_ENV === "production",
+//             sameSite: "strict",
+//             maxAge: 60 * 60 * 1000,
+//         });
+//         next();
+//     } catch {
+//         return Response.badRequest(res, 'Token không hợp lệ!', 401);
+//     }
+// };
+
+// fix token issue
 export const isAuthenticated = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) { return Response.badRequest(res, 'Chưc xác thực!', 401); }
+    const authHeader = req.headers["authorization"];
+    const token = authHeader?.split(" ")[1];
+
+    if (!token) {
+        return Response.badRequest(res, "Thiếu access token", 401);
+    }
 
     try {
         const decoded = verifyToken(token);
         console.log(">>> TOKEN PAYLOAD:", decoded);
         req.user = decoded;
-        console.log(req.user);
-        const newToken = generateToken(req.user);
-        res.cookie("token", newToken, {
-            httpOnly: true,
-            secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
-            maxAge: 60 * 60 * 1000,
-        });
         next();
     } catch {
         return Response.badRequest(res, 'Token không hợp lệ!', 401);
     }
 };
 
-// fix token issue
-// export const isAuthenticated1 = (req, res, next) => {
-//     const authHeader = req.headers["authorization"];
-//     const token = authHeader?.split(" ")[1];
+// refresh new token
+export const refreshToken = (req, res) => {
+    const refresh = req.cookies.refresh_token;
+    if (!refresh) return Response.badRequest(res, "Không có refresh token", 401);
 
-//     if (!token) {
-//         return Response.badRequest(res, "Thiếu access token", 401);
-//     }
+    try {
+        const decoded = verifyRefreshToken(refresh);
+        const newAccess = generateAccessToken(decoded);
 
-//     try {
-//         const decoded = verifyToken(token);
-//         req.user = decoded;
-//         next();
-//     } catch {
-//
-//     }
-// };
-
-// export const refreshToken = (req, res) => {
-//     const refresh = req.cookies.refresh_token;
-//     if (!refresh) return Response.badRequest(res, "Không có refresh token", 401);
-
-//     try {
-//         const decoded = verifyToken(refresh);
-//         const newAccess = generateAccessToken(decoded);
-
-//         return Response.success(res, {
-//             accessToken: newAccess,
-//         });
-//     } catch {
-//         return Response.badRequest(res, "Refresh token hết hạn", 401);
-//     }
-// };
+        return Response.success(res, {
+            accessToken: newAccess,
+        }, "Tạo access token mới thành công", 200);
+    } catch {
+        return Response.badRequest(res, "Refresh token hết hạn", 401);
+    }
+};

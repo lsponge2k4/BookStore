@@ -18,20 +18,21 @@ export const register = async (req, res) => {
 // Log in
 export const login = async (req, res) => {
     try {
+        console.log("Here1:", req.body);
         const data = await UserService.loginUser(req.body);
         if (!data.success) {
             return Response.badRequest(res, data.message, 400);
         }
 
-        // Save token in cookie
-        res.cookie("token", data.data.token, {
+        res.cookie("refresh_token", data.refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",
             maxAge: 60 * 60 * 1000,
         });
+        const responseData = { token: data.data.token, user: data.data.user };
 
-        return Response.success(res, data.data, data.message, 200);
+        return Response.success(res, responseData, data.message, 200);
     } catch (error) {
         console.error("Lỗi controller:", error);
         return Response.error(res, "Lỗi Server", 500);
@@ -63,6 +64,8 @@ export const resetPassword = async (req, res) => {
         return Response.error(res, "Lỗi server", 500);
     }
 };
+
+
 
 // Get the info of user
 export const getProfile = async (req, res) => {
@@ -116,7 +119,7 @@ export const changePassword = async (req, res) => {
 // log out
 export const logout = async (req, res) => {
     try {
-        res.clearCookie("token", {
+        res.clearCookie("refresh_token", {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: "strict",

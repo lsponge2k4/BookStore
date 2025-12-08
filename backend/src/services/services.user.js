@@ -45,22 +45,16 @@ export const loginUser = async ({ email, password }) => {
     }
 
     // Create token
-    const token = generateToken(user);
+    // const token = generateToken(user);
 
 
-    // const token = generateAccessToken(user);
-    // const refreshToken = generateRefreshToken(user);
-    // refresh token in cookie
-    // res.cookie("refresh_token", refreshToken, {
-    //     httpOnly: true,
-    //     secure: true,
-    //     sameSite: "strict",
-    //     maxAge: 7 * 24 * 60 * 60 * 1000,
-    // });
+    const token = generateAccessToken(user);
+    const refreshToken = generateRefreshToken(user);
 
     return {
         success: true,
         message: "Đăng nhập thành công",
+        refreshToken: refreshToken,
         data: {
             token,
             user: {
