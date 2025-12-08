@@ -1,13 +1,13 @@
-import { Routers, Route } from 'react-router-dom';
-import AdminLayout from '../layouts/AdminLayout';
-import AdminDashboard from '../pages/admin/Dashboard';
+import { Routes, Route } from "react-router-dom";
+import AdminLayout from "../layouts/AdminLayout";
+import Dashboard from "../pages/admin/Dashboard";
 
 export default function AdminRouter() {
     return (
-        <AdminLayout>
-            <Routers>
-                <Route path="/admin" element={<AdminDashboard />} />
-            </Routers>
-        </AdminLayout>
-    )
+        <Routes>
+            <Route element={<AdminLayout />}>
+                <Route path="/admin" element={<Dashboard />} />
+            </Route>
+        </Routes>
+    );
 }
