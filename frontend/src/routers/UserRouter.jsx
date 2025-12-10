@@ -5,6 +5,8 @@ import Login from "../pages/user/Login"
 import Register from "../pages/user/Register";
 import ForgotPassword from "../pages/user/ForgotPassword";
 import ResetPassword from "../pages/user/ResetPassword";
+import ChangePassword from "../pages/user/ChangePassword";
+import Profile from "../pages/user/Profile"
 
 export default function UserRouter() {
     return (
@@ -15,6 +17,8 @@ export default function UserRouter() {
                 <Route path="/register" element={<Register />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
                 <Route path="/resetPassword" element={<ResetPassword />} />
+                <Route path="/changePassword" element={<ChangePassword />} />
+                <Route path="/profile" element={<Profile />} />
             </Route>
 
         </Routes>

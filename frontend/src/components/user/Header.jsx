@@ -83,8 +83,8 @@ export default function Header() {
                                                 {user.email}
                                             </p>
                                         </div>
-                                        <Link to="/" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => setShowDropdown(false)}>Thông tin cá nhân</Link>
-                                        <Link to="/" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => setShowDropdown(false)}>Đổi mật khẩu</Link>
+                                        <Link to="/profile" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => setShowDropdown(false)}>Thông tin cá nhân</Link>
+                                        <Link to="/changePassword" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => setShowDropdown(false)}>Đổi mật khẩu</Link>
                                         <Link to="/" className="block px-4 py-2 text-sm hover:bg-gray-100" onClick={() => { logout(); setShowDropdown(false) }}>Đăng xuất</Link>
                                     </div>
 
