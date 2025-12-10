@@ -34,5 +34,13 @@ export const getBooksAPI = (page, limit) => {
 
 
 export const getBookByIdAPI = (bookId) => {
-    return api.get(`/api/books/${bookId}`);
+    return api.get(`/api/home/getBookById?book_id=${bookId}`);
+};
+
+export const getRelatedBooksAPI = (categoryId, excludeBookId, page, limit) => {
+    return api.get(`/api/home/getRelatedBooks?categoryId=${categoryId}&excludeBookId=${excludeBookId}&page=${page}&limit=${limit}`);
+}
+
+export const getBookDetailsAPI = (bookId) => {
+    return api.get(`/api/home/getBookDetails?id_book=${bookId}`);
 };

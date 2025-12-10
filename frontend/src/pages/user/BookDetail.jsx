@@ -1,19 +1,18 @@
-// src/pages/BookDetail.jsx
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { getBookDetail, getRelatedBooks, BACKEND } from '../api/api';
-// import Footer from '../components/Footer';
+import { getBookDetailsAPI, getRelatedBooksAPI } from '../../api/auth';
+const BACKEND = "http://localhost:8080";
 
 export default function BookDetail() {
     const { id } = useParams();
     const [bookData, setBookData] = useState(null);
     const [relatedBooks, setRelatedBooks] = useState([]);
-    const [relatedPage, setRelatedPage] = useState(null);
+    const [relatedPage, setRelatedPage] = useState(1);
+    const [totalPages, setTotalPages] = useState(0);
     const [currentImage, setCurrentImage] = useState('');
     const [activeTab, setActiveTab] = useState('description');
     const [loading, setLoading] = useState(true);
     const [quantity, setQuantity] = useState(1);
-    const [totalPages, setToTalPages] = useState(0);
 
     const relatedLimit = 5;
 
@@ -21,7 +20,8 @@ export default function BookDetail() {
         (async () => {
             setLoading(true);
             try {
-                const data = await getBookDetail(id);
+                const res = await getBookDetailsAPI(id);
+                const data = res.data;
                 const book = data.book;
 
                 const allImages = book.Images || [];
@@ -55,16 +55,19 @@ export default function BookDetail() {
 
     const fetchRelatedBooks = async (categoryId, excludeId, page) => {
         try {
-            const result = await getRelatedBooks(categoryId, excludeId, page, relatedLimit);
+            const res = await getRelatedBooksAPI(categoryId, excludeId, page, relatedLimit);
+            const result = res.data;
+
+            // Cập nhật đúng dữ liệu phân trang
             setRelatedBooks(result.books);
-            setRelatedPage(result.page);
-            setToTalPages(result.totalPages);
+            setRelatedPage(result.pagination.page);
+            setTotalPages(result.pagination.totalPages);
         } catch (err) {
             console.error(err);
         }
     };
 
-    if (loading) return <p className="text-center py-20">Loading...</p>;
+    if (loading) return <p className="text-center py-20">Đang tải...</p>;
     if (!bookData?.book) return <p className="text-center py-20">Không tìm thấy sách</p>;
 
     const { book } = bookData;
@@ -72,19 +75,25 @@ export default function BookDetail() {
         ? (book.Reviews.reduce((sum, r) => sum + r.rating, 0) / book.Reviews.length).toFixed(1)
         : 0;
 
+    const handlePageChange = (newPage) => {
+        if (newPage >= 1 && newPage <= totalPages) {
+            fetchRelatedBooks(book.category_id, book.book_id, newPage);
+        }
+    };
+
     return (
         <>
             <div className="max-w-7xl mx-auto px-4 py-8">
-                <Link to="/" className="flex items-center text-indigo-600 mb-6 hover:underline text-sm">
-                    Back to Home
-                </Link>
+                {/* <Link to="/" className="flex items-center text-indigo-600 mb-6 hover:underline text-sm">
+                    Về Trang Home
+                </Link> */}
 
-                <div className="grid lg:grid-cols-2 gap-8">
-                    <div>
+                <div className="grid lg:grid-cols-2 gap-8 ">
+                    <div className='select-none'>
                         <img
                             src={currentImage}
                             alt={bookData.book.title}
-                            className="w-full h-[500px] md:h-[600px] object-contain bg-white rounded-lg shadow-lg"
+                            className="w-full h-[500px] md:h-[600px] object-contain bg-white rounded-lg shadow-lg "
                             loading="eager"
                         />
                         {book.gallery?.length > 0 && (
@@ -115,7 +124,7 @@ export default function BookDetail() {
                                 ))}
                             </div>
                             <span className="text-sm text-gray-600">
-                                {avgRating} ({book.Reviews?.length || 0} reviews)
+                                {avgRating} ({book.Reviews?.length || 0} đánh giá)
                             </span>
                         </div>
 
@@ -125,7 +134,7 @@ export default function BookDetail() {
 
                         <div className="grid grid-cols-2 gap-4 mt-6 text-sm">
                             <div>
-                                <p className="text-gray-500">Publisher</p>
+                                <p className="text-gray-500">Tác giả</p>
                                 <p className="font-medium">{book.publisher}</p>
                             </div>
                             <div>
@@ -133,12 +142,12 @@ export default function BookDetail() {
                                 <p className="font-medium">{book.book_id.toString().padStart(10, '0')}</p>
                             </div>
                             <div>
-                                <p className="text-gray-500">Year</p>
+                                <p className="text-gray-500">Năm</p>
                                 <p className="font-medium">2025</p>
                             </div>
                             <div>
-                                <p className="text-gray-500">Stock</p>
-                                <p className="font-medium text-green-600">{book.stock} available</p>
+                                <p className="text-gray-500">Số lượng</p>
+                                <p className="font-medium text-green-600">{book.stock} đang còn</p>
                             </div>
                         </div>
 
@@ -155,7 +164,7 @@ export default function BookDetail() {
                                 >+</button>
                             </div>
                             <button className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition text-lg">
-                                Add to Cart
+                                Thêm vào giỏ
                             </button>
                         </div>
 
@@ -168,7 +177,7 @@ export default function BookDetail() {
                                         : 'text-gray-600 hover:text-indigo-600'
                                         }`}
                                 >
-                                    Description
+                                    Mô tả
                                 </button>
                                 <button
                                     onClick={() => setActiveTab('reviews')}
@@ -177,7 +186,7 @@ export default function BookDetail() {
                                         : 'text-gray-600 hover:text-indigo-600'
                                         }`}
                                 >
-                                    Reviews
+                                    Đánh giá
                                     {book.Reviews?.length > 0 && (
                                         <span className="absolute -top-1 -right-6 bg-indigo-600 text-white text-xs rounded-full w-6 h-6 flex items-center justify-center">
                                             {book.Reviews.length}
@@ -191,7 +200,7 @@ export default function BookDetail() {
                                         : 'text-gray-600 hover:text-indigo-600'
                                         }`}
                                 >
-                                    Shipping
+                                    Giao Hàng
                                 </button>
                             </div>
 
@@ -249,7 +258,7 @@ export default function BookDetail() {
 
                 {relatedBooks.length > 0 && (
                     <section className="mt-16">
-                        <h2 className="text-2xl font-bold mb-6">Related Books</h2>
+                        <h2 className="text-2xl font-bold mb-6">Sách liên quan</h2>
                         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
                             {relatedBooks.map((b) => {
                                 const coverUrl = b.Images?.[0]
@@ -258,7 +267,7 @@ export default function BookDetail() {
                                 return (
                                     <Link
                                         key={b.book_id}
-                                        to={`/book/${b.book_id}`}
+                                        to={`/bookDetail/${b.book_id}`}
                                         className="bg-white rounded-lg shadow hover:shadow-md transition"
                                     >
                                         <img src={coverUrl} alt={b.title} className="w-full h-40 object-cover rounded-t-lg" />
@@ -276,34 +285,29 @@ export default function BookDetail() {
 
                         <div className="flex justify-center items-center gap-4 mt-8">
                             <button
-                                onClick={() => fetchRelatedBooks(book.category_id, book.book_id, relatedPage - 1)}
-                                disabled={relatedPage <= 1}
+                                onClick={() => handlePageChange(relatedPage - 1)}
+                                disabled={relatedPage === 1}
                                 className="px-5 py-2 border rounded-lg disabled:opacity-50 hover:bg-gray-50 transition"
                             >
-                                Trang trước
+                                ◀ Trước
                             </button>
-                            {/* Dòng 2: Page X / Y */}
-                            <div className="text-sm text-gray-600 ">
-                                <span className="font-bold text-indigo-600">{relatedPage}</span> / {''}
+
+                            <div className="text-sm text-gray-600">
+                                Trang <span className="font-bold text-indigo-600">{relatedPage}</span> /{' '}
                                 <span className="font-bold">{totalPages}</span>
                             </div>
+
                             <button
-                                onClick={() => fetchRelatedBooks(book.category_id, book.book_id, relatedPage + 1)}
-                                disabled={relatedBooks.length < relatedLimit}
+                                onClick={() => handlePageChange(relatedPage + 1)}
+                                disabled={relatedPage === totalPages}
                                 className="px-5 py-2 border rounded-lg disabled:opacity-50 hover:bg-gray-50 transition"
                             >
-                                Trang sau
+                                Sau ▶
                             </button>
-
                         </div>
-
-
-                        {/*   <Pagination page={page} total={total} limit={limit} onPageChange={setPage} /> */}
                     </section>
                 )}
             </div>
-
-            <Footer />
         </>
     );
 }
