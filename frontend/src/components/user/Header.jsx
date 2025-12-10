@@ -3,8 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
-    const { user, logout } = useAuth();
+    const { user, logout, fetchUserInfo } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
+    const [userInfo, setUserInfo] = useState(null);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -13,11 +14,15 @@ export default function Header() {
                 setShowDropdown(false);
             }
         }
-
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [showDropdown]);
-
+    // Lấy thông tin user đầy đủ (avatar)
+    useEffect(() => {
+        if (user) {
+            fetchUserInfo().then(info => setUserInfo(info));
+        }
+    }, [user]);
     return (
         <header className="bg-white border-b sticky top-0 z-50 shadow-sm select-none">
             <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-20">
@@ -68,9 +73,19 @@ export default function Header() {
                             <div className="relative">
                                 <button
                                     onClick={() => setShowDropdown(!showDropdown)}
-                                    className="w-10 h-10 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold hover:bg-orange-500 transition"
+                                    className="w-10 h-10 rounded-full overflow-hidden flex items-center justify-center font-bold hover:bg-orange-500 transition"
+                                    style={{ backgroundColor: !userInfo?.avatar ? '#4F46E5' : 'transparent' }}
                                 >
-                                    {user.name?.charAt(0).toUpperCase() || "U"}
+                                    {userInfo?.avatar ? (
+                                        <img
+                                            src={`http://localhost:8080${userInfo.avatar}`}
+                                            alt="Avatar"
+                                            className="w-10 h-10 object-cover"
+                                        />
+                                    ) : (
+                                        // <span className="text-white">{user.name?.charAt(0).toUpperCase() || "U"}</span>
+                                        <h1></h1>
+                                    )}
                                 </button>
                                 {/*  DropDown */}
                                 {showDropdown && (

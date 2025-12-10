@@ -1,6 +1,6 @@
 // src/context/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
-import { loginAPI, registerAPI, forgotPasswordAPI, resetPasswordAPI } from "../api/auth";
+import { loginAPI, registerAPI, forgotPasswordAPI, resetPasswordAPI, getUserInfoAPI } from "../api/auth";
 
 const AuthContext = createContext();
 
@@ -40,8 +40,20 @@ export function AuthProvider({ children }) {
         const res = await resetPasswordAPI(token, password);
         return res.data;
     };
+
+    const fetchUserInfo = async () => {
+        try {
+            const res = await getUserInfoAPI();
+            if (res.data) {
+                return res.data;
+            }
+        } catch (err) {
+            console.error("Không thể lấy thông tin người dùng", err);
+        }
+        return null;
+    };
     return (
-        <AuthContext.Provider value={{ user, login, logout, register, forgotPassword, resetPassword }}>
+        <AuthContext.Provider value={{ user, login, logout, register, forgotPassword, resetPassword, fetchUserInfo }}>
             {children}
         </AuthContext.Provider>
     );

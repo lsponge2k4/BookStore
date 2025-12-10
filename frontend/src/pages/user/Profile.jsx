@@ -55,6 +55,7 @@ export default function Profile() {
 
             setPreviewAvatar(null);
             setSuccess("Cập nhật thành công!");
+            window.location.reload();
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || "Có lỗi xảy ra");
