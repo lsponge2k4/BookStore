@@ -4,6 +4,7 @@ import Joi from "joi";
 export const checkRegister = Joi.object({
     name: Joi.string().min(3).max(100).required().messages({
         "string.empty": "Tên không được để trống",
+        "string.min": "Tên phải ít nhất 3 kí tự",
     }),
     email: Joi.string().email().required().messages({
         "string.email": "Email không hợp lệ",

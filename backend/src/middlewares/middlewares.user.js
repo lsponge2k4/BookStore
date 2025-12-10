@@ -25,7 +25,7 @@ export const verifyResetToken = (req, res, next) => {
         req.user = decoded;
         next();
     } catch {
-        return Response.badRequest(res, "Token không hợp lệ hoặc đã hết hạn", 400);
+        return Response.badRequest(res, "Token không hợp lệ hoặc đã hết hạn", 401);
     }
 };
 

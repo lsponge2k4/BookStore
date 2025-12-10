@@ -73,7 +73,7 @@ export const requestPasswordReset = async ({ email }) => {
     const user = await db.User.findOne({ where: { email } });
     if (!user) return { success: false, message: "Email không tồn tại" };
 
-    const token = generateResetToken({ user_id: user.user_id });
+    const token = generateAccessToken({ user_id: user.user_id });
     const resetLink = `${process.env.FRONTEND_URL}/resetPassword?token=${token}`;
 
     await sendEmail(user.email, "Reset mật khẩu", `Nhấn vào link để đổi mật khẩu: ${resetLink}`);
