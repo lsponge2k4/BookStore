@@ -27,3 +27,12 @@ export const getUserInfoAPI = () => {
 export const updateUserInfoAPI = (formData) => {
     return api.put("/api/user/updateInfo", formData);
 };
+
+export const getBooksAPI = (page, limit) => {
+    return api.get(`/api/home/getAllBook/public?page=${page}&limit=${limit}`);
+};
+
+
+export const getBookByIdAPI = (bookId) => {
+    return api.get(`/api/books/${bookId}`);
+};
