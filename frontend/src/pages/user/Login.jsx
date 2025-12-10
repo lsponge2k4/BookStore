@@ -17,8 +17,19 @@ export default function Login() {
         setLoading(true);
 
         try {
-            await login(email, password);
-            navigate("/");
+            const UserData = await login(email, password);
+            if (!UserData) {
+                setError("Đăng nhập thất bại");
+                setLoading(false);
+                return;
+            }
+            if (UserData.role == "admin") {
+                navigate("/admin");
+            } else if (UserData.role == "customer") {
+                navigate("/");
+            } else {
+                navigate("/");
+            }
         }
         catch (err) {
             setError(err.message);

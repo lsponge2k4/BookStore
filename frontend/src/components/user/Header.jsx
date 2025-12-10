@@ -1,22 +1,22 @@
 import { Link, useNavigate } from 'react-router-dom';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
     const { user, logout } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
-    // const dropdownRef = useRef(null);
+    const dropdownRef = useRef(null);
 
-    // useEffect(() => {
-    //     function handleClickOutside(e) {
-    //         if (showDropdown && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-    //             setShowDropdown(false);
-    //         }
-    //     }
+    useEffect(() => {
+        function handleClickOutside(e) {
+            if (showDropdown && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+                setShowDropdown(false);
+            }
+        }
 
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => document.removeEventListener("mousedown", handleClickOutside);
-    // }, [showDropdown]);
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [showDropdown]);
 
     return (
         <header className="bg-white border-b sticky top-0 z-50 shadow-sm select-none">
@@ -63,8 +63,8 @@ export default function Header() {
                         </span>
                     </Link>
                     {/* Icon */}
-                    <div className="relative" /* ref={dropdownRef} */>
-                        {user ? (
+                    <div className="relative" ref={dropdownRef} >
+                        {user && user.role == "customer" ? (
                             <div className="relative">
                                 <button
                                     onClick={() => setShowDropdown(!showDropdown)}
