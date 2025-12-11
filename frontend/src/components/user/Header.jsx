@@ -3,9 +3,9 @@ import { useState, useRef, useEffect } from 'react';
 import { useAuth } from "../../contexts/AuthContext";
 
 export default function Header() {
-    const { user, logout, fetchUserInfo, cartCount, fetchCartCount } = useAuth();
+    const { user, logout, fetchUserInfo, cartCount, fetchCartCount, userInfo } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
-    const [userInfo, setUserInfo] = useState(null);
+    // const [userInfo, setUserInfo] = useState(null);
     const dropdownRef = useRef(null);
     // Tìm kiếm
     const [searchQuery, setSearchQuery] = useState('');
@@ -28,8 +28,10 @@ export default function Header() {
     }, [showDropdown]);
     // Lấy thông tin user đầy đủ (avatar)
     useEffect(() => {
+
         if (user) {
-            fetchUserInfo().then(info => setUserInfo(info));
+            fetchUserInfo();
+            // setUserInfo(info);
             fetchCartCount();
         }
     }, [user]);

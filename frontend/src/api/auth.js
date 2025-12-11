@@ -66,3 +66,18 @@ export const addToCartAPI = (book_id, quantity = 1) => {
 export const getAllProductsInCartAPI = () => {
     return api.get(`/api/user/cart/getAllProductsInCart`);
 };
+
+export const increaseQuantityAPI = (book_id) => {
+    return api.post(`/api/user/cart/increaseQuantity`, { book_id });
+}
+
+export const decreaseQuantityAPI = (book_id) => {
+    return api.post(`/api/user/cart/decreaseQuantity`, { book_id });
+}
+
+export const removeABookAPI = (book_id) => {
+    return api.post(`/api/user/cart/removeABook`, { book_id })
+}
+export const clearAllCartItemsInCartAPI = () => {
+    return api.delete(`/api/user/cart/clearAllCartItemsInCart`)
+}

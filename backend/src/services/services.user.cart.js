@@ -61,7 +61,21 @@ export const getUserCart = async (userId) => {
                     {
                         model: db.Book,
                         attributes: ['book_id', 'title', 'price', 'publisher'],
-                    },
+                        include: [
+                            {
+                                model: db.Image,
+                                as: "Images",
+                                required: false,
+                                attributes: ["image_url", "image_type"],
+                                where: { image_type: "cover" },
+                            },
+                            {
+                                model: db.Category,
+                                as: "Category",
+                                attributes: ["name"],
+                            }
+                        ]
+                    }
                 ],
             },
         ],

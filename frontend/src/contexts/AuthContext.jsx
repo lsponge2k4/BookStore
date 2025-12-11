@@ -1,6 +1,9 @@
 // src/context/AuthContext.jsx
 import { createContext, useContext, useState, useEffect } from "react";
-import { loginAPI, registerAPI, forgotPasswordAPI, resetPasswordAPI, getUserInfoAPI, addToCartAPI, getAllProductsInCartAPI } from "../api/auth";
+import {
+    loginAPI, registerAPI, forgotPasswordAPI, resetPasswordAPI, getUserInfoAPI, addToCartAPI, getAllProductsInCartAPI,
+    increaseQuantityAPI, decreaseQuantityAPI, removeABookAPI
+} from "../api/auth";
 import toast from "react-hot-toast";
 const AuthContext = createContext();
 
@@ -9,6 +12,7 @@ export function AuthProvider({ children }) {
         return JSON.parse(localStorage.getItem("user")) || null;
     });
     const [cartCount, setCartCount] = useState(0);
+    const [userInfo, setUserInfo] = useState(null);
 
     const login = async (email, password) => {
         const res = await loginAPI(email, password);
@@ -46,8 +50,7 @@ export function AuthProvider({ children }) {
         try {
             const res = await getUserInfoAPI();
             if (res.data) {
-                setUser(res.data);
-                localStorage.setItem("user", JSON.stringify(res.data));
+                setUserInfo(res.data);
                 return res.data;
             }
         } catch (err) {
@@ -92,8 +95,44 @@ export function AuthProvider({ children }) {
             });
         }
     }
+    const increaseQuantity = async (book_id) => {
+        try {
+            const res = await increaseQuantityAPI(book_id);
+            await fetchCartCount();
+            return res;
+        } catch (err) {
+            console.error(err);
+            toast.error("Không thể tăng số lượng!", { duration: 3000 });
+        }
+    };
+
+    const decreaseQuantity = async (book_id) => {
+        try {
+            const res = await decreaseQuantityAPI(book_id);
+            await fetchCartCount();
+            return res;
+        } catch (err) {
+            console.error(err);
+            toast.error("Không thể giảm số lượng!", { duration: 3000 });
+        }
+    };
+
+    const removeABook = async (book_id) => {
+        try {
+            const res = await removeABookAPI(book_id);
+            await fetchCartCount();
+            return res;
+        } catch (err) {
+            console.error(err);
+            toast.error("Không thể xoá sản phẩm!", { duration: 3000 });
+        }
+    };
     return (
-        <AuthContext.Provider value={{ user, cartCount, login, logout, register, forgotPassword, resetPassword, fetchUserInfo, addToCart, fetchCartCount }}>
+        <AuthContext.Provider value={{
+            user, cartCount, userInfo, login, logout, register, forgotPassword, resetPassword, fetchUserInfo, addToCart, fetchCartCount,
+            increaseQuantity, decreaseQuantity, removeABook
+
+        }}>
             {children}
         </AuthContext.Provider>
     );
