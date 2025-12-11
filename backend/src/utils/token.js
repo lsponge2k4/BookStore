@@ -27,7 +27,7 @@ export const verifyRefreshToken = (token) => {
 export const generateAccessToken = (user) => {
     return jwt.sign({
         user_id: user.user_id
-    }, JWT_SECRET, { expiresIn: "10m" });
+    }, JWT_SECRET, { expiresIn: "40m" });
 }
 
 export const generateRefreshToken = (user) => {

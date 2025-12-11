@@ -31,6 +31,7 @@ async function request(url, options = {}) {
 
         if (refreshData.ok) {
             localStorage.setItem("token", refreshData.data.accessToken);
+            // alert("new token:" + refreshData.data.accessToken);
             return request(url, options);
         } else {
             localStorage.removeItem("token");

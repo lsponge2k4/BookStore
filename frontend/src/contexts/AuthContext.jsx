@@ -45,10 +45,18 @@ export function AuthProvider({ children }) {
         try {
             const res = await getUserInfoAPI();
             if (res.data) {
+                setUser(res.data);
+                localStorage.setItem("user", JSON.stringify(res.data));
                 return res.data;
             }
         } catch (err) {
-            console.error("Không thể lấy thông tin người dùng", err);
+            console.error(err);
+
+            if (err.message.includes("Phiên đăng nhập hết hạn")) {
+                // alert("Phiên đăng nhập hết hạn")
+                logout();
+                window.location.href = "/login";
+            }
         }
         return null;
     };
