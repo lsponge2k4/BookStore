@@ -34,9 +34,9 @@ export default function Header() {
                 {/* Nav */}
                 <nav className="hidden md:flex gap-8">
                     <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition">Trang chủ</Link>
-                    <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition">Nổi bật</Link>
-                    <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition">Địa điểm</Link>
-                    <Link to="/" className="text-gray-700 hover:text-orange-500 font-medium transition">Thông tin</Link>
+                    <Link to="/popularBook" className="text-gray-700 hover:text-orange-500 font-medium transition">Nổi bật</Link>
+                    <Link to="/location" className="text-gray-700 hover:text-orange-500 font-medium transition">Địa điểm</Link>
+                    <Link to="/information" className="text-gray-700 hover:text-orange-500 font-medium transition">Thông tin</Link>
                 </nav>
                 {/* Tìm kiếm + Giỏ Hàng + Icon */}
                 <div className="flex items-center gap-8">

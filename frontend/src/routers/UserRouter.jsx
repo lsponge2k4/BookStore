@@ -9,6 +9,10 @@ import ChangePassword from "../pages/user/ChangePassword";
 import Profile from "../pages/user/Profile"
 import BookDetail from "../pages/user/BookDetail";
 import ScrollToTop from "../components/user/ScrollToTop";
+import PopularBooks from "../pages/user/PopularBooks";
+import Location from "../pages/user/Location";
+import Information from "../pages/user/Information";
+
 export default function UserRouter() {
     return (
         <>
@@ -23,6 +27,9 @@ export default function UserRouter() {
                     <Route path="/changePassword" element={<ChangePassword />} />
                     <Route path="/profile" element={<Profile />} />
                     <Route path="/bookDetail/:id" element={<BookDetail />} />
+                    <Route path="/popularBook" element={<PopularBooks />} />
+                    <Route path="/location" element={<Location />} />
+                    <Route path="/information" element={<Information />} />
                 </Route>
 
             </Routes>
