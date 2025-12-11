@@ -76,9 +76,9 @@ export function AuthProvider({ children }) {
         }
     }
     // Giỏ hàng
-    const addToCart = async (book_id, quantity = 1) => {
+    const addToCart = async (book_id, quantity = 1, loc) => {
         if (!user) {
-            window.location.href = `/login?redirect=addToCart&bookId=${book_id}`;
+            window.location.href = `/login?redirect=addToCart&bookId=${book_id}&loc=${loc}`;
             return;
         }
         try {

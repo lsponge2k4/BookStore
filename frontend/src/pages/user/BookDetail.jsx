@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getBookDetailsAPI, getRelatedBooksAPI } from '../../api/auth';
 const BACKEND = "http://localhost:8080";
+import toast from "react-hot-toast";
+import { useAuth } from '../../contexts/AuthContext';
 
 export default function BookDetail() {
     const { id } = useParams();
@@ -15,7 +17,33 @@ export default function BookDetail() {
     const [quantity, setQuantity] = useState(1);
 
     const relatedLimit = 5;
-
+    // addToCart
+    const { addToCart } = useAuth();
+    const handleAddToCart = async () => {
+        try {
+            const res = await addToCart(book.book_id, quantity, true);
+            if (!res) return;
+            if (res.success) {
+                // alert("Đã thêm sản phẩm vào giỏ hàng.");
+                toast.success("Đã thêm sản phẩm vào giỏ hàng!", {
+                    duration: 3000, // 3 giây
+                });
+            }
+            else {
+                // alert("Thêm sản phẩm không thành công");
+                toast.error("Thêm sản phẩm không thành công!", {
+                    duration: 3000,
+                });
+            }
+        }
+        catch (err) {
+            console.log("Lỗi" + err);
+            // alert("Lỗi : Thêm sản phẩm không thành công");
+            toast.error("Lỗi : Thêm sản phẩm không thành công!", {
+                duration: 3000,
+            });
+        }
+    }
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -163,7 +191,9 @@ export default function BookDetail() {
                                     className="px-3 py-1 hover:bg-gray-100"
                                 >+</button>
                             </div>
-                            <button className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition text-lg">
+                            <button
+                                onClick={(e) => { e.preventDefault(); handleAddToCart(); }}
+                                className="flex-1 bg-indigo-600 text-white py-3 rounded-lg font-medium hover:bg-indigo-700 transition text-lg">
                                 Thêm vào giỏ
                             </button>
                         </div>

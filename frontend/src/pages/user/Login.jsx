@@ -16,6 +16,7 @@ export default function Login() {
     const location = useLocation();
     const redirect = new URLSearchParams(location.search).get("redirect");
     const bookId = new URLSearchParams(location.search).get("bookId");
+    const loc = new URLSearchParams(location.search).get("loc");
     const { from: Where } = location.state || {};
 
     const handleLogin = async (e) => {
@@ -49,7 +50,14 @@ export default function Login() {
                                 duration: 3000,
                             });
                         }
-                        navigate("/");
+                        if (loc === "true") {
+                            navigate(`/bookDetail/${bookId}`);
+                        }
+                        else {
+                            navigate("/");
+
+                        }
+
                     }
                     catch (err) {
                         console.log("err" + err);
