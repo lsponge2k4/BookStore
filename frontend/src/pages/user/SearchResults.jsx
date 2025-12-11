@@ -1,11 +1,7 @@
-// src/pages/SearchResults.jsx
 import { useState, useEffect } from 'react';
 import { useSearchParams, Link } from 'react-router-dom';
-import BookCard from '../components/BookCard';
-import Footer from '../components/Footer';
-import Pagination from '../components/Pagination';
-
-const BASE_URL = 'http://localhost:8080';
+import BookCard from '../../components/user/BookCard';
+import { handleSearchBooksAPI } from '../../api/auth';
 
 export default function SearchResults() {
     const [searchParams, setSearchParams] = useSearchParams();
@@ -17,6 +13,7 @@ export default function SearchResults() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [searchInput, setSearchInput] = useState(query);
+    const [totalPages, setTotalPages] = useState(1);
 
     const limit = 10;
 
@@ -24,43 +21,46 @@ export default function SearchResults() {
         if (!searchQuery.trim()) {
             setBooks([]);
             setTotal(0);
+            setTotalPages(1);
             return;
         }
 
         setLoading(true);
         setError('');
         try {
-            const params = new URLSearchParams({
-                q: searchQuery,
-                page: pageNum,
-                limit,
-            });
-            const res = await fetch(`${BASE_URL}/api/popular/handleSearchBooks?${params}`);
-            const data = await res.json();
+            const res = await handleSearchBooksAPI(searchQuery, pageNum, limit);
+            const data = res;
 
             if (data.success) {
                 setBooks(data.data.books || []);
-                setTotal(data.data.total || 0);
+                setTotal(data.data.pagination?.total || 0);
+                setTotalPages(data.data.pagination?.totalPages || 1); // dùng luôn totalPages từ API
             } else {
                 setError(data.message || 'Không tìm thấy kết quả');
                 setBooks([]);
                 setTotal(0);
+                setTotalPages(1);
             }
         } catch (err) {
             console.error('Lỗi tìm kiếm:', err);
             setError('Đã có lỗi xảy ra khi tìm kiếm. Vui lòng thử lại.');
             setBooks([]);
             setTotal(0);
+            setTotalPages(1);
         } finally {
             setLoading(false);
         }
     };
-
     // Tải kết quả khi query hoặc page thay đổi
     useEffect(() => {
         if (query) {
             fetchSearchResults(query, page);
-            setSearchInput(query); // Đồng bộ input
+            setSearchInput(query);
+
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
         } else {
             setBooks([]);
             setTotal(0);
@@ -85,7 +85,6 @@ export default function SearchResults() {
         params.set('page', newPage);
         setSearchParams(params);
     };
-
     return (
         <>
             {/* Search Bar - Cố định ở trên */}
@@ -170,7 +169,7 @@ export default function SearchResults() {
                     ) : (
                         <>
                             {/* Grid sách */}
-                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6">
+                            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 select-none">
                                 {books.map((book) => (
                                     <BookCard
                                         key={book.book_id}
@@ -178,21 +177,35 @@ export default function SearchResults() {
                                     />
                                 ))}
                             </div>
+                            {/* PHÂN TRANG */}
+                            {totalPages > 1 && (
+                                <div className="flex justify-center items-center gap-4 mt-10">
+                                    <button
+                                        disabled={page === 1}
+                                        onClick={() => handlePageChange(page - 1)}
+                                        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
+                                    >
+                                        ◀ Trước
+                                    </button>
 
-                            {/* Phân trang */}
-                            <Pagination
-                                page={page}
-                                total={total}
-                                limit={limit}
-                                onPageChange={handlePageChange}
-                            />
+                                    <span className="px-4 py-2 text-lg font-medium">
+                                        Trang {page} / {totalPages}
+                                    </span>
+
+                                    <button
+                                        disabled={page === totalPages}
+                                        onClick={() => handlePageChange(page + 1)}
+                                        className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 hover:bg-gray-300"
+                                    >
+                                        Sau ▶
+                                    </button>
+                                </div>
+                            )}
                         </>
+
                     )}
                 </div>
             </main>
-
-            {/* Footer */}
-            <Footer />
         </>
     );
 }

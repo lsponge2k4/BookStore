@@ -39,8 +39,20 @@ export const getBookByIdAPI = (bookId) => {
 
 export const getRelatedBooksAPI = (categoryId, excludeBookId, page, limit) => {
     return api.get(`/api/home/getRelatedBooks?categoryId=${categoryId}&excludeBookId=${excludeBookId}&page=${page}&limit=${limit}`);
-}
+};
 
 export const getBookDetailsAPI = (bookId) => {
     return api.get(`/api/home/getBookDetails?id_book=${bookId}`);
+};
+
+export const getFilteredBookAPI = (queryString) => {
+    return api.get(`/api/popular/getFilteredBook?${queryString}`);
+};
+
+export const getFilterOptionsAPI = () => {
+    return api.get(`/api/popular/getFilterOptions`);
+};
+
+export const handleSearchBooksAPI = (queryString, page, limit) => {
+    return api.get(`/api/popular/handleSearchBooks?q=${queryString}&page=${page}&limit=${limit}`);
 };

@@ -12,6 +12,8 @@ import ScrollToTop from "../components/user/ScrollToTop";
 import PopularBooks from "../pages/user/PopularBooks";
 import Location from "../pages/user/Location";
 import Information from "../pages/user/Information";
+import SearchResults from '../pages/user/SearchResults';
+import Cart from "../pages/user/Cart";
 
 export default function UserRouter() {
     return (
@@ -30,6 +32,8 @@ export default function UserRouter() {
                     <Route path="/popularBook" element={<PopularBooks />} />
                     <Route path="/location" element={<Location />} />
                     <Route path="/information" element={<Information />} />
+                    <Route path="/search" element={<SearchResults />} />
+                    <Route path="/cart" element={<Cart />} />
                 </Route>
 
             </Routes>

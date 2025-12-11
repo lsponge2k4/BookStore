@@ -7,7 +7,16 @@ export default function Header() {
     const [showDropdown, setShowDropdown] = useState(false);
     const [userInfo, setUserInfo] = useState(null);
     const dropdownRef = useRef(null);
-
+    // Tìm kiếm
+    const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
+    const handleSearch = (e) => {
+        e.preventDefault();
+        const q = searchQuery.trim();
+        if (!q) return;
+        navigate(`/search?q=${encodeURIComponent(q)}`);
+        setSearchQuery('');
+    };
     useEffect(() => {
         function handleClickOutside(e) {
             if (showDropdown && dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -41,9 +50,11 @@ export default function Header() {
                 {/* Tìm kiếm + Giỏ Hàng + Icon */}
                 <div className="flex items-center gap-8">
                     {/* Tìm kiếm */}
-                    <form>
+                    <form onSubmit={handleSearch} className="relative">
                         <input
                             type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
                             placeholder="Tìm sách..."
                             className="w-48 md:w-64 px-4 py-2 border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-orange-500 transition"
                         />
@@ -54,7 +65,7 @@ export default function Header() {
                         </button>
                     </form>
                     {/* Giỏ hàng */}
-                    <Link to="/" className="relative group pl-4 " tittle="Giỏ hàng">
+                    <Link to="/cart" className="relative group pl-4 " tittle="Giỏ hàng">
                         <svg
                             className="w-6 h-6 text-gray-700 group-hover:text-orange-500 transition"
                             fill="none"
