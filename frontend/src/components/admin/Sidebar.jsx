@@ -1,7 +1,12 @@
 import { Link, useNavigate } from 'react-router-dom';
-
+import { useAuth } from "../../contexts/AuthContext";
+import { useEffect } from "react";
 export default function Sidebar() {
     const navigate = useNavigate();
+    const { userInfo, fetchUserInfo } = useAuth();
+    useEffect(() => {
+        fetchUserInfo();
+    }, []);
 
     const handleLogout = () => {
         localStorage.removeItem("token");
@@ -16,12 +21,22 @@ export default function Sidebar() {
                 {/* Avatar */}
                 <div className="flex flex-col items-center mb-6">
                     <img
-                        src="https://i.pravatar.cc/100"
+                        src={
+                            userInfo?.avatar
+                                ? `http://localhost:8080${userInfo.avatar}`
+                                : "https://i.pravatar.cc/100"
+                        }
                         alt="avatar"
-                        className="w-20 h-20 rounded-full border-2 border-gray-600 mb-2 border border-orange-300"
+                        className="w-20 h-20 rounded-full border-2 border-orange-300 object-cover"
                     />
-                    <h3 className="text-lg font-semibold">Admin</h3>
-                    <p className="text-sm text-gray-400">Quản trị viên</p>
+
+                    <h3 className="text-lg font-semibold mt-2">
+                        {userInfo?.name || "Admin"}
+                    </h3>
+
+                    <p className="text-sm text-gray-400">
+                        {userInfo?.role === "admin" ? "Quản trị viên" : "Người dùng"}
+                    </p>
                 </div>
 
                 {/* Menu */}
