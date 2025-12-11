@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useAuth } from "../../contexts/AuthContext";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate, Link, useLocation } from "react-router-dom";
+import { addToCartAPI } from "../../api/auth";
+import toast from "react-hot-toast";
 
 export default function Login() {
     const { login } = useAuth();
@@ -10,6 +12,11 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    // cart
+    const location = useLocation();
+    const redirect = new URLSearchParams(location.search).get("redirect");
+    const bookId = new URLSearchParams(location.search).get("bookId");
+    const { from: Where } = location.state || {};
 
     const handleLogin = async (e) => {
         e.preventDefault();
@@ -26,7 +33,36 @@ export default function Login() {
             if (UserData.role == "admin") {
                 navigate("/admin");
             } else if (UserData.role == "customer") {
-                navigate("/");
+                if (redirect === "addToCart" && bookId) {
+                    try {
+                        const res = await addToCartAPI(bookId, 1);
+                        if (!res) return;
+                        if (res.success) {
+                            // alert("Đã thêm sản phẩm vào giỏ hàng.");
+                            toast.success("Đã thêm sản phẩm vào giỏ hàng!", {
+                                duration: 3000, // 3 giây
+                            });
+                        }
+                        else {
+                            // alert("Thêm sản phẩm không thành công");
+                            toast.error("Thêm sản phẩm không thành công!", {
+                                duration: 3000,
+                            });
+                        }
+                        navigate("/");
+                    }
+                    catch (err) {
+                        console.log("err" + err);
+                        alert("Có lỗi xảy ra.");
+                    }
+                }
+                else if (Where) {
+                    navigate(Where);
+                }
+                else {
+                    navigate("/");
+                }
+
             } else {
                 navigate("/");
             }

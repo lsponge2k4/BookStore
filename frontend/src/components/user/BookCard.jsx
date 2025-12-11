@@ -1,4 +1,7 @@
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../contexts/AuthContext';
+import toast from "react-hot-toast";
+
 export default function BookCard({ book = {} }) {
 
     const images = book.Images || book.images || book.BookImages || [];
@@ -12,6 +15,34 @@ export default function BookCard({ book = {} }) {
         : 0;
 
     const price = Number(book.price || 0);
+
+    // addToCart
+    const { addToCart } = useAuth();
+    const handleAddToCart = async () => {
+        try {
+            const res = await addToCart(book.book_id, 1);
+            if (!res) return;
+            if (res.success) {
+                // alert("Đã thêm sản phẩm vào giỏ hàng.");
+                toast.success("Đã thêm sản phẩm vào giỏ hàng!", {
+                    duration: 3000, // 3 giây
+                });
+            }
+            else {
+                // alert("Thêm sản phẩm không thành công");
+                toast.error("Thêm sản phẩm không thành công!", {
+                    duration: 3000,
+                });
+            }
+        }
+        catch (err) {
+            console.log("Lỗi" + err);
+            // alert("Lỗi : Thêm sản phẩm không thành công");
+            toast.error("Lỗi : Thêm sản phẩm không thành công!", {
+                duration: 3000,
+            });
+        }
+    }
 
     return (
         <>
@@ -50,7 +81,7 @@ export default function BookCard({ book = {} }) {
                             <span className="text-xl font-bold">${price.toFixed(2)}</span>
 
                             <button
-                                onClick={() => console.log("TODO: Thêm vào giỏ hàng", book.book_id)}
+                                onClick={(e) => { e.preventDefault(); handleAddToCart(); }/*() => console.log("TODO: Thêm vào giỏ hàng", book.book_id)*/}
                                 className="bg-indigo-600 text-white px-3 py-1 rounded text-sm hover:bg-indigo-700"
                             >
                                 Thêm vào giỏ
@@ -58,7 +89,7 @@ export default function BookCard({ book = {} }) {
                         </div>
                     </div>
                 </div>
-            </Link>
+            </Link >
         </>
     );
 }

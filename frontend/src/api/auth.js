@@ -56,3 +56,13 @@ export const getFilterOptionsAPI = () => {
 export const handleSearchBooksAPI = (queryString, page, limit) => {
     return api.get(`/api/popular/handleSearchBooks?q=${queryString}&page=${page}&limit=${limit}`);
 };
+
+// Giỏ hàng 
+
+export const addToCartAPI = (book_id, quantity = 1) => {
+    return api.post(`/api/user/cart/addToCart`, { book_id, quantity });
+};
+
+export const getAllProductsInCartAPI = () => {
+    return api.get(`/api/user/cart/getAllProductsInCart`);
+};
