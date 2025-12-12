@@ -207,7 +207,7 @@ export default function PopularBooks() {
                             </div>
 
                             {/* Category */}
-                            <div className="mb-6">
+                            {/* <div className="mb-6">
                                 <h4 className="font-medium mb-2">Danh mục</h4>
                                 {options.categories.map((c) => (
                                     <label key={c.category_id} className="flex items-center gap-2 text-sm cursor-pointer">
@@ -222,6 +222,27 @@ export default function PopularBooks() {
                                         {c.name}
                                     </label>
                                 ))}
+                            </div> */}
+                            <div className="mb-6">
+                                <h4 className="font-medium mb-2">Danh mục</h4>
+                                <div className="max-h-20 overflow-y-auto border border-gray-200 rounded p-2">
+                                    {options.categories.map((c) => (
+                                        <label
+                                            key={c.category_id}
+                                            className="flex items-center gap-2 text-sm cursor-pointer mb-1"
+                                        >
+                                            <input
+                                                type="radio"
+                                                name="category"
+                                                value={c.category_id}
+                                                checked={filters.categoryId === c.category_id.toString()}
+                                                onChange={(e) => handleFilterChange('categoryId', e.target.value)}
+                                                className="text-indigo-600"
+                                            />
+                                            {c.name}
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
 
                             {/* Author */}

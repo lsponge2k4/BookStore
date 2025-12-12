@@ -26,7 +26,8 @@ export const verifyRefreshToken = (token) => {
 // fix token.
 export const generateAccessToken = (user) => {
     return jwt.sign({
-        user_id: user.user_id
+        user_id: user.user_id,
+        role: user.role
     }, JWT_SECRET, { expiresIn: "40m" });
 }
 
