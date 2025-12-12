@@ -20,3 +20,19 @@ export const deleteCategoryAPI = (category_id) => {
     return api.delete(`/api/admin/deleteCategory/${category_id}`);
 };
 
+export const getAllBooksAdminAPI = (page, limit) => {
+    return api.get(`/api/admin/getAllBooksAdmin?page=${page}&limit=${limit}`);
+};
+
+export const createBookAPI = (formData) => {
+    return api.post("/api/admin/createBook", formData); // formData : title, author, publisher, price, stock, category_id, description, cover, gallery(có thể thêm nhiều ảnh phụ)
+};
+
+export const updateBookAPI = (book_id, formData) => {
+    return api.put(`/api/admin/updateBook/${book_id}"`, formData); // formData : title, author, publisher, price, stock, category_id, description, cover, gallery(có thể thêm nhiều ảnh phụ)
+};
+
+export const removeBookAPI = (book_id) => {
+    return api.delete(`/api/admin/removeBook/${book_id}`);
+};
+

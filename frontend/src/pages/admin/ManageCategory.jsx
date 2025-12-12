@@ -42,13 +42,8 @@ export default function ManageCategory() {
         fetchCategories(currentPage);
     }, [currentPage]);
 
-    const handlePrev = () => {
-        if (currentPage > 1) setCurrentPage((prev) => prev - 1);
-    };
-
-    const handleNext = () => {
-        if (currentPage < totalPages) setCurrentPage((prev) => prev + 1);
-    };
+    const handlePrev = () => currentPage > 1 && setCurrentPage((prev) => prev - 1);
+    const handleNext = () => currentPage < totalPages && setCurrentPage((prev) => prev + 1);
 
     const openModal = (category = null) => {
         if (category) {
@@ -85,16 +80,6 @@ export default function ManageCategory() {
         }
     };
 
-    const handleDelete = async (category_id) => {
-        if (!window.confirm("Bạn có chắc muốn xóa danh mục này?")) return;
-        try {
-            await deleteCategoryAPI(category_id);
-            fetchCategories(currentPage);
-        } catch (err) {
-            alert(err.message || "Xóa danh mục thất bại");
-        }
-    };
-
     return (
         <div className="p-4 min-h-screen flex flex-col bg-gray-100 select-none">
             <h2 className="text-2xl font-bold mb-4 text-gray-800">
@@ -104,7 +89,7 @@ export default function ManageCategory() {
             <div className="mb-4">
                 <button
                     onClick={() => openModal()}
-                    className="px-4 py-2 bg-green-200 text-green-800 rounded hover:bg-green-300 transition"
+                    className="px-4 py-2 bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold rounded hover:shadow-lg transition"
                 >
                     Thêm danh mục
                 </button>
@@ -116,37 +101,25 @@ export default function ManageCategory() {
                 <p>Đang tải dữ liệu...</p>
             ) : (
                 <div className="flex-1 flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
-                    {/* Table scroll */}
                     <div className="overflow-x-auto overflow-y-auto flex-1">
                         <table className="w-full min-w-[600px] border border-gray-300 rounded">
                             <thead className="bg-indigo-100 sticky top-0 z-10">
                                 <tr>
-                                    <th className="border px-4 py-2 text-left text-indigo-700">
-                                        Hình ảnh
-                                    </th>
-                                    <th className="border px-4 py-2 text-left text-indigo-700">
-                                        Tên danh mục
-                                    </th>
-                                    <th className="border px-4 py-2 text-left text-indigo-700">
-                                        Ngày tạo
-                                    </th>
-                                    <th className="border px-4 py-2 text-left text-indigo-700">
-                                        Hành động
-                                    </th>
+                                    <th className="border px-4 py-2 text-left text-indigo-700">Hình ảnh</th>
+                                    <th className="border px-4 py-2 text-left text-indigo-700">Tên danh mục</th>
+                                    <th className="border px-4 py-2 text-left text-indigo-700">Ngày tạo</th>
+                                    <th className="border px-4 py-2 text-left text-indigo-700">Hành động</th>
                                 </tr>
                             </thead>
                             <tbody className="min-h-[12rem]">
                                 {categories.map((cat, idx) => (
-                                    <tr
-                                        key={idx}
-                                        className="even:bg-gray-50 hover:bg-indigo-50 transition-colors"
-                                    >
+                                    <tr key={idx} className="even:bg-gray-50 hover:bg-indigo-50 transition-colors">
                                         <td className="border px-4 py-2">
                                             {cat.Images?.[0]?.image_url ? (
                                                 <img
                                                     src={`http://localhost:8080${cat.Images[0].image_url}`}
                                                     alt={cat.name}
-                                                    className="w-16 h-16 object-cover rounded"
+                                                    className="w-16 h-16 object-cover rounded shadow"
                                                 />
                                             ) : (
                                                 <div className="w-16 h-16 bg-gray-200 rounded" />
@@ -159,13 +132,13 @@ export default function ManageCategory() {
                                         <td className="border px-4 py-2 space-x-2">
                                             <button
                                                 onClick={() => openModal(cat)}
-                                                className="px-3 py-1 bg-yellow-200 text-yellow-800 rounded hover:bg-yellow-300 transition"
+                                                className="px-3 py-1 bg-yellow-400 text-white font-semibold rounded shadow hover:bg-yellow-500 hover:shadow-lg transition"
                                             >
                                                 Sửa
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(cat.category_id)}
-                                                className="px-3 py-1 bg-red-200 text-red-700 rounded hover:bg-red-300 transition"
+                                                className="px-3 py-1 bg-red-500 text-white font-semibold rounded shadow hover:bg-red-600 hover:shadow-lg transition"
                                             >
                                                 Xóa
                                             </button>
@@ -183,7 +156,7 @@ export default function ManageCategory() {
                         </table>
                     </div>
 
-                    {/* Pagination cố định */}
+                    {/* Pagination */}
                     <div className="mt-auto flex justify-center items-center gap-4 py-4 bg-indigo-50 border-t border-indigo-200 shadow-inner rounded-b">
                         <button
                             disabled={currentPage === 1}
@@ -192,11 +165,9 @@ export default function ManageCategory() {
                         >
                             ◀ Trước
                         </button>
-
                         <span className="px-4 py-2 text-lg font-medium text-indigo-700">
                             Trang {currentPage} / {totalPages}
                         </span>
-
                         <button
                             disabled={currentPage === totalPages}
                             onClick={handleNext}
@@ -224,12 +195,32 @@ export default function ManageCategory() {
                                 className="border px-3 py-2 rounded w-full"
                                 required
                             />
-                            <input
-                                type="file"
-                                accept="image/*"
-                                onChange={(e) => setCategoryImage(e.target.files[0])}
-                                className="border px-3 py-2 rounded w-full"
-                            />
+
+                            {/* Nút chọn ảnh đồng bộ xanh dương */}
+                            <div className="flex items-center gap-2">
+                                {categoryImage && (
+                                    <div className="relative w-24 h-24 border rounded overflow-hidden shadow">
+                                        <img src={URL.createObjectURL(categoryImage)} alt="preview" className="object-cover w-full h-full" />
+                                        <button
+                                            type="button"
+                                            onClick={() => setCategoryImage(null)}
+                                            className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow hover:bg-red-700 transition"
+                                        >
+                                            ×
+                                        </button>
+                                    </div>
+                                )}
+                                <label className="px-4 py-2 bg-indigo-500 text-white rounded cursor-pointer hover:bg-indigo-600 transition">
+                                    {categoryImage ? "Đổi ảnh" : "Chọn ảnh"}
+                                    <input
+                                        type="file"
+                                        accept="image/*"
+                                        onChange={(e) => setCategoryImage(e.target.files[0])}
+                                        className="hidden"
+                                    />
+                                </label>
+                            </div>
+
                             <div className="flex justify-end gap-2">
                                 <button
                                     type="button"

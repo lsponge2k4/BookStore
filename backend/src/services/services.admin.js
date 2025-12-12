@@ -236,13 +236,14 @@ export const getAllBooksAdmin = async (page, limit) => {
             {
                 model: db.Image,
                 as: 'Images',
-                where: { entity_type: 'book', image_type: 'cover', },
+                where: { entity_type: 'book', /*image_type: 'cover',*/ },
                 required: false,
             }, {
                 model: db.Category,
                 as: 'Category',
             },
         ],
+        distinct: true,
     });
     const totalPages = Math.ceil(total / limit);
 
