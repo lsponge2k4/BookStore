@@ -58,7 +58,7 @@ export const checkGetAllCategories = Joi.object({
 
 // validation when create a new book.
 
-const textPattern = /^[a-zA-ZÀ-ỹ0-9\s.,&'"\-()/:%]*$/;
+const textPattern = /^[a-zA-ZÀ-ỹ0-9\s.,&'"“”\-()/:%…–!?]*$/;
 
 export const checkCreateBook = Joi.object({
     title: Joi.string().trim().min(3).max(200).pattern(textPattern).required().messages({
@@ -84,7 +84,7 @@ export const checkCreateBook = Joi.object({
     category_id: Joi.number().integer().optional().messages({
         "number.base": "category_id phải là số nguyên",
     }),
-    description: Joi.string().trim().max(1000).pattern(textPattern).optional().messages({
+    description: Joi.string().trim().max(2000).pattern(textPattern).optional().messages({
         "string.pattern.base": "Mô tả chứa ký tự không hợp lệ",
         "string.max": "Mô tả tối đa 1000 ký tự",
     }),

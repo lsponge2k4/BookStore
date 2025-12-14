@@ -98,7 +98,9 @@ export default function ManageCategory() {
             {error && <p className="text-red-600 mb-2">{error}</p>}
 
             {loading ? (
-                <p>Đang tải dữ liệu...</p>
+                <div className="flex justify-center py-20">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-indigo-600"></div>
+                </div>
             ) : (
                 <div className="flex-1 flex flex-col bg-white rounded-lg shadow-md overflow-hidden">
                     <div className="overflow-x-auto overflow-y-auto flex-1">

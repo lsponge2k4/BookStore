@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 export default function Footer() {
     return (
         <footer className="bg-gray-900 text-white py-16 mt-20">
@@ -13,40 +14,46 @@ export default function Footer() {
                         <span className="text-xl md:text-2xl font-bold">Cửa Hàng Sách</span>
                     </div>
                     <p className="text-gray-400 text-sm">
-                        Your trusted bookstore since 2025. Discover knowledge, inspire minds.
+                        Sách mang lại tri thức cho bạn.
                     </p>
+                    <Link
+                        to="/privacy-policy"
+                        className="text-gray-400 text-sm hover:text-orange-500 font-medium transition"
+                    >
+                        Chính sách bảo mật
+                    </Link>
                 </div>
 
                 {/* Quick Links */}
                 <div>
-                    <h3 className="font-bold text-lg mb-4">Quick Links</h3>
+                    <h3 className="font-bold text-lg mb-4">Các đường dẫn</h3>
                     <ul className="space-y-2 text-gray-400 text-sm">
-                        <li><a href="/" className="hover:text-white transition">Home</a></li>
-                        <li><a href="/popular" className="hover:text-white transition">Popular</a></li>
-                        <li><a href="/location" className="hover:text-white transition">Location</a></li>
-                        <li><a href="/info" className="hover:text-white transition">Information</a></li>
+                        <li><a href="/" className="hover:text-white transition">Trang chủ</a></li>
+                        <li><a href="/popularBook" className="hover:text-white transition">Nổi bật</a></li>
+                        <li><a href="/location" className="hover:text-white transition">Địa điểm</a></li>
+                        <li><a href="/information" className="hover:text-white transition">Thông tin</a></li>
                     </ul>
                 </div>
 
                 {/* Contact */}
                 <div>
-                    <h3 className="font-bold text-lg mb-4">Contact Us</h3>
+                    <h3 className="font-bold text-lg mb-4">Liên hệ chúng tôi</h3>
                     <ul className="space-y-3 text-gray-400 text-sm">
                         <li className="flex items-center gap-2">
                             Email: phamhoangvipro@gmail.com
                         </li>
                         <li className="flex items-center gap-2">
-                            Phone: +84 0373 972 462
+                            Số điện thoại: +84 0373 972 462
                         </li>
                         <li className="flex items-center gap-2">
-                            Address: 64 Trần Quốc Vượng, Hà Nội, Việt Nam
+                            Địa chỉ: 64 Trần Quốc Vượng, Hà Nội, Việt Nam
                         </li>
                     </ul>
                 </div>
 
                 {/* Social */}
                 <div>
-                    <h3 className="font-bold text-lg mb-4">Follow Us</h3>
+                    <h3 className="font-bold text-lg mb-4">Mạng xã hội</h3>
                     <div className="flex gap-4">
                         {/* Facebook */}
                         <a
@@ -91,7 +98,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-12 pt-8 border-t border-gray-800 text-center text-gray-500 text-sm">
-                © 2025 Book Store. All rights reserved.
+                © Bản quyển trang Web thuộc về Phạm Bá Hoàng.
             </div>
         </footer>
     );

@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../dbBridge.js';
 import { Op, fn, col } from "sequelize"
 
 

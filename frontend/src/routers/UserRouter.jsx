@@ -14,6 +14,8 @@ import Location from "../pages/user/Location";
 import Information from "../pages/user/Information";
 import SearchResults from '../pages/user/SearchResults';
 import Cart from "../pages/user/Cart";
+import PrivacyPolicy from "../pages/user/PrivacyPolicy";
+import TermsOfService from "../pages/user/TermsOfService";
 
 export default function UserRouter() {
     return (
@@ -34,6 +36,8 @@ export default function UserRouter() {
                     <Route path="/information" element={<Information />} />
                     <Route path="/search" element={<SearchResults />} />
                     <Route path="/cart" element={<Cart />} />
+                    <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+                    <Route path="/terms" element={<TermsOfService />} />
                 </Route>
 
             </Routes>

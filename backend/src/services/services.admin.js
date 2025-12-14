@@ -1,5 +1,5 @@
-import db from '../models/index';
-import * as Helper from '../utils/helpers';
+import db from '../dbBridge.js';
+import * as Helper from '../utils/helpers.js';
 import { Sequelize } from "sequelize";
 import path from "path";
 import fs from "fs";

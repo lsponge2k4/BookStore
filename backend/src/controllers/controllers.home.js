@@ -1,5 +1,5 @@
-import * as HomeService from "../services/services.home";
-import * as Response from "../utils/response";
+import * as HomeService from "../services/services.home.js";
+import * as Response from "../utils/response.js";
 
 export const getAllBook = async (req, res) => {
     try {

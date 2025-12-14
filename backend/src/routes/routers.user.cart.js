@@ -1,7 +1,7 @@
 import express from "express";
-import * as UserCartController from "../controllers/controllers.user.cart";
-import * as UserMiddleware from "../middlewares/middlewares.user";
-import * as UserCartValidation from "../validations/validations.user.cart"
+import * as UserCartController from "../controllers/controllers.user.cart.js";
+import * as UserMiddleware from "../middlewares/middlewares.user.js";
+import * as UserCartValidation from "../validations/validations.user.cart.js"
 
 const router = express.Router();
 

@@ -95,7 +95,11 @@ export default function BookDetail() {
         }
     };
 
-    if (loading) return <p className="text-center py-20">Đang tải...</p>;
+    if (loading) {
+        return (< div className="flex justify-center py-20" >
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-indigo-600"></div>
+        </div>)
+    }
     if (!bookData?.book) return <p className="text-center py-20">Không tìm thấy sách</p>;
 
     const { book } = bookData;

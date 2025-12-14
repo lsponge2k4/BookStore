@@ -7,7 +7,7 @@ const uploadCategoryImage = multer({
     storage,
     limits: { fileSize: 3 * 1024 * 1024 }, // 3MB
     fileFilter: (req, file, cb) => {
-        const allowed = /jpeg|jpg|png/;
+        const allowed = /jpeg|jpg|png|webp/;
         const isMimeType = allowed.test(file.mimetype);
         const isExt = allowed.test(file.originalname.toLowerCase());
         if (isMimeType && isExt) cb(null, true);

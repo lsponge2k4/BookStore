@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../dbBridge.js';
 // import { success } from '../utils/response';
 
 export const getAllBooks = async (page, limit) => {

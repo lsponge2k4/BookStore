@@ -6,13 +6,13 @@ import "swiper/css/effect-fade";
 
 const banners = [
     { image: "/hero.png" },
-    { image: "/hero5.jpg" },
-    { image: "/hero3.png" },
+    { image: "/hero8.jpg" },
+    { image: "/hero9.png" },
 ];
 
 export default function BannerCarousel() {
     return (
-        <div className="relative w-full h-[480px] md:h-[650px] overflow-hidden select-none">
+        <div className="relative w-full h-[480px] md:h-[700px] overflow-hidden select-none">
             <Swiper
                 modules={[Navigation, Autoplay, EffectFade]}
                 effect="fade"

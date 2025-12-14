@@ -1,5 +1,5 @@
-import * as UserService from "../services/services.user";
-import * as Response from "../utils/response";
+import * as UserService from "../services/services.user.js";
+import * as Response from "../utils/response.js";
 
 // Register
 export const register = async (req, res) => {

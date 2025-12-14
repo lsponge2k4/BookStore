@@ -1,5 +1,5 @@
-import * as UserCartService from "../services/services.user.cart";
-import * as Response from "../utils/response";
+import * as UserCartService from "../services/services.user.cart.js";
+import * as Response from "../utils/response.js";
 
 
 // add product in user's cart.

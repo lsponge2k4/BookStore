@@ -34,7 +34,7 @@ export default function SearchResults() {
             if (data.success) {
                 setBooks(data.data.books || []);
                 setTotal(data.data.pagination?.total || 0);
-                setTotalPages(data.data.pagination?.totalPages || 1); // dùng luôn totalPages từ API
+                setTotalPages(data.data.pagination?.totalPages || 1);
             } else {
                 setError(data.message || 'Không tìm thấy kết quả');
                 setBooks([]);

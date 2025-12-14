@@ -1,5 +1,5 @@
-import * as PopularService from "../services/services.popular";
-import * as Response from "../utils/response";
+import * as PopularService from "../services/services.popular.js";
+import * as Response from "../utils/response.js";
 
 export const getFilterOptions = async (req, res) => {
     try {

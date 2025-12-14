@@ -1,7 +1,7 @@
 import express from "express";
-import * as PopularController from "../controllers/controllers.popular";
-import * as PopularMiddlewares from "../middlewares/middlewares.popular";
-import * as PopularValidation from "../validations/validations.popular";
+import * as PopularController from "../controllers/controllers.popular.js";
+import * as PopularMiddlewares from "../middlewares/middlewares.popular.js";
+import * as PopularValidation from "../validations/validations.popular.js";
 
 const router = express.Router();
 

@@ -37,7 +37,7 @@ export default function Header() {
     }, [user]);
     return (
         <header className="bg-white border-b sticky top-0 z-50 shadow-sm select-none">
-            <div className="max-w-7xl mx-auto px-4 flex items-center justify-between h-20">
+            <div className="max-w-7xl mx-auto px-1 flex items-center justify-between h-20">
                 {/* Logo */}
                 <Link to="/" className="flex items-center gap-3">
                     <img src="/logob.jpg" alt="Cửa Hàng Sách" className="h-12 md:h-14 w-auto object-contain"></img>
@@ -49,6 +49,7 @@ export default function Header() {
                     <Link to="/popularBook" className="text-gray-700 hover:text-orange-500 font-medium transition">Nổi bật</Link>
                     <Link to="/location" className="text-gray-700 hover:text-orange-500 font-medium transition">Địa điểm</Link>
                     <Link to="/information" className="text-gray-700 hover:text-orange-500 font-medium transition">Thông tin</Link>
+                    <Link to="/terms" className="text-gray-700 hover:text-orange-500 font-medium transition">Điều khoản</Link>
                 </nav>
                 {/* Tìm kiếm + Giỏ Hàng + Icon */}
                 <div className="flex items-center gap-8">
@@ -108,7 +109,7 @@ export default function Header() {
                                     <div className="absolute right-0 mt-2 w-48 bg-white border shadow-lg rounded-lg z-50">
                                         <div className="px-4 py-3 bg-gray-50 border-b">
                                             <p className="font-semibold text-indigo-700 truncate">
-                                                {user.name}
+                                                {userInfo.name}
                                             </p>
                                             <p className="text-sm text-gray-600 truncate">
                                                 {user.email}

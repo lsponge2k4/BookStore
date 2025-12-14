@@ -1,5 +1,5 @@
-import * as AdminService from "../services/services.admin";
-import * as Response from "../utils/response";
+import * as AdminService from "../services/services.admin.js";
+import * as Response from "../utils/response.js";
 
 // get all users for admin.
 export const getAllUsers = async (req, res) => {

@@ -64,7 +64,11 @@ export default function Profile() {
         }
     };
 
-    if (!userInfo) return <p className="text-center mt-10">Đang tải...</p>;
+    if (!userInfo) {
+        return (<div className="flex justify-center py-20">
+            <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-indigo-600"></div>
+        </div>)
+    }
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-gray-100 px-4 select-none">

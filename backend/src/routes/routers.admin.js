@@ -1,9 +1,9 @@
 import express from "express";
-import * as AdminController from "../controllers/controllers.admin";
-import * as AdminMiddleware from "../middlewares/middlewares.admin";
-import * as AdminValidation from "../validations/validations.admin";
-import * as UserMiddleware from "../middlewares/middlewares.user";
-import uploadCategoryImage from "../config/upload.category";
+import * as AdminController from "../controllers/controllers.admin.js";
+import * as AdminMiddleware from "../middlewares/middlewares.admin.js";
+import * as AdminValidation from "../validations/validations.admin.js";
+import * as UserMiddleware from "../middlewares/middlewares.user.js";
+import uploadCategoryImage from "../config/upload.category.js";
 import uploadBookImages from "../config/upload.book.js";
 
 const router = express.Router();

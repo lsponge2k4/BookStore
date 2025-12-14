@@ -1,8 +1,8 @@
 import express from "express";
-import * as UserController from "../controllers/controllers.user";
-import * as UserMiddleware from "../middlewares/middlewares.user";
-import * as UserValidation from "../validations/validations.user";
-import upload from "../config/upload";
+import * as UserController from "../controllers/controllers.user.js";
+import * as UserMiddleware from "../middlewares/middlewares.user.js";
+import * as UserValidation from "../validations/validations.user.js";
+import upload from "../config/upload.js";
 
 const router = express.Router();
 

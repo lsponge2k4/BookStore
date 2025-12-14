@@ -1,4 +1,4 @@
-import db from '../models/index';
+import db from '../dbBridge.js';
 
 // add product in user's cart.
 export const addBookToCart = async (userId, bookId, quantity = 1) => {

@@ -1,5 +1,5 @@
-import { generateToken, generateResetToken, generateAccessToken, generateRefreshToken } from '../utils/token';
-import db from '../models/index';
+import { generateAccessToken, generateRefreshToken } from '../utils/token.js';
+import db from '../dbBridge.js';
 import bcrypt from "bcryptjs";
 import { sendEmail } from "../utils/email.js";
 import dotenv from "dotenv";

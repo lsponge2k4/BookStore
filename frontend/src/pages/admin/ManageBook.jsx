@@ -43,16 +43,12 @@ export default function ManageBook() {
             const { books, pagination } = res.data;
             const totalPagesFromApi = pagination.totalPages;
 
-            let validPage = page > totalPagesFromApi ? totalPagesFromApi : page;
+            // let validPage = page > totalPagesFromApi ? totalPagesFromApi : page;
 
             setBooks(books);
-            setCurrentPage(validPage);
+            setCurrentPage(page);
             setTotalPages(totalPagesFromApi);
 
-            // Nếu validPage thay đổi, fetch lại
-            if (validPage !== page) {
-                fetchBooks(validPage);
-            }
         } catch (err) {
             console.error(err);
             setError(err.message || "Lấy danh sách sách thất bại");
@@ -191,7 +187,9 @@ export default function ManageBook() {
             {error && <p className="text-red-600 mb-2">{error}</p>}
 
             {loading ? (
-                <p>Đang tải dữ liệu...</p>
+                <div className="flex justify-center py-20">
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-indigo-600"></div>
+                </div>
             ) : (
                 <div className="flex-1 flex flex-col bg-white rounded-lg shadow-md overflow-hidden select-none">
                     <div className="overflow-x-auto overflow-y-auto flex-1">
@@ -273,7 +271,7 @@ export default function ManageBook() {
                                 {bookData.cover ? (
                                     <div className="relative w-24 h-24 border rounded overflow-hidden shadow">
                                         <img src={URL.createObjectURL(bookData.cover)} alt="preview cover" className="object-cover w-full h-full" />
-                                        <button type="button" onClick={() => setBookData(prev => ({ ...prev, cover: null }))} className="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-lg hover:bg-red-700 transition">×</button>
+                                        <button type="button" onClick={() => setBookData(prev => ({ ...prev, cover: null }))} className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-6 h-6 flex items-center justify-center shadow-lg hover:bg-red-700 transition">×</button>
                                     </div>
                                 ) : editBookId && bookData.existingCover ? (
                                     <div className="w-24 h-24 border rounded overflow-hidden shadow">
@@ -298,7 +296,7 @@ export default function ManageBook() {
                                 {bookData.gallery.map((file, idx) => (
                                     <div key={idx} className="relative w-16 h-16 border rounded overflow-hidden shadow">
                                         <img src={URL.createObjectURL(file)} alt="preview" className="object-cover w-full h-full" />
-                                        <button type="button" onClick={() => setBookData(prev => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== idx) }))} className="absolute -top-1 -right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center shadow hover:bg-red-700 transition">×</button>
+                                        <button type="button" onClick={() => setBookData(prev => ({ ...prev, gallery: prev.gallery.filter((_, i) => i !== idx) }))} className="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center shadow hover:bg-red-700 transition">×</button>
                                     </div>
                                 ))}
                                 <label className="px-4 py-2 bg-indigo-500 text-white rounded cursor-pointer hover:bg-indigo-600 transition flex items-center">
