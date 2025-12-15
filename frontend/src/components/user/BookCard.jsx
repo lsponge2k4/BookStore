@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from "react-hot-toast";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function BookCard({ book = {} }) {
 
     const images = book.Images || book.images || book.BookImages || [];
     const coverImage = images[0]?.image_url
-        ? `http://localhost:8080${images[0].image_url}`
+        ? `${API_URL}${images[0].image_url}`
         : "/book_default.jpg";
 
     const reviews = book.Reviews || book.reviews || [];

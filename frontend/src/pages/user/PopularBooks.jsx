@@ -3,7 +3,6 @@ import { Link, useSearchParams } from 'react-router-dom';
 import BookCard from '../../components/user/BookCard';
 import { getFilteredBookAPI, getFilterOptionsAPI } from '../../api/auth';
 
-// const BACKEND = "http://localhost:8080";
 
 export default function PopularBooks() {
     const [searchParams, setSearchParams] = useSearchParams();

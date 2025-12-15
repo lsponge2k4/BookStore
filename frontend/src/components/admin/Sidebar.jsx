@@ -1,6 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from "../../contexts/AuthContext";
 import { useEffect } from "react";
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Sidebar() {
     const navigate = useNavigate();
     const { userInfo, fetchUserInfo } = useAuth();
@@ -23,7 +24,7 @@ export default function Sidebar() {
                     <img
                         src={
                             userInfo?.avatar
-                                ? `http://localhost:8080${userInfo.avatar}`
+                                ? `${API_URL}${userInfo.avatar}`
                                 : "https://i.pravatar.cc/100"
                         }
                         alt="avatar"

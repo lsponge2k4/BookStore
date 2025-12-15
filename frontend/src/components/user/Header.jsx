@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useState, useRef, useEffect } from 'react';
 import { useAuth } from "../../contexts/AuthContext";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Header() {
     const { user, logout, fetchUserInfo, cartCount, fetchCartCount, userInfo } = useAuth();
     const [showDropdown, setShowDropdown] = useState(false);
@@ -95,7 +95,7 @@ export default function Header() {
                                 >
                                     {userInfo?.avatar ? (
                                         <img
-                                            src={`http://localhost:8080${userInfo.avatar}`}
+                                            src={`${API_URL}${userInfo.avatar}`}
                                             alt="Avatar"
                                             className="w-10 h-10 object-cover"
                                         />
