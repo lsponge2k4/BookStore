@@ -3,7 +3,7 @@ import { useNavigate, Link } from "react-router-dom";
 import { useAuth } from "../../contexts/AuthContext";
 import { getAllProductsInCartAPI, clearAllCartItemsInCartAPI } from "../../api/auth";
 import toast from "react-hot-toast";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function Cart() {
     const { user, increaseQuantity, decreaseQuantity, removeABook, fetchCartItems, fetchCartCount } = useAuth();
     const [cartItems, setCartItems] = useState([]);
@@ -96,7 +96,7 @@ export default function Cart() {
                         {cartItems.map((item) => {
                             const book = item.Book;
                             const img = book.Images?.[0]?.image_url
-                                ? `http://localhost:8080${book.Images[0].image_url}`
+                                ? `${API_URL}${book.Images[0].image_url}`
                                 : "/book_default.jpg";
 
                             return (

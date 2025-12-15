@@ -6,7 +6,7 @@ import {
     removeBookAPI,
     getAllCategoriesAPI,
 } from "../../api/admin";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function ManageBook() {
     const [books, setBooks] = useState([]);
     const [categories, setCategories] = useState([]);
@@ -32,7 +32,7 @@ export default function ManageBook() {
     });
 
     const limit = 4;
-    const localhostUrl = "http://localhost:8080";
+    const localhostUrl = API_URL;
 
     // ----- FETCH BOOKS -----
     const fetchBooks = async (page = currentPage) => {

@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getUserInfoAPI, updateUserInfoAPI } from "../../api/auth";
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Dashboard() {
     const [userInfo, setUserInfo] = useState(null);
     const [name, setName] = useState("");
@@ -79,7 +81,7 @@ export default function Dashboard() {
                 {/* Avatar */}
                 <div className="mb-4 flex flex-col items-center relative">
                     <img
-                        src={previewAvatar || `http://localhost:8080${userInfo.avatar}`}
+                        src={previewAvatar || `${API_URL}${userInfo.avatar}`}
                         alt="Avatar"
                         className="w-24 h-24 rounded-full object-cover mb-2 border"
                     />

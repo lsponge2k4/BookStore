@@ -27,7 +27,7 @@ export const login = async (req, res) => {
         res.cookie("refresh_token", data.refreshToken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
-            sameSite: "strict",
+            sameSite: "none",
             maxAge: 60 * 60 * 1000,
         });
         const responseData = { token: data.data.token, user: data.data.user };

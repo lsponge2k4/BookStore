@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getBookDetailsAPI, getRelatedBooksAPI } from '../../api/auth';
-const BACKEND = "http://localhost:8080";
+const BACKEND = import.meta.env.VITE_API_URL;
 import toast from "react-hot-toast";
 import { useAuth } from '../../contexts/AuthContext';
 

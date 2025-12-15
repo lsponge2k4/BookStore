@@ -5,7 +5,7 @@ import {
     updateCategoryAPI,
     deleteCategoryAPI,
 } from "../../api/admin";
-
+const API_URL = import.meta.env.VITE_API_URL;
 export default function ManageCategory() {
     const [categories, setCategories] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
@@ -119,7 +119,7 @@ export default function ManageCategory() {
                                         <td className="border px-4 py-2">
                                             {cat.Images?.[0]?.image_url ? (
                                                 <img
-                                                    src={`http://localhost:8080${cat.Images[0].image_url}`}
+                                                    src={`${API_URL}${cat.Images[0].image_url}`}
                                                     alt={cat.name}
                                                     className="w-16 h-16 object-cover rounded shadow"
                                                 />
