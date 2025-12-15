@@ -58,7 +58,7 @@ export const checkGetAllCategories = Joi.object({
 
 // validation when create a new book.
 
-const textPattern = /^[a-zA-ZÀ-ỹ0-9\s.,&'"“”\-()/:%…–!?]*$/;
+const textPattern = /^[a-zA-ZÀ-ỹ0-9\s.,&'"“”\-()/:%…–!?;]*$/;
 
 export const checkCreateBook = Joi.object({
     title: Joi.string().trim().min(3).max(200).pattern(textPattern).required().messages({

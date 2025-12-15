@@ -1,36 +1,31 @@
 import path from "path";
 import fs from "fs";
+import { fileURLToPath } from "url";
 
-// anonymous for email.
+// ES Module replacement for __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// mask email
 export const MaskEmail = (email) => {
-    if (!email) {
-        return "";
-    }
-    else {
-        const [localPart, domain] = email.split("@");
+    if (!email) return "";
 
-        if (localPart.lenght <= 2) {
-            return "*@" + domain;
+    const [localPart, domain] = email.split("@");
 
-        }
-        else {
-            const firstChar = localPart[0];
-            const lastChar = localPart[localPart.length - 1];
+    if (localPart.length <= 2) return "*@" + domain;
 
-            const mashed = firstChar + "*".repeat(localPart.length - 2) + lastChar;
-            return mashed + "@" + domain;
-        }
-    }
+    const firstChar = localPart[0];
+    const lastChar = localPart[localPart.length - 1];
+    return firstChar + "*".repeat(localPart.length - 2) + lastChar + "@" + domain;
+};
 
-}
-
-// helper saveFile
+// save file
 export const saveFile = (file, folder) => {
     const uploadPath = path.join(__dirname, "..", "public", folder);
     if (!fs.existsSync(uploadPath)) fs.mkdirSync(uploadPath, { recursive: true });
 
     const fileName = Date.now() + path.extname(file.originalname);
     const filePath = path.join(uploadPath, fileName);
-    fs.writeFileSync(filePath, file.buffer); // ghi file
+    fs.writeFileSync(filePath, file.buffer);
     return `/${folder}/${fileName}`;
 };

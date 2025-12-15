@@ -5,7 +5,9 @@ import { sendEmail } from "../utils/email.js";
 import dotenv from "dotenv";
 import fs from "fs";
 import path from "path";
-
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 dotenv.config();
 
 // register 
@@ -150,11 +152,11 @@ export const updateUserProfile = async (userId, name, avatar) => {
                 console.log("Không tìm thấy ảnh để xóa:", oldFilePath);
             }
 
-            // Update new image on database
+            // Cập nhật ảnh mới trong DB
             existingImage.image_url = avatar;
             await existingImage.save();
         } else {
-            // If no image exists, create a new record
+            // Nếu chưa có ảnh, tạo mới
             await db.Image.create({
                 entity_type: "user",
                 entity_id: userId,

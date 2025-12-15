@@ -3,7 +3,9 @@ import * as Helper from '../utils/helpers.js';
 import { Sequelize } from "sequelize";
 import path from "path";
 import fs from "fs";
-
+import { fileURLToPath } from 'url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 // get all users for admin.
 export const getAllUsers = async (page, limit) => {
     try {
