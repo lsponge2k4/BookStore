@@ -18,7 +18,7 @@ export const register = async (req, res) => {
 // Log in
 export const login = async (req, res) => {
     try {
-        console.log("Here1:", req.body);
+        // console.log("Here1:", req.body);
         const data = await UserService.loginUser(req.body);
         if (!data.success) {
             return Response.badRequest(res, data.message, 400);
@@ -82,8 +82,8 @@ export const getProfile = async (req, res) => {
 // Update profile (name + avatar)
 export const updateProfile = async (req, res) => {
     try {
-        console.log("Body:", req.body);
-        console.log("File uploaded:", req.file);
+        // console.log("Body:", req.body);
+        // console.log("File uploaded:", req.file);
 
         const { name } = req.body;
         const userId = req.user.user_id;

@@ -34,7 +34,7 @@ export const handleSearchBooks = async (req, res) => {
         const page = parseInt(req.query.page || 1);
         const limit = parseInt(req.query.limit || 5);
 
-        console.log("q", typeof (q), "page: ", Number.isInteger(page), "limit: ", Number.isInteger(limit))
+        // console.log("q", typeof (q), "page: ", Number.isInteger(page), "limit: ", Number.isInteger(limit))
         if (!q || q.trim() === "") { return Response.badRequest(res, "Thiếu từ khóa tìm kiếm", 400); }
 
         const data = await PopularService.searchBooks(q.trim(), page, limit);

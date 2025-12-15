@@ -23,7 +23,7 @@ export const getAllBook = async (req, res) => {
 export const getBook = async (req, res) => {
     try {
         const { book_id } = req.query;
-        console.log('check datatype of book_id: ' + Number.isInteger(book_id));
+        // console.log('check datatype of book_id: ' + Number.isInteger(book_id));
         if (!book_id) return Response.badRequest(res, 'book_id không được để trống', 400);
 
         const data = await HomeService.getBookById(book_id);
@@ -42,7 +42,7 @@ export const getBookDetails = async (req, res) => {
     try {
 
         const book_id = parseInt(req.query.id_book);
-        console.log('check datatype of book_id: ' + Number.isInteger(book_id));
+        // console.log('check datatype of book_id: ' + Number.isInteger(book_id));
         if (!book_id) return Response.badRequest(res, "book_id không được để trống", 400);
 
         const data = await HomeService.getBookDetails(book_id);
