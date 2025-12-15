@@ -99,7 +99,7 @@ export const resetPassword = async (userId, newPassword) => {
 export const getUserProfile = async (userId) => {
     // console.log("server call id_user:" + userId);
     const user = await db.User.findByPk(userId);
-    console.log("user" + user);
+    // console.log("user" + user);
     if (!user) return { success: false, message: "User không tồn tại" };
 
     // get image of user
@@ -147,9 +147,9 @@ export const updateUserProfile = async (userId, name, avatar) => {
 
             if (fs.existsSync(oldFilePath)) {
                 fs.unlinkSync(oldFilePath);
-                console.log("Đã xóa ảnh cũ:", oldFilePath);
+                // console.log("Đã xóa ảnh cũ:", oldFilePath);
             } else {
-                console.log("Không tìm thấy ảnh để xóa:", oldFilePath);
+                // console.log("Không tìm thấy ảnh để xóa:", oldFilePath);
             }
 
             // Cập nhật ảnh mới trong DB

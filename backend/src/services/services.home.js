@@ -93,7 +93,7 @@ export const getBookDetails = async (bookId) => {
             },
         ],
     });
-    console.log("book:" + book);
+    // console.log("book:" + book);
     if (!book) return { success: false, message: "Book không tồn tại" };
 
     // Get other books in category together.

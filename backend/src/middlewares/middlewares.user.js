@@ -63,9 +63,9 @@ export const isAuthenticated = (req, res, next) => {
 
     try {
         const decoded = verifyToken(token);
-        console.log(">>> TOKEN PAYLOAD:", decoded);
+        // console.log(">>> TOKEN PAYLOAD:", decoded);
         req.user = decoded;
-        console.log(req.user);
+        // console.log(req.user);
         next();
     } catch {
         return Response.badRequest(res, 'Token không hợp lệ!', 401);

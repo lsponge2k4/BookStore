@@ -17,6 +17,7 @@
   },
   "production": {
     "use_env_variable": "RAILWAY_DATABASE_URL",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": false
   }
 }
