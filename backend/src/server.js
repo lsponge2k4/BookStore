@@ -31,5 +31,5 @@ connect();
 // Server start
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () =>
-  console.log(`🚀 Server đang chạy tại: http://localhost:${PORT}`)
+  console.log(`🚀 Server đang chạy tại:${PORT}`)
 );
