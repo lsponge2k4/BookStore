@@ -28,10 +28,26 @@ export default function Footer() {
                 <div>
                     <h3 className="font-bold text-lg mb-4">Các đường dẫn</h3>
                     <ul className="space-y-2 text-gray-400 text-sm">
-                        <li><a href="/" className="hover:text-white transition">Trang chủ</a></li>
-                        <li><a href="/popularBook" className="hover:text-white transition">Nổi bật</a></li>
-                        <li><a href="/location" className="hover:text-white transition">Địa điểm</a></li>
-                        <li><a href="/information" className="hover:text-white transition">Thông tin</a></li>
+                        <li>
+                            <Link to="/" className="hover:text-white transition">
+                                Trang chủ
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/popularBook" className="hover:text-white transition">
+                                Nổi bật
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/location" className="hover:text-white transition">
+                                Địa điểm
+                            </Link>
+                        </li>
+                        <li>
+                            <Link to="/information" className="hover:text-white transition">
+                                Thông tin
+                            </Link>
+                        </li>
                     </ul>
                 </div>
 

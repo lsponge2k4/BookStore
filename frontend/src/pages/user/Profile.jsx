@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { getUserInfoAPI, updateUserInfoAPI } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 const API_URL = import.meta.env.VITE_API_URL;
 export default function Profile() {
     const [userInfo, setUserInfo] = useState(null);
@@ -9,7 +10,7 @@ export default function Profile() {
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState("");
     const [error, setError] = useState("");
-
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchUser = async () => {
             try {
@@ -55,7 +56,7 @@ export default function Profile() {
 
             setPreviewAvatar(null);
             setSuccess("Cập nhật thành công!");
-            window.location.reload();
+            navigate(0);
         } catch (err) {
             console.error(err);
             setError(err.response?.data?.message || "Có lỗi xảy ra");

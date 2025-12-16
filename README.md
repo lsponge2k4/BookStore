@@ -1,2 +1,2 @@
 # BookStore
-We will create the bookstore website.
+I will create the bookstore website.
