@@ -10,9 +10,20 @@ export const checkRegister = Joi.object({
         "string.email": "Email không hợp lệ",
         "any.required": "Email là bắt buộc",
     }),
-    password: Joi.string().min(6).max(50).required().messages({
-        "string.min": "Mật khẩu tối thiểu 6 ký tự",
-    }),
+    password: Joi.string()
+        .min(8)
+        .max(50)
+        .pattern(new RegExp("(?=.*[a-z])"))
+        .pattern(new RegExp("(?=.*[A-Z])"))
+        .pattern(new RegExp("(?=.*[0-9])"))
+        .pattern(new RegExp("(?=.*[!@#$%^&*])"))
+        .required()
+        .messages({
+            "string.empty": "Mật khẩu không được để trống",
+            "string.min": "Mật khẩu tối thiểu 8 ký tự",
+            "string.pattern.base":
+                "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$%^&*)",
+        }),
 });
 
 // Part of Log in
@@ -21,10 +32,20 @@ export const checkLogin = Joi.object({
         "string.email": "Email không hợp lệ",
         "any.required": "Email là bắt buộc",
     }),
-    password: Joi.string().min(6).max(50).required().messages({
-        "string.min": "Mật khẩu tối thiểu 6 ký tự",
-        "any.required": "Mật khẩu là bắt buộc",
-    }),
+    password: Joi.string()
+        .min(8)
+        .max(50)
+        .pattern(new RegExp("(?=.*[a-z])"))
+        .pattern(new RegExp("(?=.*[A-Z])"))
+        .pattern(new RegExp("(?=.*[0-9])"))
+        .pattern(new RegExp("(?=.*[!@#$%^&*])"))
+        .required()
+        .messages({
+            "string.empty": "Mật khẩu không được để trống",
+            "string.min": "Mật khẩu tối thiểu 8 ký tự",
+            "string.pattern.base":
+                "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$%^&*)",
+        }),
 });
 
 // Forget password
@@ -40,10 +61,20 @@ export const checkResetPassword = Joi.object({
     token: Joi.string().required().messages({
         "string.empty": "Token không được để trống",
     }),
-    password: Joi.string().min(6).max(50).required().messages({
-        "string.empty": "Mật khẩu không được để trống",
-        "string.min": "Mật khẩu tối thiểu 6 ký tự",
-    }),
+    password: Joi.string()
+        .min(8)
+        .max(50)
+        .pattern(new RegExp("(?=.*[a-z])"))
+        .pattern(new RegExp("(?=.*[A-Z])"))
+        .pattern(new RegExp("(?=.*[0-9])"))
+        .pattern(new RegExp("(?=.*[!@#$%^&*])"))
+        .required()
+        .messages({
+            "string.empty": "Mật khẩu không được để trống",
+            "string.min": "Mật khẩu tối thiểu 8 ký tự",
+            "string.pattern.base":
+                "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$%^&*)",
+        }),
 });
 
 // Change password 
