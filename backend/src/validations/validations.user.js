@@ -13,16 +13,12 @@ export const checkRegister = Joi.object({
     password: Joi.string()
         .min(8)
         .max(50)
-        .pattern(new RegExp("(?=.*[a-z])"))
-        .pattern(new RegExp("(?=.*[A-Z])"))
-        .pattern(new RegExp("(?=.*[0-9])"))
-        .pattern(new RegExp("(?=.*[!@#$%^&*])"))
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$"))
         .required()
         .messages({
             "string.empty": "Mật khẩu không được để trống",
-            "string.min": "Mật khẩu tối thiểu 8 ký tự",
             "string.pattern.base":
-                "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$%^&*)",
+                "Mật khẩu phải có tối thiểu 8 ký tự, chữ hoa, chữ thường, số và ký tự đặc biệt!",
         }),
 });
 
@@ -35,16 +31,12 @@ export const checkLogin = Joi.object({
     password: Joi.string()
         .min(8)
         .max(50)
-        .pattern(new RegExp("(?=.*[a-z])"))
-        .pattern(new RegExp("(?=.*[A-Z])"))
-        .pattern(new RegExp("(?=.*[0-9])"))
-        .pattern(new RegExp("(?=.*[!@#$%^&*])"))
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$"))
         .required()
         .messages({
             "string.empty": "Mật khẩu không được để trống",
-            "string.min": "Mật khẩu tối thiểu 8 ký tự",
             "string.pattern.base":
-                "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$%^&*)",
+                "Mật khẩu phải có tối thiểu 8 ký tự, chữ hoa, chữ thường, số và ký tự đặc biệt!",
         }),
 });
 
@@ -64,27 +56,35 @@ export const checkResetPassword = Joi.object({
     password: Joi.string()
         .min(8)
         .max(50)
-        .pattern(new RegExp("(?=.*[a-z])"))
-        .pattern(new RegExp("(?=.*[A-Z])"))
-        .pattern(new RegExp("(?=.*[0-9])"))
-        .pattern(new RegExp("(?=.*[!@#$%^&*])"))
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$"))
         .required()
         .messages({
             "string.empty": "Mật khẩu không được để trống",
-            "string.min": "Mật khẩu tối thiểu 8 ký tự",
             "string.pattern.base":
-                "Mật khẩu phải có chữ hoa, chữ thường, số và ký tự đặc biệt (!@#$%^&*)",
+                "Mật khẩu phải có tối thiểu 8 ký tự, chữ hoa, chữ thường, số và ký tự đặc biệt!",
         }),
 });
 
 // Change password 
 export const checkChangePassword = Joi.object({
-    oldPassword: Joi.string().min(6).required().messages({
-        "string.empty": "Mật khẩu cũ không được để trống",
-        "string.min": "Mật khẩu cũ tối thiểu 6 ký tự",
-    }),
-    newPassword: Joi.string().min(6).required().messages({
-        "string.empty": "Mật khẩu mới không được để trống",
-        "string.min": "Mật khẩu mới tối thiểu 6 ký tự",
-    }),
+    oldPassword: Joi.string()
+        .min(8)
+        .max(50)
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$"))
+        .required()
+        .messages({
+            "string.empty": "Mật khẩu không được để trống",
+            "string.pattern.base":
+                "Mật khẩu phải có tối thiểu 8 ký tự, chữ hoa, chữ thường, số và ký tự đặc biệt!",
+        }),
+    newPassword: Joi.string()
+        .min(8)
+        .max(50)
+        .pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{8,50}$"))
+        .required()
+        .messages({
+            "string.empty": "Mật khẩu không được để trống",
+            "string.pattern.base":
+                "Mật khẩu phải có tối thiểu 8 ký tự, chữ hoa, chữ thường, số và ký tự đặc biệt!",
+        }),
 });
