@@ -1,19 +1,23 @@
 import * as HomeService from "../services/services.home.js";
 import * as Response from "../utils/response.js";
+import logger from "../config/logger.js";
 
 export const getAllBook = async (req, res) => {
     try {
         const page = parseInt(req.query.page);
         const limit = parseInt(req.query.limit);
         if (!page || !limit) {
+            logger.error("getAllBook controller error: Thiếu page hoặc thiếu limit!");
             return Response.badRequest(res, "Thiếu page hoặc thiếu limit!", 400);
         }
 
         const data = await HomeService.getAllBooks(page, limit);
 
+        logger.info("getAllBook controller success: Lấy danh sách thành công!");
         return Response.success(res, data, "Lấy danh sách thành công!", 200);
     } catch (error) {
-        console.error(error);
+        logger.error("getAllBook controller error:", { error: error });
+        // console.error(error);
         return Response.error(res, "Lỗi hệ thống!", 500);
     }
 };
@@ -27,11 +31,16 @@ export const getBook = async (req, res) => {
         if (!book_id) return Response.badRequest(res, 'book_id không được để trống', 400);
 
         const data = await HomeService.getBookById(book_id);
-        if (!data.success) { return Response.badRequest(res, data.message, 404); }
+        if (!data.success) {
+            logger.error("getBook controller error:", { message: data.message });
+            return Response.badRequest(res, data.message, 404);
+        }
 
+        logger.info("getBook controller success: Lấy thông tin sách thành công");
         return Response.success(res, data.data, 'Lấy thông tin sách thành công', 200);
     } catch (err) {
-        console.error(err);
+        logger.error("getBook controller error:", { error: err });
+        // console.error(err);
         return Response.error(res, 'Lỗi server', 500);
     }
 };
@@ -46,11 +55,15 @@ export const getBookDetails = async (req, res) => {
         if (!book_id) return Response.badRequest(res, "book_id không được để trống", 400);
 
         const data = await HomeService.getBookDetails(book_id);
-        if (!data.success) { return Response.badRequest(res, data.message, 404); }
-
+        if (!data.success) {
+            logger.error("getBookDetails controller error:", { message: data.message });
+            return Response.badRequest(res, data.message, 404);
+        }
+        logger.info("getBookDetails controller success: Lấy chi tiết sách thành công");
         return Response.success(res, data.data, "Lấy chi tiết sách thành công", 200);
     } catch (err) {
-        console.error(err);
+        logger.error("getBookDetails controller error:", { error: err });
+        // console.error(err);
         return Response.error(res, "Lỗi server", 500);
     }
 };
@@ -70,18 +83,35 @@ export const getRelatedBook = async (req, res) => {
         // console.log('check datatype of page: ' + Number.isInteger(page) + "value: " + page);
         // console.log('check datatype of limit: ' + Number.isInteger(limit) + "value: " + limit);
 
-        if (!categoryId) { return Response.badRequest(res, "Tham số categoryId còn bỏ sót giá trị!", 400); }
-        if (!excludeBookId) { return Response.badRequest(res, "Tham số excludeBookId còn bỏ sót giá trị!", 400); }
-        if (!page) { return Response.badRequest(res, "Tham số page còn bỏ sót giá trị!", 400); }
-        if (!limit) { return Response.badRequest(res, "Tham số limit còn bỏ sót giá trị!", 400); }
+        if (!categoryId) {
+            logger.error("getRelatedBook controller error: Tham số categoryId còn bỏ sót giá trị!");
+            return Response.badRequest(res, "Tham số categoryId còn bỏ sót giá trị!", 400);
+        }
+        if (!excludeBookId) {
+            logger.error("getRelatedBook controller error: Tham số excludeBookId còn bỏ sót giá trị!");
+            return Response.badRequest(res, "Tham số excludeBookId còn bỏ sót giá trị!", 400);
+        }
+        if (!page) {
+            logger.error("getRelatedBook controller error: Tham số page còn bỏ sót giá trị!");
+            return Response.badRequest(res, "Tham số page còn bỏ sót giá trị!", 400);
+        }
+        if (!limit) {
+            logger.error("getRelatedBook controller error: Tham số limit còn bỏ sót giá trị!");
+            return Response.badRequest(res, "Tham số limit còn bỏ sót giá trị!", 400);
+        }
 
         // console.log('here');
         const data = await HomeService.getRelatedBooks(categoryId, excludeBookId, page, limit);
-        if (!data.success) { return Response.badRequest(res, data.message, 404); }
+        if (!data.success) {
+            logger.error("getRelatedBook controller error:", { message: data.message });
+            return Response.badRequest(res, data.message, 404);
+        }
 
+        logger.info("getRelatedBook controller success: Lấy sách thành công");
         return Response.success(res, data.data, "Lấy sách thành công", 200);
     } catch (err) {
-        console.error(err);
+        logger.error("getRelatedBook controller error:", { error: err });
+        // console.error(err);
         return Response.error(res, "Lỗi server", 500);
     }
 };

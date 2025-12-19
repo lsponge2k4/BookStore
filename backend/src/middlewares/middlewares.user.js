@@ -1,7 +1,7 @@
 import * as Response from "../utils/response.js";
 import { generateAccessToken } from "../utils/token.js";
 import { verifyToken, verifyRefreshToken } from "../utils/token.js";
-
+import logger from "../config/logger.js";
 // Part of Register and Login
 export const validate = (schema) => {
     return (req, res, next) => {
@@ -9,6 +9,7 @@ export const validate = (schema) => {
         // console.log(Array.isArray(error.details));
         if (error) {
             const message = error.details.map((e) => e.message).join(", ");
+            logger.error("Validation error:", { message: message });
             return Response.badRequest(res, message, 400);
         }
         next();
@@ -18,13 +19,17 @@ export const validate = (schema) => {
 // Check JWT reset password
 export const verifyResetToken = (req, res, next) => {
     const token = req.body.token || req.query.token;
-    if (!token) { return Response.badRequest(res, "Token không được để trống", 400); }
+    if (!token) {
+        logger.error("verifyResetToken middleware error: Token không được để trống");
+        return Response.badRequest(res, "Token không được để trống", 400);
+    }
 
     try {
         const decoded = verifyToken(token);
         req.user = decoded;
         next();
     } catch {
+        logger.error("verifyResetToken middleware error: Token không hợp lệ hoặc đã hết hạn");
         return Response.badRequest(res, "Token không hợp lệ hoặc đã hết hạn", 401);
     }
 };
@@ -58,6 +63,7 @@ export const isAuthenticated = (req, res, next) => {
     const token = authHeader?.split(" ")[1];
 
     if (!token) {
+        logger.error("isAuthenticated middleware error: Thiếu access token");
         return Response.badRequest(res, "Thiếu access token", 401);
     }
 
@@ -68,6 +74,7 @@ export const isAuthenticated = (req, res, next) => {
         // console.log(req.user);
         next();
     } catch {
+        logger.error("isAuthenticated middleware error: Token không hợp lệ hoặc đã hết hạn");
         return Response.badRequest(res, 'Token không hợp lệ!', 401);
     }
 };
@@ -85,6 +92,7 @@ export const refreshToken = (req, res) => {
             accessToken: newAccess,
         }, "Tạo access token mới thành công", 200);
     } catch {
+        logger.error("refreshToken middleware error: Refresh token hết hạn");
         return Response.badRequest(res, "Refresh token hết hạn", 401);
     }
 };
