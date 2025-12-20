@@ -63,14 +63,15 @@
  + B2: Tạo file .env và tham khảo file .env.example để thêm các biến môi trường tương ứng vào file .env trước khi chạy dự án.
  + B3: Truy cập vào thư mục backend và frontend, sau đó chạy lệnh npm install để cài đặt các thư viện cần thiết.
  + B4: Trong từng thư mục backend và frontend, chạy lệnh sau để khởi động dự án trên môi trường localhost:
+   
    Backend:
     + npm run dev (npm run start hoặc npm start)
     + Hình ảnh chạy đúng:
 
   <img width="1109" height="551" alt="image" src="https://github.com/user-attachments/assets/a39b1986-7760-4ee8-ad31-3ed7fbe853f7" />
   
-   Frontend: 
-    + npm run dev
+   Frontend:
+    + npm run dev 
     + Hình ảnh chạy đúng:
 
   <img width="935" height="460" alt="image" src="https://github.com/user-attachments/assets/05f741a4-61c3-4a84-b4db-fe1f87f76f5a" />
