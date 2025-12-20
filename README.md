@@ -1,8 +1,8 @@
 # Đề tài phát triển phần mềm web an toàn.
-Môn học: Phát triển phần mềm Web an toàn.
-Tên đề tài: Phát triển website bán sách trực tuyến với các biện pháp bảo mật.
-Giảng viên hướng dẫn: ThS. Phương Văn Cảnh.
-Lớp: D17CNPM1.
++ Môn học: Phát triển phần mềm Web an toàn.
++ Tên đề tài: Phát triển website bán sách trực tuyến với các biện pháp bảo mật.
++ Giảng viên hướng dẫn: ThS. Phương Văn Cảnh.
++ Lớp: D17CNPM1.
 
 # Giới thiệu tổng quan đề tài: 
  Website bán sách trong dự án này được nhóm em xây dựng theo định hướng phát triển web an toàn, chú trọng bảo vệ dữ liệu và người dùng ngay từ khâu thiết kế. Hệ thống đã triển khai chính sách bảo mật và nâng cao nhận thức an toàn thông tin, sử dụng Cloudflare để thiết lập WAF, chống các lỗ hổng bảo mật phổ biến và đảm bảo website hoạt động trên giao thức HTTPS với chứng chỉ SSL hợp lệ. Ứng dụng và các thành phần liên quan được cập nhật phần mềm và plugin định kỳ nhằm hạn chế rủi ro từ các lỗ hổng đã biết. Website có cơ chế kiểm tra và xác thực dữ liệu đầu vào, kết hợp với quản lý, phân quyền người dùng rõ ràng để ngăn chặn truy cập trái phép. Ngoài ra, hệ thống còn tự động ghi log hoạt động, hỗ trợ giám sát và phát hiện sự cố, đồng thời xây dựng kế hoạch sao lưu và phục hồi dữ liệu nhằm đảm bảo tính sẵn sàng và an toàn cho toàn bộ hệ thống.
