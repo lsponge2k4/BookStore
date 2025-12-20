@@ -81,6 +81,7 @@
  # c. Sử dụng website mà nhóm em đã deploy dự án lên Internet: (https://foodietired.io.vn/)
 
  # d. Tài khoản demo dự án :
+ (Lưu ý: Render có cơ chế ngủ đông khi không có request trong 15 phút, vì vậy lần truy cập request đầu tiên có thể phản hồi chậm hơn bình thường.)
  + Tài khoản admin : 
     + Email: lsponge2k4@gmail.com
     + Password: Hoang@123
