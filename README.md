@@ -11,26 +11,26 @@
 
 👦 Phạm Bá Hoàng - Mã sinh viên: 22810310196
 Công việc thực hiện: 
-    + Thiết lập tường lửa (WAF) và chống các bảo mật phổ biến qua Cloudflare
-    + Viết mã validation, thông tin đầu vào để bảo mật.
-    + Quản lý và phân quyền người dùng.
-    + Thiết lập hệ thống ghi log tự động.
-    + Lên kế hoạch sao lưu và phục hồi dữ liệu.
-    + Cập nhật ứng dụng và plugin.
-    + Chính sách bảo mật và nâng cao nhận thức.
-    + Thu thập và soạn thông tin cho báo cáo.
-    + Cập nhập phần mềm định kỳ.
-    + Code backend và frontend.
++ Thiết lập tường lửa (WAF) và chống các bảo mật phổ biến qua Cloudflare
++ Viết mã validation, thông tin đầu vào để bảo mật.
++ Quản lý và phân quyền người dùng.
++ Thiết lập hệ thống ghi log tự động.
++ Lên kế hoạch sao lưu và phục hồi dữ liệu.
++ Cập nhật ứng dụng và plugin.
++ Chính sách bảo mật và nâng cao nhận thức.
++ Thu thập và soạn thông tin cho báo cáo.
++ Cập nhập phần mềm định kỳ.
++ Code backend và frontend.
 
 👩‍🦰 Nguyễn Hiền Mai - Mã sinh viên: 22810310091
 Công việc thực hiện: 
-    + Thu thập và soạn thông tin cho báo cáo.
-    + Làm báo cáo.
-    + Chính sách bảo mật và nâng cao nhận thức.
-    + Cập nhập phần mềm định kỳ.
-    + Cập nhật ứng dụng và plugin.
-    + Kế hoạch sao lưu và phục hồi dư liệu.
-    + Code frontend.
++ Thu thập và soạn thông tin cho báo cáo.
++ Làm báo cáo.
++ Chính sách bảo mật và nâng cao nhận thức.
++ Cập nhập phần mềm định kỳ.
++ Cập nhật ứng dụng và plugin.
++ Kế hoạch sao lưu và phục hồi dư liệu.
++ Code frontend.
 
 # Nội dung yêu cầu của môn học và kết quả đã đạt, khi thực hiện các yêu cầu đó của nhóm.
 # ✅ Dấu tích xanh thể hiện các yêu cầu mà nhóm đã hoàn thiện theo đúng yêu cầu của môn học.
