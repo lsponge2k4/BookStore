@@ -65,12 +65,16 @@
  + B4: Trong từng thư mục backend và frontend, chạy lệnh sau để khởi động dự án trên môi trường localhost:
    Backend:
     + npm run dev (npm run start hoặc npm start)
-    Hình ảnh chạy đúng:
+    + Hình ảnh chạy đúng:
+
   <img width="1109" height="551" alt="image" src="https://github.com/user-attachments/assets/a39b1986-7760-4ee8-ad31-3ed7fbe853f7" />
+  
    Frontend: 
     + npm run dev
-    Hình ảnh chạy đúng:
+    + Hình ảnh chạy đúng:
+
   <img width="935" height="460" alt="image" src="https://github.com/user-attachments/assets/05f741a4-61c3-4a84-b4db-fe1f87f76f5a" />
+  
  + B5: Mở trang web trên localhost với frontend. => ( http://localhost:5173/)
 
  # c. Sử dụng website mà nhóm em đã deploy dự án lên Internet: (https://foodietired.io.vn/)
@@ -87,30 +91,45 @@
  # Một số hình ảnh kết quả của dự án đã triển khai:
  + Chính sách bảo mật và nâng cao nhận thức.✅
    Hình ảnh chính sách bảo mật:
+   
    <img width="1899" height="868" alt="Screenshot 2025-12-19 195641" src="https://github.com/user-attachments/assets/010090ef-72b6-4488-8286-2e0d8a3fc4dc" />
+   
    Hình ảnh điều khoản sử dụng:
+   
    <img width="1900" height="867" alt="Screenshot 2025-12-19 195653" src="https://github.com/user-attachments/assets/f0bcdfa8-cb42-487d-b3f3-bd794fcab1f7" />
 
  + Thiết lập WAF và chống các bảo mật phổ biến qua Cloudflare( Website phải có chứng chỉ SSL).✅
    Hình ảnh giao diện Cloudflare:
+   
    <img width="1919" height="907" alt="image" src="https://github.com/user-attachments/assets/4c0a7d9b-12eb-453b-81de-c3f204e2977a" />
+   
    Hình ảnh trang website của nhóm đã có chứng chỉ SSL khi sử dụng Cloudflare:
+   
    <img width="1899" height="969" alt="Screenshot 2025-12-19 195716" src="https://github.com/user-attachments/assets/c59d7569-0c2f-44ad-8908-33a5ec44d2b8" />
+   
    Hình ảnh cấu hình tưởng lửa (WAF) trong Cloudflare:
+   
    <img width="1919" height="910" alt="image" src="https://github.com/user-attachments/assets/4f42ce83-9e54-46ac-a618-e433b59e9131" />
+   
    Hình ảnh mua và quản lý tên miền domain cho website trên Vinahost website:
+   
    <img width="1919" height="968" alt="Screenshot 2025-12-19 195824" src="https://github.com/user-attachments/assets/5d7d0454-c505-4a2b-be70-f3f15c1734f3" />
+   
    Hình ảnh mua và triển khai dịch vụ hosting cho mã nguồn frontend trên Internet:
+
    <img width="1919" height="969" alt="Screenshot 2025-12-19 195920" src="https://github.com/user-attachments/assets/2817db61-963f-436b-ba63-f2c4b90bd7ec" />
    
 - **Một số hình ảnh minh họa WAF hoạt động**
   - Xác thực người dùng bằng **CAPTCHA** nhằm ngăn chặn bot và truy cập tự động.
+    
     <img width="1919" height="922" alt="image" src="https://github.com/user-attachments/assets/90818e88-c919-42e2-b7ed-c9f708e8e314" />
 
   - Chặn truy cập từ người dùng **ngoài khu vực Việt Nam**.
+    
     <img width="462" height="270" alt="image" src="https://github.com/user-attachments/assets/d989ea30-2233-442e-a030-8a118ee047de" />
 
   - Giới hạn và chặn các IP gửi **quá nhiều request trong một khoảng thời gian ngắn** nhằm phòng chống tấn công brute-force và DDoS.
+    
     <img width="520" height="216" alt="image" src="https://github.com/user-attachments/assets/e587e9dd-11e6-4603-8f6d-dd6600d90d54" />
 
  - **Cập nhật phần mềm định kỳ** ✅  
@@ -152,26 +171,41 @@
  + Có validation cho đầu vào. ✅
    + Sử dụng thư viện Joy để validation:
    + Hình ảnh minh họa mã nguồn sử dụng Joy trong dự án:
+     
     <img width="1915" height="832" alt="image" src="https://github.com/user-attachments/assets/bf59f19d-512c-4a4c-bf18-301d90d5a79d" />
+    
  + Quản lý và phân quyền người dùng.✅
    + Backend được xây dựng theo mô hình **MVC** nhằm tổ chức và quản lý mã nguồn một cách rõ ràng, dễ bảo trì.
    + Hệ thống sử dụng **middleware** để thực hiện xác thực và phân quyền người dùng.  
    + Hình ảnh minh họa mã nguồn sử dụng middleware cho xác thực và phân quyền người dùng.
+     
      <img width="1915" height="832" alt="Screenshot 2025-12-20 175016" src="https://github.com/user-attachments/assets/f2c07cb6-e728-4b06-9d8c-b3cc4d534c5c" />
    + Hình ảnh giao diện **Admin** (quản trị hệ thống).
+     
      <img width="1919" height="908" alt="image" src="https://github.com/user-attachments/assets/df80e560-fec3-4c00-b530-60f1afa17896" />
+     
    + Hình ảnh giao diện **User** (người dùng).
+     
      <img width="1919" height="963" alt="image" src="https://github.com/user-attachments/assets/17172e52-418c-4dcf-b73a-1919e79bd205" />
+     
  + Dùng hệ thống ghi log tự động. ✅
    + Sử dụng thư viện Winston + Morgan để ghi log:
    + Hình ảnh minh họa mã nguồn sử dụng Winston trong dự án:
+     
     <img width="1919" height="849" alt="image" src="https://github.com/user-attachments/assets/4de5e27a-2e95-44ab-bf24-ebbc4d55ff72" />
+    
    + Hình ảnh dùng Render để quan sát log được thu thập tự động:
+     
      <img width="1919" height="967" alt="image" src="https://github.com/user-attachments/assets/495af39b-c3d1-4331-badb-a7688c45a0d3" />
+     
  + Kế hoạch sao lưu và phục hồi dữ liệu. ✅
    + Hình ảnh sao lưu mã nguồn trên GitHub:
+     
    <img width="1902" height="911" alt="Screenshot 2025-12-19 200609" src="https://github.com/user-attachments/assets/c5d91cdb-5179-482c-b611-139cd6d47bc8" />
+   
    + Hình ảnh sao lưu dữ liệu trên Cloud (Google Drive):
+     
    <img width="1919" height="882" alt="Screenshot 2025-12-19 200522" src="https://github.com/user-attachments/assets/1d5b8352-0445-42a9-b536-9aed3e8289a7" />
+   
 
    
