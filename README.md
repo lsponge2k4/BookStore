@@ -10,7 +10,7 @@
 # Sinh viên thực hiện:
 
 👦 Phạm Bá Hoàng - Mã sinh viên: 22810310196
-Công việc thực hiện: 
+- Công việc thực hiện: 
 + Thiết lập tường lửa (WAF) và chống các bảo mật phổ biến qua Cloudflare
 + Viết mã validation, thông tin đầu vào để bảo mật.
 + Quản lý và phân quyền người dùng.
@@ -23,7 +23,7 @@ Công việc thực hiện:
 + Code backend và frontend.
 
 👩‍🦰 Nguyễn Hiền Mai - Mã sinh viên: 22810310091
-Công việc thực hiện: 
+- Công việc thực hiện: 
 + Thu thập và soạn thông tin cho báo cáo.
 + Làm báo cáo.
 + Chính sách bảo mật và nâng cao nhận thức.
@@ -51,14 +51,14 @@ Công việc thực hiện:
 + Kế hoạch sao lưu và phục hồi dữ liệu. ✅
 
 # Hướng dẫn sử dụng mã nguồn và deploy lên Website.
-# a.Dịch vụ và công nghệ chính mà nhóm em sử dụng:
+# a. Dịch vụ và công nghệ chính mà nhóm em sử dụng:
  + Tailway  : Triển khai cơ sở dữ liệu MySQL.
  + Render   : Triển khai mã nguồn backend lên Internet và hỗ trợ ghi log hệ thống tự động.
  + Vinahost : Mua và quản lý tên miền (domain) cho website.
  + dataonline : Mua và sử dụng dịch vụ hosting để triển khai mã nguồn frontend lên Internet.
  + Cloudflare : Thiết lập tường lửa ứng dụng web (WAF), bảo vệ website và hạn chế các cuộc tấn công từ bên ngoài.
 
-# b.Thiết lập môi trường chạy dự án trên localhost:
+# b. Thiết lập môi trường chạy dự án trên localhost:
  + B1: Sử dụng mã nguồn của dự án do nhóm em triển khai và quản lý trên GitHub.
  + B2: Tạo file .env và tham khảo file .env.example để thêm các biến môi trường tương ứng vào file .env trước khi chạy dự án.
  + B3: Truy cập vào thư mục backend và frontend, sau đó chạy lệnh npm install để cài đặt các thư viện cần thiết.
@@ -71,9 +71,9 @@ Công việc thực hiện:
     Hình ảnh chạy đúng: 
  + B5: Mở trang web trên localhost với frontend. => ( http://localhost:5173/)
 
- # c.Sử dụng website mà nhóm em đã deploy dự án lên Internet: (https://foodietired.io.vn/)
+ # c. Sử dụng website mà nhóm em đã deploy dự án lên Internet: (https://foodietired.io.vn/)
 
- # d.Tài khoản demo dự án :
+ # d. Tài khoản demo dự án :
  + Tài khoản admin : 
     + Email: lsponge2k4@gmail.com
     + Password: Hoang@123
